@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import {getAllUsers, createNewUserAPI} from '../../services/userService';
+import {getAllUsers, createNewUserAPI, deleteUserAPI} from '../../services/userService';
 import ModalUser from './ModalUser'
+import {emitter} from '../../utils/emitter';
 class UserManage extends Component {
 
     constructor(props) {
@@ -43,7 +44,22 @@ class UserManage extends Component {
             }
             else{
                 await this.getAllUsersFromReact()
-                this.setState({isOpenModal:false})
+                this.setState({isOpenModal:false});
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    handleDeleteUser =async(data)=>{
+        try {
+            let response = await deleteUserAPI(data.id);
+            if(response && response.errCode!==0){
+                alert(response.message);
+            }
+            else{
+                await this.getAllUsersFromReact()
             }
         } catch (e) {
             console.log(e)
@@ -88,7 +104,7 @@ class UserManage extends Component {
                                             <td>{item.address}</td>
                                             <td>
                                                 <button>Edit</button>
-                                                <button>Delete</button>
+                                                <button onClick={()=>this.handleDeleteUser(item)}>Delete</button>
                                             </td>
                                         </tr>
                                     )
