@@ -71,7 +71,7 @@ class ModalUser extends Component {
     handlerAddNewUser=()=>{  
         if(this.checkValidInput()===true){
             // = true thi goi API
-            this.props.editUser(this.state);
+            this.props.createNewUser(this.state);
         }
     }
     render() {
