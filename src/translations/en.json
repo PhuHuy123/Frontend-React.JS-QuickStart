@@ -1,4 +1,16 @@
 {
+    "home-header": {
+        "specialist": "Specialist",
+        "find-doctor": "Find a doctor by specialty",
+        "health-facilities": "Health facilities",
+        "choose-hospital-clinic": "Choose hospital clinic",
+        "doctor": "Doctor",
+        "good-doctor": "Choose a good doctor",
+        "checkup": "Checkup package",
+        "general-health-check": "General health check",
+        "support": "Support"
+    },
+
     "common": {
         "add": "Add",
         "edit": "Edit",

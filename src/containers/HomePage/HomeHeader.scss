@@ -52,6 +52,109 @@
                 padding-right: 20px;
                 i{
                     color: #45c3d2;
+                    padding-right: 5px;
+                }
+            }
+            .flag{
+                display: flex;
+                color: dimgray;
+                .language-vi{
+                    margin: 0 8px;
+
+                    &.active{
+                        color: red;
+                    }
+                }
+                .language-en{
+                    margin: 0 8px;
+                    &.active{
+                        color: blue;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.home-header-banner{
+    background: url(../../assets/images/backgroud.jpg) ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: auto;
+    width: 100%;
+    // min-height: 652px;
+    .banner-top{
+        text-align: center;
+        text-transform: uppercase;
+        align-items: center;
+
+        .bn-title{
+            color: #fff;
+            text-shadow: 1px 1px 1px #333;
+            padding-top: 45px;
+        }
+        .banner-search{
+            padding: 20px 0 60px 0;
+            .search{
+                height: 50px;
+                text-transform: none;
+                width: 456px;
+                background-color: #f7d800;
+                display: flex;
+                align-items: center;
+                border-radius: 50px;
+                margin: 0 auto;
+
+                i{
+                    width: 60px;
+                    height: 50px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                input{
+                    width: 100%;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    margin-right: 25px;
+                }
+            }
+        }
+    }
+    .banner-options{
+        padding-top: 80px;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.021),rgba(255, 255, 255, 0.8),rgba(255, 255, 255, 1));
+        ul {
+            margin-left: 20px;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .children{
+            // margin-top: 20px;
+            text-align: center;
+            margin: 5px 15px;
+            cursor: pointer;
+            i{
+                display: flex;
+                justify-content:center;
+                align-items: center;
+                font-size: 30px;
+                background-color: #fff;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin: 0 auto;
+            }
+            .text-child{
+                font-size: 16px;
+                font-weight: 600;
+                width: 120px;
+                &:hover{
+                    color: #49bce2;
                 }
             }
         }
