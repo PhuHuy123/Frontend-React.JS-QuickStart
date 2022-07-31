@@ -31,7 +31,7 @@
             .child-content{
                 background-color: transparent;
                 border: none;
-                font-size: 12px;
+                font-size: 13px;
                 font-weight: bold;
                 text-align: left;
 
@@ -57,18 +57,31 @@
             }
             .flag{
                 display: flex;
-                color: dimgray;
+                // opacity: 0.4;
                 .language-vi{
                     margin: 0 8px;
-
+                    cursor: pointer;
+                    opacity: 0.3;
                     &.active{
                         color: red;
+                        font-weight: 600;
+                        opacity: 1;
+                    }
+                    &:hover{
+                        opacity: 1;
                     }
                 }
                 .language-en{
                     margin: 0 8px;
+                    cursor: pointer;
+                    opacity: 0.3;
                     &.active{
                         color: blue;
+                        font-weight: 600;
+                        opacity: 1;
+                    }
+                    &:hover{
+                        opacity: 1;
                     }
                 }
             }

@@ -8,7 +8,18 @@
         "good-doctor": "Choose a good doctor",
         "checkup": "Checkup package",
         "general-health-check": "General health check",
-        "support": "Support"
+        "support": "Support",
+        "bn-title1": "Medical background",
+        "bn-title2": "Comprehensive health care",
+        "text-child1": "Specialized examination",
+        "text-child2": "Remote examination",
+        "text-child3": "General examination",
+        "text-child4": "Medical test",
+        "text-child5": "Mental health",
+        "text-child6": "Dental examination",
+        "text-child7": "Surgery package",
+        "text-child8": "Medical products",
+        "text-child9": "Business Health"
     },
 
     "common": {
