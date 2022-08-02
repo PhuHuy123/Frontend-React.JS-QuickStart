@@ -1,0 +1,113 @@
+.section{
+    padding: 20px;
+    height: 350px;
+    // width: 100%;
+    border-bottom: 3px solid #efeef5;
+    &.section-container{
+        background: #f5f5f5;
+    }
+    &.section-doctor{
+        height: 381px !important;
+    }
+    .section-content{
+        margin: 0 81px;
+        .section-header{
+            margin-bottom: 25px;
+            height: 56px;
+            span{
+                display: flex;
+                padding: 15px 0 0px 10px;
+                font-size: 24px;
+                font-weight: bold;
+                
+            }
+            button{
+                color: #282E41;
+                float: right;
+                font-size: 11px;
+                background-color: #ebebeb;
+                border: none;
+                outline: none;
+                padding: 10px 15px;
+                margin-right: 10px;
+
+                &:hover{
+                    background-color: #f7d800;
+                    color: #fff;
+                }
+            }
+        }
+        .slide{
+            position: relative;
+            display: flex;
+            padding: 0 5px;
+            // margin: 5px !important;
+            .img-slide{
+                height: 156px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                cursor: pointer;
+                &.img-specialty{
+                    background-image: url(../../assets/Specialty/tim-mach.jpg);
+                }
+                &.img-medical-facility{
+                    background-image: url(../../assets/MedicalFacility/medical-facility.png);
+                }
+                &.img-doctor{
+                    background-image: url(../../assets/Outstanding-doctor/img-doctor.jpg);
+                    width: 120px;
+                    height: 120px;
+                    margin-bottom: 10px !important;
+                    border-radius: 50%;
+                    margin: 0 auto;
+                }
+            }
+            .title-slide{
+                cursor: pointer;
+                &:hover{
+                    color: #45c3d2;
+                }
+            }
+            .slide-doctor{
+                height: 245px;
+                text-align: center;
+                border: 1px solid #eee;
+                padding: 10px 5px;
+                cursor: pointer;
+                h3{
+                    color: #111;
+                    white-space: pre-wrap;
+                    font-size: 13px;
+                    padding: 0 2px;
+                }
+                h4{
+                    color: #555;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+button.slick-arrow{
+    z-index: 999 !important;
+    transform: translate(0,-50%);
+    margin-top: -20px !important;
+    &::before{
+        background: #fff;
+        border: 2px solid #d7d7d7;
+        padding:0 5px 10px 5px;
+        color: #959595 !important;
+        font-family: FontAwesome !important;
+        font-size: 30px !important;
+        
+    }
+    
+
+}
+.slick-prev{
+    left: -15px !important;
+}
+.slick-next{
+    right: 8px !important;
+}
