@@ -22,10 +22,13 @@
     }
 
     .languages{
+        .welcome{
+
+        }
         .language-vi{
-            margin: 0 8px;
+            margin: 0 8px 0 15px;
             cursor: pointer;
-            opacity: 0.3;
+            opacity: 0.6;
             &.active{
                 color: red;
                 font-weight: 600;
@@ -38,9 +41,9 @@
         .language-en{
             margin: 0 8px;
             cursor: pointer;
-            opacity: 0.3;
+            opacity: 0.6;
             &.active{
-                color: white;
+                color: blue;
                 font-weight: 600;
                 opacity: 1;
             }
