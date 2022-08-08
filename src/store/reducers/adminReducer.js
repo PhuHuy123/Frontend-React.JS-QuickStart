@@ -1,33 +1,72 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    isLoggedIn: false,
-    adminInfo: null
+    isLoading: false,
+    genders:[],
+    roles:[],
+    positions:[],
 }
 
-const appReducer = (state = initialState, action) => {
+const adminReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADMIN_LOGIN_SUCCESS:
+        // genders
+        case actionTypes.FETCH_GENDER_START: 
+            let copyState = {...state};
+            copyState.isLoading=true;
             return {
-                ...state,
-                isLoggedIn: true,
-                adminInfo: action.adminInfo
+                ...copyState,
             }
-        case actionTypes.ADMIN_LOGIN_FAIL:
+        case actionTypes.FETCH_GENDER_SUCCESS: 
+            state.genders = action.data;
+            state.isLoading=false;
             return {
                 ...state,
-                isLoggedIn: false,
-                adminInfo: null
             }
-        case actionTypes.PROCESS_LOGOUT:
+        case actionTypes.FETCH_GENDER_FAILED:
+            state.genders =[];
+            state.isLoading=false;
             return {
                 ...state,
-                isLoggedIn: false,
-                adminInfo: null
+            }
+        // positions
+        case actionTypes.FETCH_POSITION_START: 
+            state.isLoading=true;
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_POSITION_SUCCESS: 
+            state.positions = action.data;
+            state.isLoading=false;
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_POSITION_FAILED:
+            state.positions =[];
+            state.isLoading=false;
+            return {
+                ...state,
+            }
+        // roles
+        case actionTypes.FETCH_ROLE_START: 
+            state.isLoading=true;
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ROLE_SUCCESS: 
+            state.roles = action.data;
+            state.isLoading=false;
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ROLE_FAILED:
+            state.roles =[];
+            state.isLoading=false;
+            return {
+                ...state,
             }
         default:
             return state;
     }
 }
 
-export default appReducer;
+export default adminReducer;

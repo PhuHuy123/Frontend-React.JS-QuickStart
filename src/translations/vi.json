@@ -39,5 +39,20 @@
             "manage-handbook":"Quản lý bài viết"
 
         }
+    },
+    "manage-user":{
+        "add":"Thêm mới người dùng",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "first-name": "Tên",
+        "last-name": "Họ",
+        "address": "Địa chỉ",
+        "phone": "Số điện thoại",
+        "image": "Hình ảnh",
+        "gender": "Giới tính",
+        "position": "Chức danh",
+        "role": "Vai trò",
+        "save": "Thêm mới"
     }
+    
 }
