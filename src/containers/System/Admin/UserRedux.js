@@ -6,6 +6,7 @@ import {LANGUAGES} from '../../../utils';
 import './UserRedux.scss';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
+import TableUserManage from './TableUserManage'
 class UserRedux extends Component {
     constructor(props) {
         super(props);
@@ -57,6 +58,13 @@ class UserRedux extends Component {
             this.setState({
                 roleArr:arrRoles,
                 role: arrRoles && arrRoles.length>0 ? arrRoles[0].key :'',
+            })
+        }
+        // user
+        if(prevProps.arrUsers!==this.props.arrUsers){
+            this.setState({
+                email: '',password: '',firstName: '',lastName: '',address: '',
+                phoneNumber: '',gender: '',position: '',role: '',image: '',
             })
         }
     }
@@ -247,6 +255,7 @@ class UserRedux extends Component {
                         onCloseRequest={() => this.setState({ isOpen: false })}
                     />
                 )}
+                <TableUserManage/>
             </>
         )
     }
@@ -259,7 +268,8 @@ const mapStateToProps = state => {
         genderRedux: state.admin.genders,
         positionRedux: state.admin.positions,
         roleRedux: state.admin.roles,
-        isLoading: state.admin.isLoading
+        isLoading: state.admin.isLoading,
+        arrUsers: state.admin.users
     };
 };
 
