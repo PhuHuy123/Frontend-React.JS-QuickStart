@@ -52,7 +52,8 @@
         "gender": "Giới tính",
         "position": "Chức danh",
         "role": "Vai trò",
-        "save": "Thêm mới"
+        "save": "Thêm mới",
+        "edit": "Cập nhật"
     }
     
 }

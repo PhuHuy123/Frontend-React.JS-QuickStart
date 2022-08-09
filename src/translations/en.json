@@ -51,6 +51,7 @@
         "gender": "Gender",
         "position": "Position",
         "role": "Role",
-        "save": "Add new"
+        "save": "Add new",
+        "edit": "Edit user"
     }
 }
