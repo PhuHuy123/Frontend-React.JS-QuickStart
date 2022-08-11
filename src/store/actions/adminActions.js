@@ -1,6 +1,8 @@
 import actionTypes from './actionTypes';
 import {getAddCodeService, createNewUserAPI, 
-        getAllUsers, deleteUserAPI, editUserAPI, getTopDoctorHomeService} from '../../services/userService';
+        getAllUsers, deleteUserAPI, editUserAPI, 
+        getTopDoctorHomeService, getAllDoctors,
+        createInfoDoctorAPI} from '../../services/userService';
 import { toast } from 'react-toastify';
 export const fetchGenderStart = () => {
     return async(dispatch, getState)=>{
@@ -218,6 +220,57 @@ export const fetchTopDoctors = () => {
                 type: actionTypes.FETCH_TOP_DOCTORS_FAILED
             });
             console.log("fetchTopDoctorsFailed error: " ,e)
+        }
+    }
+}
+
+// all doctors
+export const fetchAllDoctors = () => {
+    return async(dispatch, getState)=>{
+        try {
+            let res = await getAllDoctors()
+            if(res && res.errCode ===0){
+                dispatch({
+                    type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+                    doctorsData: res.data
+                });
+            }
+            else{
+                dispatch({
+                    type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+                });
+            }
+        } catch (e) {
+            dispatch({
+                type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+            });
+            console.log("fetchAllDoctorsFailed error: " ,e)
+        }
+    }
+}
+// create info doctor
+export const createInfoDoctor = (data) => {
+    return async(dispatch, getState)=>{
+        try {
+            let res = await createInfoDoctorAPI(data)
+            if(res && res.errCode ===0){
+                toast.success("Create info doctor successfully");
+                dispatch({
+                    type: actionTypes.CREATE_INFO_DOCTOR_SUCCESS,
+                });
+            }
+            else{
+                toast.error("Failed to create info doctor")
+                dispatch({
+                    type: actionTypes.CREATE_INFO_DOCTOR_FAILED
+                });
+            }
+        } catch (e) {
+            toast.error("Failed to create info doctor")
+            dispatch({
+                type: actionTypes.CREATE_INFO_DOCTOR_FAILED
+            });
+            console.log("CREATE_INFO_DOCTOR_FAILED error: " ,e)
         }
     }
 }
