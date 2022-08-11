@@ -2,7 +2,7 @@ export const adminMenu = [
     { //Quản lý người dùng
         name: 'menu.admin.user', menus: [
             {
-                name: 'menu.admin.manage-user.manage-doctor',link: '/system/user-doctor'
+                name: 'menu.admin.manage-user.manage-doctor',link: '/system/manage-doctor'
                 // subMenus: [
                 //     { name: 'menu.system.system-administrator.user-manage', link: '/system/user-manage' },
                 //     { name: 'menu.system.system-administrator.user-redux', link: '/system/user-redux' },
