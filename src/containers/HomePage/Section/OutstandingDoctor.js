@@ -30,8 +30,8 @@ class Specialty extends Component {
             <div className="section section-doctor">
                 <div className="section-content">
                     <div className="section-header">
-                        <button>TÌM KIẾM</button>
-                        <span>Chuyên khoa phổ biến</span>
+                        <button><FormattedMessage id="homepage.see-more"/></button>
+                        <span><FormattedMessage id="homepage.outstanding-doctor"/></span>
                     </div>
                     <Slider {...this.props.settings}>
                          {doctorsArr && doctorsArr.length > 0 &&

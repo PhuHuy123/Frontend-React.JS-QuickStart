@@ -54,6 +54,10 @@
         "role": "Vai trò",
         "save": "Thêm mới",
         "edit": "Cập nhật"
+    },
+    "homepage":{
+        "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
+        "see-more": "XEM THÊM"
     }
     
 }

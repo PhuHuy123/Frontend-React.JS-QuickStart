@@ -9,7 +9,7 @@
         "checkup": "Checkup package",
         "general-health-check": "General health check",
         "support": "Support",
-        "bn-title1": "Medical background",
+        "bn-title1": "Medical platform",
         "bn-title2": "Comprehensive health care",
         "text-child1": "Specialized examination",
         "text-child2": "Remote examination",
@@ -53,5 +53,9 @@
         "role": "Role",
         "save": "Add new",
         "edit": "Edit user"
+    },
+    "homepage":{
+        "outstanding-doctor": "Last week's featured doctor",
+        "see-more": "SEE MORE"
     }
 }

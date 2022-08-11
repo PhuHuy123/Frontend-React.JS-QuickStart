@@ -11,7 +11,7 @@ class Specialty extends Component {
             <div className="section">
                 <div className="section-content">
                     <div className="section-header">
-                        <button>XEM THÊM</button>
+                        <button><FormattedMessage id="homepage.see-more"/></button>
                         <span>Chuyên khoa phổ biến</span>
                     </div>
                     <Slider {...this.props.settings}>
