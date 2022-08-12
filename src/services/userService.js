@@ -33,6 +33,9 @@ const getAllDoctors = ()=>{
 const createInfoDoctorAPI = (data)=>{
     return axios.post(`/api/create-info-doctor`,data)
 }
+const getDetailInfoDoctor = (idInput)=>{
+    return axios.get(`/api/get-detail-doctor-by-id?id=${idInput}`)
+}
 export {
     handleLogin, 
     getAllUsers, 
@@ -42,5 +45,6 @@ export {
     getAddCodeService, 
     getTopDoctorHomeService,
     getAllDoctors,
-    createInfoDoctorAPI
+    createInfoDoctorAPI,
+    getDetailInfoDoctor
 }

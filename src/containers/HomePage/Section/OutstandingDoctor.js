@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import * as actions from '../../../store/actions';
 import {LANGUAGES} from '../../../utils';
-
+import { withRouter } from 'react-router';
 import Slider from "react-slick";
 
 class Specialty extends Component {
@@ -20,6 +20,11 @@ class Specialty extends Component {
             this.setState({
                 doctorsArr:this.props.topDoctors
             })
+        }
+    }
+    handleViewDetailDoctor =(item)=>{
+        if(this.props.history){
+            this.props.history.push(`/detail-doctor/${item.id}`)
         }
     }
     render() {
@@ -43,7 +48,9 @@ class Specialty extends Component {
                                 let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`
                                 let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`
                                 return(
-                                    <div className='slide slide-doctor' key={index}>
+                                    <div className='slide slide-doctor' key={index} 
+                                        onClick={()=>this.handleViewDetailDoctor(item)}
+                                    >
                                         <div className="slide-doctor">
                                             <div className='img-slide img-doctor'
                                                 style={{backgroundImage:`url('${imgBase64}')`}}
@@ -79,4 +86,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));
