@@ -1,7 +1,7 @@
 .doctor-detail-container{
-    padding: 0 100px;
     background-color: #f9f9f9;
     .info-doctor{
+        padding: 0 100px;
         display: flex;
         .content-left{
             width: 20%;
@@ -13,7 +13,7 @@
             margin: 10px 0px;
         }
         .content-right{
-            width: 80%;
+            width: 50%;
             display: flex;
             flex-direction: column;
             padding-left: 20px;
@@ -30,6 +30,14 @@
         }
     }
     .schedule-doctor{}
-    .detail-info-doctor{}
+    .detail-info-doctor{
+        padding: 15px 100px;
+        border-top: 1px solid #ddd;
+        img{
+            width: 80%;
+            height:auto;
+            margin: 20px;
+        }
+    }
     .comment-doctor{}
 }

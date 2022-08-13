@@ -8,7 +8,8 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';
-import {LANGUAGES} from '../../../utils';
+import {LANGUAGES, CRUD_ACTIONS} from '../../../utils';
+import {getDetailInfoDoctor} from '../../../services/userService';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -22,6 +23,8 @@ class ManageDoctor extends Component {
             selectedOption: '',
             description:'',
             listDoctors:[],
+            checkSave: false,
+            action: '',
         }
     }
     componentDidMount() {
@@ -64,24 +67,43 @@ class ManageDoctor extends Component {
     }
 
     handleSaveContentMarkdown=()=>{
+        let {checkSave}= this.state
         this.props.createInfoDoctor({
             contentHTML: this.state.contentHTML,
             contentMarkdown: this.state.contentMarkdown,
             description: this.state.description,
             doctorId : this.state.selectedOption.value,
+            action : checkSave ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE
         })
     }
 
-    handleChange = (selectedOption)=> {
-        this.setState({ selectedOption }, () =>
-            console.log(`Option selected:`, this.state.selectedOption)
-        );
+    handleChange = async(selectedOption)=> {
+        this.setState({ selectedOption })
+        let res = await getDetailInfoDoctor(selectedOption.value)
+        if(res && res.errCode===0 && res.data && res.data.Markdown){
+            let Markdown = res.data.Markdown
+            this.setState({
+                description: Markdown.description,
+                contentMarkdown: Markdown.contentMarkdown,
+                contentHTML: Markdown.contentHTML,
+                checkSave: true,
+            })
+        }else{
+            this.setState({
+                description: '',
+                contentMarkdown: '',
+                contentHTML:'',
+                checkSave: false,
+            })
+        }
+        
     };
 
     handleOnChangeDesc = (e) => {
         this.setState({ description: e.target.value})
     }
     render() {
+        let {checkSave} = this.state
         return (
             <div className="container doctor-container">
                 <div className="root">
@@ -110,12 +132,13 @@ class ManageDoctor extends Component {
                         <MdEditor 
                             style={{ height: '390px' }} 
                             renderHTML={text => mdParser.render(text)} 
-                            onChange={this.handleEditorChange} 
+                            onChange={this.handleEditorChange}
+                            value={this.state.contentMarkdown}
                         />
                     </div>
-                    <button className="save-content-doctor"
+                    <button className={checkSave ===true ? 'update-content-doctor':"save-content-doctor"}
                         onClick={()=>this.handleSaveContentMarkdown()}
-                    >Luu thong tin</button>
+                    >{checkSave ===true ? 'Cap nhat thong tin':"Tao thong tin"}</button>
                 </div>
             </div>
         );
