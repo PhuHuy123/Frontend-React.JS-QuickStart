@@ -38,6 +38,9 @@
             "handbook": "Bài viết",
             "manage-handbook":"Quản lý bài viết"
 
+        },
+        "doctor":{
+            "manage-schedule": "Quản lý kế hoạch khám bệnh"
         }
     },
     "manage-user":{
