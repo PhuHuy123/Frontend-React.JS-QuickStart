@@ -12,9 +12,14 @@
         padding-bottom: 20px;
         
         button{
+            border-color: #ffc107;
             &:hover{
-                background-color: rgb(48, 46, 46);
-                color: white;
+                border: 1px solid black;
+            }
+            .btn-warning{
+                &:hover{
+                    background-color: transparent;
+                }
             }
         }
     }
