@@ -274,3 +274,27 @@ export const createInfoDoctor = (data) => {
         }
     }
 }
+// all schedule time
+export const fetchAllScheduleTime = () => {
+    return async(dispatch, getState)=>{
+        try {
+            let res = await getAddCodeService('TIME')
+            if(res && res.errCode ===0){
+                dispatch({
+                    type: actionTypes.FETCH_ALL_SCHEDULE_TIME_SUCCESS,
+                    dataTime: res.data
+                });
+            }
+            else{
+                dispatch({
+                    type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED
+                });
+            }
+        } catch (e) {
+            dispatch({
+                type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED
+            });
+            console.log("fetchAllDoctorsFailed error: " ,e)
+        }
+    }
+}

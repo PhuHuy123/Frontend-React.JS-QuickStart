@@ -1,0 +1,21 @@
+.manage-schedule-container{
+    .m-s-title{
+        text-transform: uppercase;
+        margin-top: 15px;
+        margin-bottom:15px;
+        font-weight: 600;
+        font-size: 17px;
+        text-align: center;
+    }
+    .pick-hour{
+        padding-top: 30px;
+        padding-bottom: 20px;
+        
+        button{
+            &:hover{
+                background-color: rgb(48, 46, 46);
+                color: white;
+            }
+        }
+    }
+}
