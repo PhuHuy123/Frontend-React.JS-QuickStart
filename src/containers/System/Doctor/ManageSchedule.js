@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
+import {bulkCreateSchedule} from'../../../services/userService'
 class ManageSchedule extends Component {
     constructor(props) {
         super(props);
@@ -84,10 +85,11 @@ class ManageSchedule extends Component {
             this.setState({rangeTime})
         }
     }
-    handleSaveSchedule = ()=>{
+    handleSaveSchedule = async()=>{
         let {rangeTime, selectedDoctor, startDate} = this.state;
         let result = [];
-        let formatData =  moment(startDate).format(dateFormat.SEND_TO_SERVER)
+        // let formatData =  moment(startDate).format(dateFormat.SEND_TO_SERVER)
+        let formatData = new Date(startDate).getTime();
         if(selectedDoctor && _.isEmpty(selectedDoctor)){
             toast.error('Invalid choose doctor !');
             return;
@@ -102,8 +104,8 @@ class ManageSchedule extends Component {
                 selectedTime.map(item => {
                     let object ={};
                     object.doctorId = selectedDoctor.value;
-                    object.data = formatData;
-                    object.time = item.keyMap;
+                    object.date = formatData;
+                    object.timeType = item.keyMap;
                     result.push(object);
                 })
             }
@@ -113,7 +115,11 @@ class ManageSchedule extends Component {
 
             }
         }
-        console.log('1', result)
+        let res = await bulkCreateSchedule({
+            arrSchedule: result,
+            doctorId: selectedDoctor.value,
+            formatData: formatData
+        });
     }
     render() {
         let {language} = this.props
