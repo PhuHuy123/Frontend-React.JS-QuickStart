@@ -29,7 +29,19 @@
             }
         }
     }
-    .schedule-doctor{}
+    .schedule-doctor{
+        padding: 0 100px;
+        display:flex;
+        background: white;
+        height:200px;
+        .content-left{
+            width: 50%;
+        }
+        .content-right{
+            width: 50%;
+            background: #ddd;
+        }
+    }
     .detail-info-doctor{
         padding: 15px 100px;
         border-top: 1px solid #ddd;
