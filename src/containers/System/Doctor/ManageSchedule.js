@@ -120,6 +120,13 @@ class ManageSchedule extends Component {
             doctorId: selectedDoctor.value,
             formatData: formatData
         });
+        if(res && res.errCode ===0){
+            toast.success("Save info successfully!");
+        }
+        else{
+            toast.error("Error cannot save information!");
+            console.error("Error bulkCreateSchedule on Nodejs!");
+        }
     }
     render() {
         let {language} = this.props

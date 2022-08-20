@@ -5,7 +5,7 @@ import {getScheduleDoctorByDate} from '../../../services/userService';
 import {LANGUAGES} from '../../../utils';
 import moment from 'moment';
 import localization from 'moment/locale/vi';
-
+import { FormattedMessage } from 'react-intl';
 class DoctorSchedule extends Component {
     constructor(props) {
         super(props);
@@ -17,28 +17,45 @@ class DoctorSchedule extends Component {
 
     async componentDidMount() {
         let {language} = this.props
-        this.setArrDate(language)
+        let allDays = this.getArrDate(language);
+        this.setState({
+            allDays: allDays
+        })
     }
-    setArrDate = (language)=>{
+    getArrDate = (language)=>{
         let allDays= []
         for(let i = 0; i < 7; i++) {
             let object = {};
             if(language === LANGUAGES.EN){
-                object.label = moment(new Date()).add(i, 'days').locale('en').format('dddd - DD/MM')
+                if(i === 0){
+                    object.label = `Today ${moment(new Date()).locale('en').format('DD/MM')}`
+                }
+                else object.label = moment(new Date()).add(i, 'days').locale('en').format('dddd - DD/MM')
             }
             else{
-                object.label = moment(new Date()).add(i, 'days').format('dddd - DD/MM')
+                if(i === 0){
+                    object.label = `Hôm nay ${moment(new Date()).format('DD/MM')}`
+                }
+                else object.label = moment(new Date()).add(i, 'days').format('dddd - DD/MM')
             }
             object.value = moment(new Date()).add(i, 'days').startOf('day').valueOf();
             allDays.push(object);
         }
-        this.setState({
-            allDays: allDays,
-        })
+        return allDays;
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.props.language !== prevProps.language){
-            this.setArrDate(this.props.language)
+            let allDays = this.getArrDate(this.props.language)
+            this.setState({ allDays: allDays })
+        }
+        if(this.props.doctorIdFromParent !== prevProps.doctorIdFromParent){
+            let allDays = this.getArrDate(this.props.language);
+            let dt = new Date(+(allDays[0].value))
+            let date = moment(dt).format('YYYY-MM-DD')
+            let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, date);
+            this.setState({
+                allAvailableTime: res.data ? res.data : []
+            })
         }
     }
     handlerOnChangeSelect= async(e)=>{
@@ -79,7 +96,7 @@ class DoctorSchedule extends Component {
                 </div>
                 <div className= "all-available-time">
                     <div className= "text-calendar">
-                        <i className="fa fa-calendar-alt"><span>Lịch khám</span></i>
+                        <i className="fa fa-calendar-alt"><span><FormattedMessage id="patient.detail-doctor.schedule"/></span></i>
                     </div>
                     <div className= "time-content">
                         {allAvailableTime && allAvailableTime.length > 0 ?
@@ -93,7 +110,7 @@ class DoctorSchedule extends Component {
                             })
                             :
                             <div className="attention">
-                                Không có lịch hẹn trong thời gian này, vui lòng chọn thời gian khác!
+                                <FormattedMessage id="patient.detail-doctor.no-schedule"/>
                             </div>
                         }
                     </div>
