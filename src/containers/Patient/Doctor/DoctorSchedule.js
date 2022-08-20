@@ -4,13 +4,14 @@ import './DoctorSchedule.scss';
 import {getScheduleDoctorByDate} from '../../../services/userService';
 import {LANGUAGES} from '../../../utils';
 import moment from 'moment';
-import localization from 'moment/locale/vi'
+import localization from 'moment/locale/vi';
 
 class DoctorSchedule extends Component {
     constructor(props) {
         super(props);
         this.state = {
             allDays:[],
+            allAvailableTime:[],
         }
     }
 
@@ -46,11 +47,19 @@ class DoctorSchedule extends Component {
             let dt = new Date(+(e.target.value))
             let date = moment(dt).format('YYYY-MM-DD')
             let res = await getScheduleDoctorByDate(doctorId, date);
+            if(res && res.errCode === 0){
+                this.setState({
+                    allAvailableTime: res.data ? res.data : []
+                })
+            }
             console.log("res: ",res);
+
         }
     }
     render() {
-        let {allDays} = this.state
+        let {allDays, allAvailableTime} = this.state;
+        let {language} = this.props;
+        console.log("res: ",this.state.allAvailableTime);
         return (
             <div className="doctor-schedule-container">
                 <div className= "all-schedule">
@@ -67,6 +76,27 @@ class DoctorSchedule extends Component {
                             })
                         }
                     </select>
+                </div>
+                <div className= "all-available-time">
+                    <div className= "text-calendar">
+                        <i className="fa fa-calendar-alt"><span>Lịch khám</span></i>
+                    </div>
+                    <div className= "time-content">
+                        {allAvailableTime && allAvailableTime.length > 0 ?
+                            allAvailableTime.map((item, index)=>{
+                                let timeDisplay = language === LANGUAGES.VI ? item.timeTypeData.valueVi:item.timeTypeData.valueEn;
+                                return (
+                                    <button key={index} className={language === LANGUAGES.VI ?"btn-time-vi":"btn-time-en"}>
+                                        {timeDisplay}
+                                    </button>
+                                )
+                            })
+                            :
+                            <div className="attention">
+                                Không có lịch hẹn trong thời gian này, vui lòng chọn thời gian khác!
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         );
