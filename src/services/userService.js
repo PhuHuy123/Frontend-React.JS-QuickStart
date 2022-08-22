@@ -21,7 +21,7 @@ const deleteUserAPI = (id) => {
 const editUserAPI = (data) => {
     return axios.put(`/api/update-user`, data)
 }
-const getAddCodeService = (inputType) => {
+const getAllCodeService = (inputType) => {
     return axios.get(`/api/all-code?type=${inputType}`)
 }
 const getTopDoctorHomeService = (limit)=>{
@@ -49,7 +49,7 @@ export {
     createNewUserAPI, 
     deleteUserAPI, 
     editUserAPI, 
-    getAddCodeService, 
+    getAllCodeService, 
     getTopDoctorHomeService,
     getAllDoctors,
     createInfoDoctorAPI,

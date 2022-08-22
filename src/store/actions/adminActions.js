@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import {getAddCodeService, createNewUserAPI, 
+import {getAllCodeService, createNewUserAPI, 
         getAllUsers, deleteUserAPI, editUserAPI, 
         getTopDoctorHomeService, getAllDoctors,
         createInfoDoctorAPI} from '../../services/userService';
@@ -8,7 +8,7 @@ export const fetchGenderStart = () => {
     return async(dispatch, getState)=>{
         try {
             dispatch({type: actionTypes.FETCH_GENDER_START})
-            let res = await getAddCodeService("GENDER")
+            let res = await getAllCodeService("GENDER")
             if(res && res.errCode ===0){
                 dispatch(fetchGenderSuccess(res.data));
             }
@@ -35,7 +35,7 @@ export const fetchPositionStart = () => {
     return async(dispatch, getState)=>{
         try {
             dispatch({type: actionTypes.FETCH_POSITION_START})
-            let res = await getAddCodeService("POSITION")
+            let res = await getAllCodeService("POSITION")
             if(res && res.errCode ===0){
                 dispatch(fetchPositionSuccess(res.data));
             }
@@ -62,7 +62,7 @@ export const fetchRoleStart = () => {
     return async(dispatch, getState)=>{
         try {
             dispatch({type: actionTypes.FETCH_ROLE_START})
-            let res = await getAddCodeService("ROLE")
+            let res = await getAllCodeService("ROLE")
             if(res && res.errCode ===0){
                 dispatch(fetchRoleSuccess(res.data));
             }
@@ -278,7 +278,7 @@ export const createInfoDoctor = (data) => {
 export const fetchAllScheduleTime = () => {
     return async(dispatch, getState)=>{
         try {
-            let res = await getAddCodeService('TIME')
+            let res = await getAllCodeService('TIME')
             if(res && res.errCode ===0){
                 dispatch({
                     type: actionTypes.FETCH_ALL_SCHEDULE_TIME_SUCCESS,
@@ -298,3 +298,39 @@ export const fetchAllScheduleTime = () => {
         }
     }
 }
+// all doctors info
+export const fetchRequiredDoctorInfo = () => {
+    return async(dispatch, getState)=>{
+        try {
+            dispatch({type: actionTypes.FETCH_REQUIRED_DOCTOR_INFO_START})
+            let resPrice = await getAllCodeService('PRICE');
+            let resPayment = await getAllCodeService('PAYMENT');
+            let resProvince = await getAllCodeService('PROVINCE');
+            if( resPrice && resPrice.errCode ===0 && 
+                resProvince && resProvince.errCode ===0 &&
+                resPayment && resPayment.errCode ===0 
+                ){
+                let data = {
+                    resPrice: resPrice.data,
+                    resPayment: resPayment.data,
+                    resProvince: resProvince.data,
+                }
+                dispatch(fetchRequiredDoctorInfoSuccess(data));
+            }
+            else{
+                dispatch(fetchRequiredDoctorInfoFailed());
+            }
+        } catch (e) {
+            dispatch(fetchRequiredDoctorInfoFailed());
+            console.log("fetchRequiredDoctorInfoFailed error: " ,e)
+        }
+    }
+}
+export const fetchRequiredDoctorInfoSuccess = (roleData) => ({
+    type: actionTypes.FETCH_REQUIRED_DOCTOR_INFO_SUCCESS,
+    data: roleData
+})
+ 
+export const fetchRequiredDoctorInfoFailed = () => ({
+    type: actionTypes.FETCH_REQUIRED_DOCTOR_INFO_FAILED
+})
