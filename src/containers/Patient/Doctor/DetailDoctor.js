@@ -5,6 +5,7 @@ import './DetailDoctor.scss';
 import {getDetailInfoDoctor} from '../../../services/userService';
 import {LANGUAGES} from '../../../utils';
 import DoctorSchedule from './DoctorSchedule';
+import DoctorExtraInfo from './DoctorExtraInfo';
 class DetailDoctor extends Component {
     constructor(props) {
         super(props);
@@ -59,7 +60,9 @@ class DetailDoctor extends Component {
                                 doctorIdFromParent= {currentDoctorId}
                             />
                         </div>
-                        <div className="content-right"></div>
+                        <div className="content-right">
+                            <DoctorExtraInfo doctorIdFromParent= {currentDoctorId}/>
+                        </div>
                     </div>
                     <div className="detail-info-doctor">
                         {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML

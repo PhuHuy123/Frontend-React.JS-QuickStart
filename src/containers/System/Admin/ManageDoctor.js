@@ -136,14 +136,44 @@ class ManageDoctor extends Component {
 
     handleChange = async(selectedOption)=> {
         this.setState({ selectedOption })
+        let {listPayment, listPrice, listProvince} = this.state;
         let res = await getDetailInfoDoctor(selectedOption.value)
         if(res && res.errCode===0 && res.data && res.data.Markdown){
             let Markdown = res.data.Markdown
+            let priceId = '', provinceId = '', paymentId = '', 
+                addressClinic = '', nameClinic = '', note = '';
+            let selectedPrice = '',
+                selectedPayment = '',
+                selectedProvince = '';
+            if(res.data.DoctorInfo){
+                addressClinic = res.data.DoctorInfo.addressClinic
+                nameClinic = res.data.DoctorInfo.nameClinic
+                note = res.data.DoctorInfo.note
+                priceId = res.data.DoctorInfo.priceId
+                paymentId = res.data.DoctorInfo.paymentId
+                provinceId = res.data.DoctorInfo.provinceId
+
+                selectedPrice = listPrice.find(item => {
+                    return item && item.value === priceId
+                })
+                selectedPayment = listPayment.find(item => {
+                    return item && item.value === paymentId
+                })
+                selectedProvince = listProvince.find(item => {
+                    return item && item.value === provinceId
+                })
+            }
             this.setState({
                 description: Markdown.description,
                 contentMarkdown: Markdown.contentMarkdown,
                 contentHTML: Markdown.contentHTML,
-                checkSave: true,
+                checkSave: true, 
+                addressClinic: addressClinic,
+                nameClinic: nameClinic,
+                note: note,
+                selectedPrice: selectedPrice,
+                selectedPayment: selectedPayment,
+                selectedProvince: selectedProvince,
             })
         }else{
             this.setState({
@@ -151,6 +181,9 @@ class ManageDoctor extends Component {
                 contentMarkdown: '',
                 contentHTML:'',
                 checkSave: false,
+                addressClinic: '',
+                nameClinic: '',
+                note: '',
             })
         }
         
@@ -172,6 +205,7 @@ class ManageDoctor extends Component {
     }
     render() {
         let {checkSave, selectedPrice, selectedPayment, selectedProvince} = this.state
+        console.log(this.state)
         return (
             <div className="container doctor-container">
                 <div className="root">
