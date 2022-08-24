@@ -72,6 +72,13 @@
         "detail-doctor":{
             "schedule": "Lịch khám",
             "no-schedule": "Không có lịch hẹn trong thời gian này, vui lòng chọn thời gian khác!"
+        },
+        "extra-info-doctor":{
+            "text-address": "Địa chỉ khám",
+            "price": "Giá khám: ",
+            "detail": "Xem chi tiết",
+            "payment": "Khách hàng có thể thanh toán chi phí bằng hình thức: ",
+            "hide-price": "Thu gọn"
         }
     }
     

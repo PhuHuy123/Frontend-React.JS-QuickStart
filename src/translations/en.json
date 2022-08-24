@@ -71,6 +71,13 @@
         "detail-doctor":{
             "schedule": "Examination schedule",
             "no-schedule": "No appointments during this time, please choose another time!"
+        },
+        "extra-info-doctor":{
+            "text-address": "Address of examination",
+            "price": "Prices of examination: ",
+            "detail": "See details",
+            "payment": "Customers can pay fees in the form: ",
+            "hide-price": "Collapse"
         }
     }
 }
