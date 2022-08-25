@@ -43,8 +43,11 @@ const bulkCreateSchedule = (data)=>{
 const getScheduleDoctorByDate = (doctorId, date)=>{
     return axios.get(`/api/get-Schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
 }
-const getExtraInfoDoctorById = (doctorId, date)=>{
+const getExtraInfoDoctorById = (doctorId)=>{
     return axios.get(`/api/get-extra-info-doctor-by-id?doctorId=${doctorId}`)
+}
+const getProfileDoctorById = (doctorId)=>{
+    return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}`)
 }
 export {
     handleLogin, 
@@ -59,5 +62,6 @@ export {
     getDetailInfoDoctor,
     bulkCreateSchedule,
     getScheduleDoctorByDate,
-    getExtraInfoDoctorById
+    getExtraInfoDoctorById,
+    getProfileDoctorById
 }

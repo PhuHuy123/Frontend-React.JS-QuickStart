@@ -1,0 +1,35 @@
+.info-doctor{
+    display: flex;
+    .content-left{
+        width: 20%;
+        background: center center no-repeat;
+        background-size: contain;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        margin: 10px 0px;
+    }
+    .content-right{
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        padding-left: 20px;
+        .up{
+            padding-top: 15px;
+            font-weight: 600;
+        }
+        .down{
+            margin-top: 10px;
+            color: #555;
+            font-size: 13px;
+            text-align: justify;
+        }
+    }
+}
+.price{
+    .currency{
+        font-size: 15px;
+        color: red;
+        margin-left: 5px;
+    }
+}
