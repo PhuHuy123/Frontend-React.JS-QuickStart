@@ -31,13 +31,13 @@ class DoctorSchedule extends Component {
             let object = {};
             if(language === LANGUAGES.EN){
                 if(i === 0){
-                    object.label = `Today ${moment(new Date()).locale('en').format('DD/MM')}`
+                    object.label = `Today - ${moment(new Date()).locale('en').format('MM/DD')}`
                 }
-                else object.label = moment(new Date()).add(i, 'days').locale('en').format('dddd - DD/MM')
+                else object.label = moment(new Date()).add(i, 'days').locale('en').format('dddd - MM/DD')
             }
             else{
                 if(i === 0){
-                    object.label = `Hôm nay ${moment(new Date()).format('DD/MM')}`
+                    object.label = `Hôm nay - ${moment(new Date()).format('DD/MM')}`
                 }
                 else object.label = moment(new Date()).add(i, 'days').format('dddd - DD/MM')
             }

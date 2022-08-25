@@ -12,7 +12,7 @@ class BookingModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            isShowMarkdown: false,
         }
     }
 
@@ -47,7 +47,10 @@ class BookingModal extends Component {
                     <div className="booking-modal-body">
                         {/* {JSON.stringify(dataTime)} */}
                         <div className="doctor-info">
-                            <ProfileDoctor doctorId ={doctorId}/>
+                            <ProfileDoctor doctorId ={doctorId}
+                                dataTime ={dataTime}
+                                isShowMarkdown = {this.state.isShowMarkdown}
+                            />
                         </div>
                         <div className="row">
                             <div className="col-6 form-group">

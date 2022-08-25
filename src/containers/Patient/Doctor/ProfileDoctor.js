@@ -5,7 +5,8 @@ import {getProfileDoctorById} from '../../../services/userService';
 import {LANGUAGES} from '../../../utils';
 import { FormattedMessage } from 'react-intl';
 import NumberFormat from 'react-number-format';
-
+import moment from 'moment';
+import _ from 'lodash';
 class ProfileDoctor extends Component {
     constructor(props) {
         super(props);
@@ -37,9 +38,24 @@ class ProfileDoctor extends Component {
             // this.getInfoDoctor(this.props.doctorId)
         }
     }
-
+    renderTimeBooking = (dataTime)=>{
+        if(dataTime && !_.isEmpty(dataTime)){
+            let {language} = this.props
+            let date = language === LANGUAGES.EN ? 
+                moment(new Date(dataTime.date)).locale('en').format('dddd - MM/DD/YYYY') :
+                moment(new Date(dataTime.date)).format('dddd - DD/MM/YYYY');
+            let time = language === LANGUAGES.EN ? 
+                dataTime.timeTypeData.valueEn : dataTime.timeTypeData.valueVi;
+            return (<>
+                <div className="render-date">{date}</div>
+                <div>{time}</div>
+            </>
+            )
+        }
+        return <></>
+    }
     render() {
-        let {language} = this.props;
+        let {language, isShowMarkdown, dataTime} = this.props;
         let {dataProfile} = this.state;
         let nameVi='', nameEn= '';
         if(dataProfile && dataProfile.positionData){
@@ -54,12 +70,15 @@ class ProfileDoctor extends Component {
                     ></div>
                     <div className="content-right">
                         <div className="up">{language === LANGUAGES.VI? nameVi:nameEn}</div>
-                        <div className="down">
-                            {dataProfile && dataProfile.Markdown && dataProfile.Markdown.description 
-                                && dataProfile.Markdown.description 
-                                && <span>{dataProfile.Markdown.description}</span>
-                            }
-                        </div>
+                        {isShowMarkdown === true ?
+                            <div className="down">
+                                {dataProfile && dataProfile.Markdown && dataProfile.Markdown.description 
+                                    && dataProfile.Markdown.description 
+                                    && <span>{dataProfile.Markdown.description}</span>
+                                }
+                            </div>
+                            : <>{this.renderTimeBooking(dataTime)}</>
+                        }
                     </div>
                 </div>
                 <div className="price">
