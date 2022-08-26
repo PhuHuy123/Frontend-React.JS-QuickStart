@@ -91,6 +91,11 @@
             "btnConfirm":"Confirm",
             "btnCancel":"Cancel",
             "price":"Price: "
+        },
+        "verify-email": {
+            "loading" : "Loading data ...",
+            "success": "Confirmation of successful appointment appointment",
+            "fail": "Appointment does not exist or is confirmed"
         }
     }
 }

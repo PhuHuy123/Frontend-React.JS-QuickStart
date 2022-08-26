@@ -92,6 +92,11 @@
             "btnConfirm":"Xác nhận",
             "btnCancel":"Hủy",
             "price":"Giá khám: "
+        },
+        "verify-email": {
+            "loading": "Đang tải dữ liệu ...",
+            "success": "Xác nhận lịch đặt hẹn thành công",
+            "fail": "Lịch hẹn không tồn tại hoặc đã xác nhận"
         }
     }
     
