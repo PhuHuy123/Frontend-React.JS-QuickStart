@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
 import * as actions from '../../../../store/actions';
+import moment from 'moment';
 class BookingModal extends Component {
     constructor(props) {
         super(props);
@@ -86,8 +87,33 @@ class BookingModal extends Component {
             selectedGender: selectedOption
         })
     }
+    buildTimeBooking = (dataTime)=>{
+        if(dataTime && !_.isEmpty(dataTime)){
+            let {language} = this.props
+            let date = language === LANGUAGES.EN ? 
+                moment(new Date(dataTime.date)).locale('en').format('dddd - MM/DD/YYYY') :
+                moment(new Date(dataTime.date)).format('dddd - DD/MM/YYYY');
+            let time = language === LANGUAGES.EN ? 
+                dataTime.timeTypeData.valueEn : dataTime.timeTypeData.valueVi;
+            return `${time}  ${date}`
+        }
+        return ``
+    }
+    buildDoctorName = (dataTime)=>{
+        if(dataTime && !_.isEmpty(dataTime)){
+            let {language} = this.props
+            let name = language === LANGUAGES.EN ? 
+                `${dataTime.doctorData.firstName} - ${dataTime.doctorData.lastName}`:
+                `${dataTime.doctorData.lastName} - ${dataTime.doctorData.firstName}`;
+
+            return name
+        }
+        return ``
+    }
     handleConfirmBooking =  async() => {
         let date = new Date(this.state.birthday).getTime();
+        let timeString = this.buildTimeBooking(this.props.dataTime);
+        let doctorName = this.buildDoctorName(this.props.dataTime);
         let res = await postBookAppointment({
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
@@ -98,6 +124,9 @@ class BookingModal extends Component {
             selectedGender: this.state.selectedGender.value,
             doctorId: this.state.doctorId,
             timeType: this.state.timeType,
+            language: this.props.language,
+            timeString: timeString,
+            doctorName: doctorName
         })
         if(res && res.errCode ===0){
             toast.success('Booking a new appointment succeed!')
