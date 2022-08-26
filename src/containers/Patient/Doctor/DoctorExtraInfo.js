@@ -20,7 +20,7 @@ class DoctorExtraInfo extends Component {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.props.language !== prevProps.language){
         }
-        if(this.props.doctorIdFromParent !== prevState.doctorIdFromParent){
+        if(this.props.doctorIdFromParent !== prevProps.doctorIdFromParent){
             let res = await getExtraInfoDoctorById(this.props.doctorIdFromParent);
             if(res && res.errCode === 0){
                 this.setState({

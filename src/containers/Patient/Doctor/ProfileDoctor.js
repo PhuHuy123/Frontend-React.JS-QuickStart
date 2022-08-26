@@ -82,7 +82,7 @@ class ProfileDoctor extends Component {
                     </div>
                 </div>
                 <div className="price">
-                    Giá Khám: 
+                    <FormattedMessage id="patient.booking-modal.price"/> 
                     {dataProfile && dataProfile.DoctorInfo && language === LANGUAGES.VI ?
                         <NumberFormat 
                             className='currency'

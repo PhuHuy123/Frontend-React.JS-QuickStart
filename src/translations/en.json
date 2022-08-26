@@ -78,6 +78,19 @@
             "detail": "See details",
             "payment": "Customers can pay fees in the form: ",
             "hide-price": "Collapse"
+        },
+        "booking-modal":{
+            "title":"Information to book a medical appointment",
+            "fullName":"Full name",
+            "phoneNumber":"Phone number",
+            "email":"Email",
+            "address":"Address",
+            "reason":"Reasons for medical examination",
+            "birthday":"Date of birth",
+            "gender":"Genders",
+            "btnConfirm":"Confirm",
+            "btnCancel":"Cancel",
+            "price":"Price: "
         }
     }
 }
