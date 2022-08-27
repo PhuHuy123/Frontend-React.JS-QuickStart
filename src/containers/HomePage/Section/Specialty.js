@@ -1,44 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-
+import './Specialty.scss'
 import Slider from "react-slick";
+import {getAllSpecialty} from '../../../services/userService';
 
 class Specialty extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSpecialty: [],
+        }
+    }
+    async componentDidMount() {
+        let res = await getAllSpecialty();
+        if(res && res.errCode ===0) {
+            this.setState({
+                dataSpecialty: res.data ?res.data : []
+            })
+        }
+    }
     render() {
+        let {dataSpecialty} = this.state;
         return (
             <div className="section">
                 <div className="section-content">
                     <div className="section-header">
                         <button><FormattedMessage id="homepage.see-more"/></button>
-                        <span>Chuyên khoa phổ biến</span>
+                        <span><FormattedMessage id="homepage.specialty-popular"/></span>
                     </div>
                     <Slider {...this.props.settings}>
-                        <div className='slide'>
-                            <div className='img-slide img-specialty'/>
-                            <div className='title-slide'>Tim mạch 1</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-specialty'/>
-                            <div className='title-slide'>Tim mạch 2</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-specialty'/>
-                            <div className='title-slide'>Tim mạch 3</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-specialty'/>
-                            <div className='title-slide'>Tim mạch 4</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-specialty'/>
-                            <div className='title-slide'>Tim mạch5</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-specialty'/>
-                            <div className='title-slide'>Tim mạch 6</div>
-                        </div>
+                        {dataSpecialty && dataSpecialty.length > 0 && 
+                            dataSpecialty.map((item,index) =>{
+                                return (
+                                    <div className='slide' key={index}>
+                                        <div className='img-slide img-specialty'
+                                            style={{backgroundImage: `url(${item.image})`}}
+                                        />
+                                        <div className='title-slide'>{item.name}</div>
+                                    </div>
+                                )
+                            })
+                        }
                     </Slider>
                 </div>
             </div>

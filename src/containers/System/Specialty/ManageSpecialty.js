@@ -52,7 +52,13 @@ class ManageSpecialty extends Component {
         console.log('Saving new specialty', this.state)
         let res = await createNewSpecialty(this.state)
         if (res && res.errCode ===0){
-            toast.success('Add new specialty success!')
+            toast.success('Add new specialty success!');
+            this.setState({
+                name:'',
+                imageBase64: '',
+                contentMarkdown: '',
+                contentHTML: '',
+            })
         }
         else {
             toast.error('Error creating new specialty!')
@@ -76,7 +82,7 @@ class ManageSpecialty extends Component {
                         />
                     </div>
                     <div className='col-6 form-group'>
-                        <label>Tên chuyên khoa</label>
+                        <label>Ảnh chuyên khoa</label>
                         <input className='form-control-file' type='file'
                                 onChange={(e) => this.handlerOnChangeImage(e)}
                         />
