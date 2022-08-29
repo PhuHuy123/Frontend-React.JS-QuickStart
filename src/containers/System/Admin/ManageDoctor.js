@@ -30,12 +30,20 @@ class ManageDoctor extends Component {
             listPrice: [],
             listPayment: [],
             listProvince: [],
+            listSpecialty: [],
+            listClinic: [],
+
             selectedPrice: '',
             selectedPayment: '',
             selectedProvince: '',
+            selectedSpecialty: '',
+            selectedClinic: '',
+
             nameClinic: '',
             addressClinic: '',
             note: '',
+            specialtyId: '',
+            clinicId: '',
         }
     }
     componentDidMount() {
@@ -69,6 +77,11 @@ class ManageDoctor extends Component {
                     object.value = item.keyMap;
                     result.push(object);
                 }
+                if(type === 'SPECIALTY'){
+                    object.label = item.name;
+                    object.value = item.id;
+                    result.push(object);
+                }
             })
         }
         return result
@@ -96,15 +109,17 @@ class ManageDoctor extends Component {
             })
         }
         if(prevProps.allRequiredDoctorInfo !== this.props.allRequiredDoctorInfo){
-            let {resPrice, resPayment, resProvince} = this.props.allRequiredDoctorInfo;
+            let {resPrice, resPayment, resProvince, resSpecialty} = this.props.allRequiredDoctorInfo;
 
             let dataSelectedPrice = this.buildDataInputSelect(resPrice, 'PRICE');
             let dataSelectedPayment = this.buildDataInputSelect(resPayment, 'PAYMENT');
             let dataSelectedProvince = this.buildDataInputSelect(resProvince, 'PROVINCE');
+            let dataSelectedSpecialty = this.buildDataInputSelect(resSpecialty, 'SPECIALTY');
             this.setState({
                 listPrice: dataSelectedPrice,
                 listPayment: dataSelectedPayment,
-                listProvince: dataSelectedProvince,
+                listProvince: dataSelectedProvince,  
+                listSpecialty: dataSelectedSpecialty,
             })
 
         }
@@ -131,6 +146,8 @@ class ManageDoctor extends Component {
             nameClinic: this.state.nameClinic,
             addressClinic: this.state.addressClinic,
             note: this.state.note,
+            specialtyId: this.state.selectedSpecialty.value,
+            clinicId: 1,                                                                                                                                            
         })
     }
 
@@ -204,7 +221,8 @@ class ManageDoctor extends Component {
         this.setState({ ...copyState })
     }
     render() {
-        let {checkSave, selectedPrice, selectedPayment, selectedProvince} = this.state
+        let {checkSave, selectedPrice, selectedPayment, selectedProvince, 
+            selectedSpecialty, selectedClinic} = this.state
         console.log(this.state)
         return (
             <div className="container doctor-container">
@@ -283,6 +301,26 @@ class ManageDoctor extends Component {
                                 value={this.state.note}
                             />
                         </div>
+                        <div className="col-4 form-group">
+                                <label>Chọn chuyên khoa</label>
+                                <Select
+                                    value={selectedSpecialty}
+                                    onChange={this.handleChangeSelectDoctorInfo}
+                                    options={this.state.listSpecialty}
+                                    placeholder={'---Chọn chuyên khoa---'}
+                                    name = 'selectedSpecialty'
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Chọn phòng khám</label>
+                                <Select
+                                    value={selectedClinic}
+                                    onChange={this.handleChangeSelectDoctorInfo}
+                                    options={this.state.listClinic}
+                                    placeholder={'---Chọn phòng khám---'}
+                                    name = 'selectedClinic'
+                                />
+                            </div>
                     </div>
                     <div className="manage-doctor-editor">
                         <MdEditor 
