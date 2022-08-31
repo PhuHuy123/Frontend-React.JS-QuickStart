@@ -81,6 +81,9 @@
             "payment": "Khách hàng có thể thanh toán chi phí bằng hình thức: ",
             "hide-price": "Thu gọn"
         },
+        "link-doctor":{
+            "see-more":"Xem thêm"
+        },
         "booking-modal":{
             "title": "Thông tin đặt lịch khám bệnh",
             "fullName":"Họ và tên",

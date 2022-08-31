@@ -80,6 +80,9 @@
             "payment": "Customers can pay fees in the form: ",
             "hide-price": "Collapse"
         },
+        "link-doctor":{
+            "see-more":"See more"
+        },
         "booking-modal":{
             "title":"Information to book a medical appointment",
             "fullName":"Full name",
