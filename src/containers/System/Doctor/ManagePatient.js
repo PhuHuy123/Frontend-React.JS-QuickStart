@@ -11,15 +11,30 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import {bulkCreateSchedule} from'../../../services/userService'
+import {getAllPatientForDoctor} from'../../../services/userService'
 class ManagePatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
             startDate: new Date(),
+            dataPatient: [],
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
+        let {user} = this.props;
+        let {startDate} = this.state;
+        let formattedDate = moment(startDate).format('YYYY-MM-DD')
+        this.getDataPatient(user, formattedDate);
+    }
+
+    getDataPatient = async(user, formattedDate) =>{
+        let res = await getAllPatientForDoctor({
+            doctorId: user.id, 
+            date: formattedDate
+        })
+        if(res && res.errCode ===0){
+            this.setState({dataPatient: res.data});
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -27,10 +42,25 @@ class ManagePatient extends Component {
         }
     }
     handleDateChange = async(date)=>{
-        this.setState({startDate:date})
+        this.setState({
+            startDate:date
+        },()=>{
+            let {user} = this.props;
+            let {startDate} = this.state;
+            let formattedDate = moment(startDate).format('YYYY-MM-DD')
+            this.getDataPatient(user, formattedDate);
+        })
+    }
+    handleBtnConfirm = () => {
+
+    }
+    handleBtnRemedy = () => {
+
     }
     render() {
-        let {language} = this.props
+        let {language} = this.props;
+        let {dataPatient} = this.state;
+        console.log(`render`, this.state);
         return (
             <div className="manage-patient-container">
                 <div className='m-s-title'>
@@ -49,24 +79,44 @@ class ManagePatient extends Component {
                             />
                         </div>
                         <table className="table table-bordered mt-3">
-                        <thead className='table-dark'>
-                            <tr>
-                                <th scope="col">Email</th>
-                                <th scope="col">First name</th>
-                                <th scope="col">Last name</th>
-                                <th scope="col">Address</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                            </tr>
-                        </tbody>
-
-                    </table>
+                            <thead className='table-dark'>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Họ và tên</th>
+                                    <th scope="col">Giới tính</th>
+                                    <th scope="col">Thời gian</th>
+                                    <th scope="col">Số điện thoại</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {dataPatient && dataPatient.length > 0 && 
+                                    dataPatient.map((item, index)=>{
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index+1}</td>
+                                                <td>{item.patientData.firstName}</td>
+                                                <td>{language === LANGUAGES.VI? 
+                                                    item.patientData.genderData.valueVi: item.patientData.genderData.valueEn
+                                                    }</td>
+                                                <td>{language === LANGUAGES.VI? 
+                                                    item.timeTypeDataBooking.valueVi: item.timeTypeDataBooking.valueEn
+                                                    }</td>
+                                                <td>{item.patientData.phoneNumber}</td>
+                                                <td>
+                                                    <button className='mp-btn-confirm'
+                                                        onClick={()=>this.handleBtnConfirm()}
+                                                    >Xác nhận</button>
+                                                    <button className='mp-btn-remedy'
+                                                        onClick={()=>this.handleBtnRemedy()}
+                                                    >Gửi hóa đơn</button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -78,6 +128,7 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        user: state.user.userInfo,
     };
 };
 

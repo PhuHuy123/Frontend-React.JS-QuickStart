@@ -7,4 +7,27 @@
         font-size: 17px;
         text-align: center;
     }
+    .container{
+        .row{
+            table{
+                button{
+                    border:none;
+                    outline:none;
+                    cursor: pointer;    
+                }
+                .mp-btn-confirm{
+                    margin-right: 10px;
+                    height: 30px;
+                    border-radius: 3px;
+                    background-color: orange;
+                }
+                
+                .mp-btn-remedy{
+                    height: 30px;
+                    border-radius: 3px;
+                    background-color: rgba(8, 151, 8, 0.925);
+                }
+            }
+        }
+    }
 }
