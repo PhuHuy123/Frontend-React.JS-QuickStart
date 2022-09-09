@@ -69,7 +69,7 @@ class Login extends Component {
                         <div className="col-12 login-text">Login</div>
                         <div className="col-12 form-group login-input">
                             <label ><b>Username</b></label>
-                            <input className='form-control' type="text" placeholder="Enter Username" 
+                            <input className='form-control' type="text" placeholder="Username" 
                             value={this.state.username}
                             onChange={(e)=>this.handlerOnChangeUserName(e.target.value)}
                             onKeyDown={(e)=>this.handleKeyDown(e)}
@@ -79,7 +79,7 @@ class Login extends Component {
                         <div className="col-12 form-group login-input">                        
                             <label ><b>Password</b></label>
                             <div className="custom-input-password">
-                                <input className='form-control' type={this.state.showPassword?"text":"password"} placeholder="Enter Password" 
+                                <input className='form-control' type={this.state.showPassword?"text":"password"} placeholder="Password" 
                                     value={this.state.password}
                                     onChange={(e)=>this.handlerOnChangePassword(e.target.value)}
                                     onKeyDown={(e)=>this.handleKeyDown(e)}
@@ -94,11 +94,11 @@ class Login extends Component {
                         <div className="col-12" style={{color: 'red'}}>
                             {this.state.errMessage}
                         </div>
+                        <div className="col-12 forgot-password">
+                            <span>Forgot your password?</span>
+                        </div>
                         <div className="col-12 form-group btn-login">
                             <button type="submit" onClick={()=>this.handlerLogin()}>Login</button>
-                        </div>
-                        <div className="col-12">
-                            <span>Forgot your password?</span>
                         </div>
                         <div className="col-12 text-center">
                             <span>Or sign in with:</span>
