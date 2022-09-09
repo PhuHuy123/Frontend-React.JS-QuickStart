@@ -43,7 +43,7 @@ class Specialty extends Component {
                             doctorsArr.map((item, index)=>{
                                 let imgBase64=''
                                 if(item.image){
-                                    imgBase64= new Buffer(item.image, 'base64').toString('binary');
+                                    imgBase64= Buffer.from(item.image, 'base64').toString('binary');
                                 }
                                 let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`
                                 let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`
