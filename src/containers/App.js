@@ -16,8 +16,10 @@ import Signup from './Auth/Signup';
 
 import System from '../routes/System';
 import HomePage from './HomePage/HomePage';
-import DetailDoctor from './Patient/Doctor/DetailDoctor'
-import VerifyEmail from './Patient/VerifyEmail'
+import DetailDoctor from './Patient/Doctor/DetailDoctor';
+import VerifyEmail from './Patient/VerifyEmail';
+import NewPassword from './../containers/Auth/NewPassword';
+import ResetPassword from './../containers/Auth/ResetPassword';
 import { CustomToastCloseButton } from '../components/CustomToast';
 import CustomScrollbars from '../components/CustomScrollbars';
 import Doctor from '../routes/Doctor';
@@ -62,6 +64,8 @@ class App extends Component {
                                     <Route path={path.DETAIL_SPECIALTY}component={DetailSpecialty}/>
                                     <Route path={path.DETAIL_CLINIC}component={DetailClinic}/>
                                     <Route path={path.VERIFY_EMAIL_BOOKING}component={VerifyEmail}/>
+                                    <Route path={path.EMAIL_UPDATE_PASSWORD}component={NewPassword}/>
+                                    <Route path={path.INPUT_EMAIL_RESET}component={ResetPassword}/>
                                 </Switch>
                             </CustomScrollbars>
                         </div>

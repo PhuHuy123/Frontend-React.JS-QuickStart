@@ -24,7 +24,7 @@ class Signup extends Component {
             address: '',
             phoneNumber: '',
             gender: '',
-            position: '',
+            position: 'P0',
             role: 'R3',
             image: '',
 
@@ -119,19 +119,6 @@ class Signup extends Component {
             else{
                 toast.error("Email đã tồn tại")
             }    
-        // await this.props.createNewUser({
-        // email: this.state.email,
-        // password: this.state.password,
-        // firstName: this.state.firstName,
-        // lastName: this.state.lastName,
-        // address: this.state.address,
-        // phoneNumber: this.state.phoneNumber,
-        // gender: this.state.gender,
-        // roleId: this.state.role,
-        // positionID: this.state.position,
-        // image: this.state.image,
-        // });
-        // console.log(res)
         
     }
     render() {

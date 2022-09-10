@@ -5,6 +5,7 @@ import {handleLogin} from'../../services/userService'
 import * as actions from "../../store/actions";
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
     constructor(props) {
@@ -95,7 +96,7 @@ class Login extends Component {
                             {this.state.errMessage}
                         </div>
                         <div className="col-12 forgot-password">
-                            <span>Forgot your password?</span>
+                            <span><Link to={`/account/password/reset`}>Forgot your password?</Link></span>
                         </div>
                         <div className="col-12 form-group btn-login">
                             <button type="submit" onClick={()=>this.handlerLogin()}>Login</button>

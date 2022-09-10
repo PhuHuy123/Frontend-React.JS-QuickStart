@@ -54,6 +54,12 @@ const postBookAppointment = (data)=>{
 const postVerifyBookAppointment = (data)=>{
     return axios.post(`/api/verify-book-appointment`,data)
 }
+const getUpdatePassword = (data)=>{
+    return axios.post(`/api/update-password`,data)
+}
+const handleCheckEmail = (data)=>{
+    return axios.post(`/api/check-email`,data)
+}
 const createNewSpecialty = (data)=>{
     return axios.post(`/api/create-new-specialty`,data)
 }
@@ -98,5 +104,7 @@ export {
     createNewSpecialty, getAllSpecialty, getDetailSpecialtyById,
     createNewClinic, getAllClinic, getDetailClinicById,
     getAllPatientForDoctor,
-    postSendRemedy
+    postSendRemedy,
+    getUpdatePassword,
+    handleCheckEmail
 }

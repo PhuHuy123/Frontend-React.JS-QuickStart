@@ -10,6 +10,8 @@ export const path = {
     DETAIL_SPECIALTY: '/detail-specialty/:id',
     DETAIL_CLINIC: '/detail-clinic/:id',
     VERIFY_EMAIL_BOOKING: '/verify-booking',
+    EMAIL_UPDATE_PASSWORD: '/updatePassword',
+    INPUT_EMAIL_RESET: '/account/password/reset',
 };
 
 export const LANGUAGES = {
