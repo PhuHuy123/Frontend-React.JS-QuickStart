@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import {bulkCreateSchedule} from'../../../services/userService'
+import {bulkCreateSchedule, getScheduleDoctorByDate} from'../../../services/userService'
 class ManageSchedule extends Component {
     constructor(props) {
         super(props);
@@ -20,6 +20,7 @@ class ManageSchedule extends Component {
             listDoctors:'',
             startDate: '',
             rangeTime:[],
+            doctorId: '',
         }
     }
     componentDidMount() {
@@ -27,7 +28,12 @@ class ManageSchedule extends Component {
         this.props.fetchAllScheduleTime();
     }
     handleChange = async(selectedDoctor)=> {
-        this.setState({ selectedDoctor })
+        this.setState({ 
+            selectedDoctor,
+            doctorId: selectedDoctor.value
+        },()=>{
+            this.handleDateChange(this.state.startDate);
+        })
     };
     buildDataInputSelect = (inputData) => {
         let result = [];
@@ -70,8 +76,44 @@ class ManageSchedule extends Component {
             })
         }
     }
-    handleDateChange = async(date)=>{
-        this.setState({startDate:date})
+    handleDateChange = async(dateTime)=>{
+        let {doctorId} = this.state;
+        let data = this.props.allScheduleTimes;
+        let dt = new Date(+(dateTime))
+        let date = moment(dt).format('YYYY-MM-DD')
+        if(doctorId){
+            if(data && data.length > 0){
+                        data = data.map(item =>({
+                            ...item,
+                            isSelected: false
+                        }))
+                    }
+            let res = await getScheduleDoctorByDate(doctorId, date);
+            if(res && res.errCode === 0){
+                if(res.data && res.data.length > 0){
+                    let check = res.data.map(item =>(
+                            item.timeType
+                        ))
+                        if(data && data.length > 0){
+                            data = data.map(item =>(
+                                check.some(element => element ===item.keyMap) ? {
+                                    ...item,
+                                    isSelected: true
+                                }:
+                                {
+                                    ...item,
+                                    isSelected: false
+                                }
+                                
+                            ))
+                        }
+                }
+            }
+        }
+        this.setState({
+            startDate:dateTime,
+            rangeTime:data,
+        })
     }
     handleClickTime = (time)=>{
         let {rangeTime} = this.state
@@ -114,6 +156,18 @@ class ManageSchedule extends Component {
                 return;
 
             }
+            let data = this.props.allScheduleTimes;
+            if(data && data.length > 0){
+                data = data.map(item =>({
+                    ...item,
+                    isSelected: false
+                }))
+            }
+            this.setState({
+                // listDoctors:'',
+                startDate: '',
+                rangeTime:data,
+            })
         }
         let res = await bulkCreateSchedule({
             arrSchedule: result,

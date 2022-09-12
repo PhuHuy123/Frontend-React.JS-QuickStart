@@ -48,6 +48,8 @@ class TableUserManage extends Component {
                             {
                                 usersRedux && usersRedux.length>0 &&
                                 usersRedux.map((item,index)=>{
+                                    if(item.roleId === this.props.classify || this.props.classify === 'ALL')
+                                    {
                                     return (
                                         <tr key={index}>
                                             <td>{item.id}</td>
@@ -56,11 +58,11 @@ class TableUserManage extends Component {
                                             <td>{item.lastName}</td>
                                             <td>{item.address}</td>
                                             <td>
-                                                <button onClick={()=>this.handlerEditUser(item)}>Edit</button>
-                                                <button onClick={()=>this.handlerDeleteUser(item.id)}>Delete</button>
+                                                <button className="btn btn-warning" onClick={()=>this.handlerEditUser(item)}>Edit</button>
+                                                <button className="btn btn-danger ml-3" onClick={()=>this.handlerDeleteUser(item.id)}>Delete</button>
                                             </td>
                                         </tr>
-                                    )
+                                    )}
                                 })
                             }
                         </tbody>

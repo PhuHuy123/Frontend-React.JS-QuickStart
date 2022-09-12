@@ -7,6 +7,7 @@ import './UserRedux.scss';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
 import TableUserManage from './TableUserManage'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 class UserRedux extends Component {
     constructor(props) {
         super(props);
@@ -29,6 +30,8 @@ class UserRedux extends Component {
             image: '',
 
             action: '',
+            isOpenModal: false,
+            classify: 'ALL',
         }
     }
 
@@ -148,8 +151,14 @@ class UserRedux extends Component {
                 image: this.state.image
             })
         }
+        this.setState({
+            isOpenModal:false
+        })
     }
     handlerEditUserFromParent =(user)=>{
+        this.setState({
+            isOpenModal:true
+        })
         let imgBase64 = '';
         if(user.image){
             imgBase64= Buffer.from(user.image, 'base64').toString('binary');
@@ -170,6 +179,35 @@ class UserRedux extends Component {
             previewImgURL: imgBase64
         })
     }
+    handleAddNewUser = ()=>{
+        this.setState({
+            isOpenModal:true
+        })
+    }
+    toggleUserModal = ()=>{
+        this.setState({
+            isOpenModal: !this.state.isOpenModal
+        })
+    }
+    toggle=()=>{
+        this.toggleUserModal()
+        let arrGenders = this.props.genderRedux;
+        let arrPositions =this.props.positionRedux;
+        let arrRoles= this.props.roleRedux;
+        this.setState({
+            email: '',password: '',firstName: '',lastName: '',
+            address: '', phoneNumber: '', image: '',previewImgURL:'',
+            gender: arrGenders && arrGenders.length>0 ? arrGenders[0].keyMap :'',
+            position: arrPositions && arrPositions.length>0 ? arrPositions[0].keyMap :'',
+            role: arrRoles && arrRoles.length>0 ? arrRoles[0].keyMap :'',
+            action:CRUD_ACTIONS.CREATE
+        })
+    }
+    handlerOnChangeClassify = (e)=>{
+        this.setState({
+            classify: e.target.value
+        })
+    }
     render() {
         const {language} = this.props;
         let genders = this.state.genderArr;
@@ -180,13 +218,22 @@ class UserRedux extends Component {
         return (
             <>
                 <div className="text-center" >User redux</div>
+                <Modal 
+                    isOpen={this.state.isOpenModal} 
+                    toggle={()=>{this.toggle()}} 
+                    className={'modal-user-container'}
+                    size="lg"
+                >
+                <ModalHeader toggle={()=>{this.toggle()}}>
+                    {this.state.action === CRUD_ACTIONS.EDIT?
+                        "Edit User":
+                        "Add New User"
+                    }
+                </ModalHeader>
+                <ModalBody>
                 <div className="container">
-                    <div className="row col-10">
+                    <div className="row">
                         <h1>{this.props.isLoading?'Loading...':""}</h1>
-                        
-                        <div className="col-12 mx-3">
-                            <h3><FormattedMessage id="manage-user.add"/></h3>
-                        </div>
                         <div className="col-5 mt-2">
                             <label><FormattedMessage id="manage-user.email"/></label>
                             <input type="email" className="form-control" name="email" placeholder="Email"
@@ -292,17 +339,6 @@ class UserRedux extends Component {
                                 onClick={()=>this.openPreviewImg()}
                             ></div>
                         </div>
-                        <div className="col-12">
-                            <button type="submit" 
-                                className={this.state.action === CRUD_ACTIONS.EDIT?"btn btn-warning mt-3":"btn btn-primary mt-3"}
-                                onClick={()=>{this.handlerSaveUser()}}
-                            >
-                                {this.state.action === CRUD_ACTIONS.EDIT?
-                                    <FormattedMessage id="manage-user.edit"/>:
-                                    <FormattedMessage id="manage-user.save"/>
-                                }
-                            </button>
-                        </div>
                     </div>
                 </div>
                 {this.state.isOpen ===true&& (
@@ -311,7 +347,37 @@ class UserRedux extends Component {
                         onCloseRequest={() => this.setState({ isOpen: false })}
                     />
                 )}
+                </ModalBody>
+                <ModalFooter>
+                    <Button className={this.state.action === CRUD_ACTIONS.EDIT?"btn btn-warning":"btn btn-primary"}
+                                onClick={()=>{this.handlerSaveUser()}}>
+                    {this.state.action === CRUD_ACTIONS.EDIT?
+                        <FormattedMessage id="manage-user.edit"/>:
+                        <FormattedMessage id="manage-user.save"/>
+                    }</Button>{' '}
+                    <Button color="secondary" className='px-3' onClick={()=>{this.toggle()}}>Close</Button>
+                </ModalFooter>
+            </Modal>
+                <button onClick={()=>this.handleAddNewUser()}
+                className="btn btn-primary add-new px-2">Add new user</button>
+                <select name="role" className="form-control classify"
+                    onChange={(e)=>this.handlerOnChangeClassify(e)}
+                >
+                    <option key={1} value='ALL'>
+                        All user
+                    </option>
+                    {roles && roles.length > 0 &&
+                        roles.map((item, index)=>{
+                            return (
+                                <option key={index+1} value={item.keyMap}>
+                                    {language===LANGUAGES.VI?item.valueVi:item.valueEn}
+                                </option>
+                            )
+                        })
+                    }
+                </select>
                 <TableUserManage
+                    classify ={this.state.classify}
                     handlerEditUserFromParent={this.handlerEditUserFromParent}
                     action = {this.state.action}
                 />
