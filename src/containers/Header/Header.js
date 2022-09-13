@@ -9,12 +9,13 @@ import './Header.scss';
 import {LANGUAGES, USER_ROLE} from '../../utils';
 import {setChangeLanguage} from '../../store/actions'
 import _ from 'lodash';
+import HomePage from '../HomePage/HomePage'
 
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            menuApp: []
+            menuApp: [],
         }
     }
     changeLanguage = (language)=>{{
@@ -30,40 +31,52 @@ class Header extends Component {
             if (role === USER_ROLE.ADMIN){
                 menu = adminMenu
             }
-            if (role === USER_ROLE.DOCTOR){
-                menu = doctorMenu
+            else{
+                if (role === USER_ROLE.DOCTOR){
+                    menu = doctorMenu
+                }
+                else{
+                    return this.setState({
+                        menuApp:'',
+                    })  
+                }
             }
         }
-        this.setState({
-            menuApp:menu,
-        })
+            this.setState({
+                menuApp:menu,
+        })  
     }
     render() {
         const { processLogout ,userInfo,language} = this.props;
         return (
+            <>
+            { this.state.menuApp !== '' ?
             <div className="header-container">
-                {/* thanh navigator */}
-                <div className="header-tabs-container">
-                    <Navigator menus={this.state.menuApp} />
-                </div>
-                <div className="languages">
-                    <span className="welcome">
-                        <FormattedMessage id="home-header.welcome"/>
-                        {userInfo && userInfo.firstName?userInfo.firstName: ''}
-                    </span>
-                    <span 
-                        className={language === LANGUAGES.VI?"language-vi active": "language-vi"}
-                        onClick={()=>this.changeLanguage(LANGUAGES.VI)}
-                    >VN</span>
-                    <span className={language === LANGUAGES.EN?"language-en active": "language-en"}
-                        onClick={()=>this.changeLanguage(LANGUAGES.EN)}
-                    >EN</span>
-                    {/* nút logout */}
-                    <div className="btn btn-logout" onClick={processLogout}>
-                        <i className="fas fa-sign-out-alt"></i>
-                    </div>
+            {/* thanh navigator */}
+            <div className="header-tabs-container">
+                <Navigator menus={this.state.menuApp} />
+            </div>
+            <div className="languages">
+                <span className="welcome">
+                    <FormattedMessage id="home-header.welcome"/>
+                    {userInfo && userInfo.firstName?userInfo.firstName: ''}
+                </span>
+                <span 
+                    className={language === LANGUAGES.VI?"language-vi active": "language-vi"}
+                    onClick={()=>this.changeLanguage(LANGUAGES.VI)}
+                >VN</span>
+                <span className={language === LANGUAGES.EN?"language-en active": "language-en"}
+                    onClick={()=>this.changeLanguage(LANGUAGES.EN)}
+                >EN</span>
+                {/* nút logout */}
+                <div className="btn btn-logout" onClick={processLogout}>
+                    <i className="fas fa-sign-out-alt"></i>
                 </div>
             </div>
+        </div>:
+        <HomePage/>
+            }
+            </>
         );
     }
 

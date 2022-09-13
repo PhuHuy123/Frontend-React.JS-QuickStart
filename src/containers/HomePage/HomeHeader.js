@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from "../../store/actions";
 import './HomeHeader.scss'
 import { FormattedMessage } from 'react-intl';
 import {LANGUAGES} from '../../utils'
 import {setChangeLanguage} from '../../store/actions'
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 class HomeHeader extends Component {
 
     changeLanguage = (language)=>{
@@ -17,6 +19,7 @@ class HomeHeader extends Component {
         }
     }
     render() {
+        let {userInfo, processLogout} = this.props;
         return (
             <>
                 <div className="home-header-container">
@@ -57,6 +60,19 @@ class HomeHeader extends Component {
                                     <span onClick={()=>this.changeLanguage(LANGUAGES.EN)}>EN</span> 
                                 </div>
                             </div>
+                            { userInfo ?
+                                <>                                
+                                    <span>{userInfo && userInfo.firstName?userInfo.firstName: ''}</span>
+                                    <div className="btn btn-logout" onClick={processLogout}>
+                                        <i className="fas fa-sign-out-alt"></i>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <Link to={`/login`} className="btn btn-warning ml-2">Login</Link>
+                                    <Link to={`/signup`} className="btn btn-secondary ml-2">Sign up</Link>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>
@@ -164,11 +180,13 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        userInfo: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        processLogout: () => dispatch(actions.processLogout()),
         onChangeLanguage: (language)=>(dispatch(setChangeLanguage(language)))
     };
 };
