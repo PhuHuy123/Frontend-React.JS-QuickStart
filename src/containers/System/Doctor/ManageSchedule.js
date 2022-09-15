@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import './ManageSchedule.scss';
 import { FormattedMessage } from 'react-intl';
-import {LANGUAGES, dateFormat} from '../../../utils';
+import {LANGUAGES, USER_ROLE} from '../../../utils';
 import Select from 'react-select';
 import * as actions from '../../../store/actions';
 // import DatePicker from '../../../components/Input/DatePicker';
@@ -77,17 +77,21 @@ class ManageSchedule extends Component {
         }
     }
     handleDateChange = async(dateTime)=>{
+        let {userInfo} = this.props;
         let {doctorId} = this.state;
+        if(userInfo && userInfo.roleId === USER_ROLE.DOCTOR){
+            doctorId = userInfo.id
+        }
         let data = this.props.allScheduleTimes;
         let dt = new Date(+(dateTime))
         let date = moment(dt).format('YYYY-MM-DD')
         if(doctorId){
             if(data && data.length > 0){
-                        data = data.map(item =>({
-                            ...item,
-                            isSelected: false
-                        }))
-                    }
+                data = data.map(item =>({
+                    ...item,
+                    isSelected: false
+                }))
+            }
             let res = await getScheduleDoctorByDate(doctorId, date);
             if(res && res.errCode === 0){
                 if(res.data && res.data.length > 0){
@@ -129,9 +133,14 @@ class ManageSchedule extends Component {
     }
     handleSaveSchedule = async()=>{
         let {rangeTime, selectedDoctor, startDate} = this.state;
+        let {userInfo} = this.props;
         let result = [];
         // let formatData =  moment(startDate).format(dateFormat.SEND_TO_SERVER)
         let formatData = new Date(startDate).getTime();
+        if(userInfo && userInfo.roleId === USER_ROLE.DOCTOR){
+            selectedDoctor.label= '';
+            selectedDoctor.value= userInfo.id;
+        }
         if(selectedDoctor && _.isEmpty(selectedDoctor)){
             toast.error('Invalid choose doctor !');
             return;
@@ -178,12 +187,10 @@ class ManageSchedule extends Component {
             toast.success("Save info successfully!");
         }
         else{
-            toast.error("Error cannot save information!");
-            console.error("Error bulkCreateSchedule on Nodejs!");
-        }
+            toast.error("Error cannot save information!");        }
     }
     render() {
-        let {language} = this.props
+        let {language, userInfo} = this.props
         let {rangeTime} = this.state
         return (
             <div className="manage-schedule-container">
@@ -192,6 +199,7 @@ class ManageSchedule extends Component {
                 </div>
                 <div className="container">
                     <div className="row">
+                        { userInfo && userInfo.roleId === USER_ROLE.ADMIN && 
                         <div className="col-6">
                             <label><FormattedMessage id="manage-schedule.choose-doctor"/></label>
                             <Select
@@ -200,6 +208,7 @@ class ManageSchedule extends Component {
                                 options={this.state.listDoctors}
                             />
                         </div>
+                        }
                         <div className="col-6">
                             <label><FormattedMessage id="manage-schedule.choose-date"/></label>
                             <DatePicker 
@@ -242,6 +251,7 @@ const mapStateToProps = state => {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
         arrDoctors: state.admin.allDoctors,
+        userInfo: state.user.userInfo,
         allScheduleTimes: state.admin.allScheduleTimes
     };
 };
