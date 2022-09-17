@@ -84,6 +84,14 @@ const getAllPatientForDoctor = (data)=>{
 const postSendRemedy = (data)=>{
     return axios.post(`/api/send-remedy`,data)
 }
+
+// thống kê covid 19
+const getCountriesCovid19 = (data)=>{
+    return axios.get(`https://api.covid19api.com/countries`)
+}
+const getReportByCountry = (country)=>{
+    return axios.get(`https://api.covid19api.com/dayone/country/${country}`)
+}
 export {
     handleLogin, 
     getAllUsers, 
@@ -106,5 +114,8 @@ export {
     getAllPatientForDoctor,
     postSendRemedy,
     getUpdatePassword,
-    handleCheckEmail
+    handleCheckEmail,
+
+    getCountriesCovid19,
+    getReportByCountry
 }

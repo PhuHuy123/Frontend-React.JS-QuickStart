@@ -12,6 +12,7 @@ export const path = {
     VERIFY_EMAIL_BOOKING: '/verify-booking',
     EMAIL_UPDATE_PASSWORD: '/updatePassword',
     INPUT_EMAIL_RESET: '/account/password/reset',
+    COVID_19: '/high-chart/covid',
 };
 
 export const LANGUAGES = {
