@@ -14,12 +14,15 @@ import Select from 'react-select';
 import * as actions from '../../../../store/actions';
 import moment from 'moment';
 import LoadingOverlay from 'react-loading-overlay';
+import { PayPalButton } from "react-paypal-button-v2";
+import Paypal from '../../../Paypal/Paypal';
 class BookingModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isShowMarkdown: false,
-            fullName: '',
+            firstName: '',
+            lastName: '',
             phoneNumber: '',
             email: '',
             address: '',
@@ -30,12 +33,18 @@ class BookingModal extends Component {
             genders: '',
             timeType: '',
 
-            isShowLoading: false
+            payment: '',
+
+            isShowLoading: false,
+            isShowPayPay: false,
         }
     }
 
     async componentDidMount() {
        this.props.getGenders();
+    //    this.setState({
+    //         isShowPayPay: false
+    //    })
     }
     buildDataGender = (data) => {
         let result = [];
@@ -119,7 +128,8 @@ class BookingModal extends Component {
         let doctorName = this.buildDoctorName(this.props.dataTime);
         this.setState({isShowLoading: true});
         let res = await postBookAppointment({
-            fullName: this.state.fullName,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             phoneNumber: this.state.phoneNumber,
             email: this.state.email,
             address: this.state.address,
@@ -142,10 +152,27 @@ class BookingModal extends Component {
             toast.error('Booking a new appointment error!')
         }
     }
+    handlePayPal = () =>{
+            this.setState({isShowPayPay: true});
+
+    }
+    handleClosePayPal = (input) =>{
+        if(input === 'back'){
+        this.setState({isShowPayPay: false});
+            return;
+        }
+        this.props.closeBooking();
+        this.setState({isShowPayPay: false});
+
+    }
     render() {
         let {language} = this.props;
         // toggle cha
+        let {isShowPayPay, payment, email, lastName, firstName, phoneNumber,
+            address, timeType, selectedGender, reason
+            } = this.state;
         let {isOpenModal, closeBooking, dataTime} = this.props;
+        console.log(this.state)
         let doctorId = dataTime && !_.isEmpty(dataTime) ?  dataTime.doctorId : '';
         return (
             <>
@@ -161,6 +188,7 @@ class BookingModal extends Component {
                         centered
                         // backdrop={true}
                     >
+                    {isShowPayPay === false ?
                         <div className="booking-modal-content">
                             <div className="booking-modal-header">
                                 <span className="left"><FormattedMessage id="patient.booking-modal.title"/></span>
@@ -179,11 +207,18 @@ class BookingModal extends Component {
                                     />
                                 </div>
                                 <div className="row">
-                                    <div className="col-6 form-group">
-                                        <label><FormattedMessage id="patient.booking-modal.fullName"/></label>
+                                    <div className="col-3 form-group">
+                                        <label><FormattedMessage id="patient.booking-modal.firstName"/></label>
                                         <input className='form-control'
-                                            value={this.state.fullName}
-                                            onChange={(event) => this.handleOnChangeInput(event, 'fullName')}
+                                            value={this.state.firstName}
+                                            onChange={(event) => this.handleOnChangeInput(event, 'firstName')}
+                                        />
+                                    </div>
+                                    <div className="col-3 form-group">
+                                        <label><FormattedMessage id="patient.booking-modal.lastName"/></label>
+                                        <input className='form-control'
+                                            value={this.state.lastName}
+                                            onChange={(event) => this.handleOnChangeInput(event, 'lastName')}
                                         />
                                     </div>
                                     <div className="col-6 form-group">
@@ -232,17 +267,57 @@ class BookingModal extends Component {
                                             options={this.state.genders}
                                         />
                                     </div>
+                                    <div className="col-6 form-group">
+                                        <label><b>Chọn phương thức thanh toán</b></label> <br/>
+                                        <input type="radio" value="PAYPAL" name="PAYMENT" 
+                                            onChange={(event) => this.handleOnChangeInput(event, 'payment')}
+                                        /> Thanh toán bằng Paypal 
+                                        <br/>
+                                        <input type="radio" value="MONEY" name="PAYMENT"
+                                            onChange={(event) => this.handleOnChangeInput(event, 'payment')}
+                                        /> Thanh toán bằng tiền mặt
+                                </div>
                                 </div>
                             </div>
                             <div className='booking-modal-footer'>
-                                <button className='btn-booking-confirm' 
-                                    onClick={()=>this.handleConfirmBooking()}
-                                ><FormattedMessage id="patient.booking-modal.btnConfirm"/></button>
+                                {payment && payment === "PAYPAL" ? 
+                                    <button className='btn-booking-confirm' 
+                                        onClick={()=>this.handlePayPal()}
+                                    >Thanh toán</button>
+                                    :
+                                    <button className='btn-booking-confirm' 
+                                        onClick={()=>this.handleConfirmBooking()}
+                                    ><FormattedMessage id="patient.booking-modal.btnConfirm"/></button>
+                                }
                                 <button className='btn-booking-cancel' 
                                     onClick={closeBooking}
                                 ><FormattedMessage id="patient.booking-modal.btnCancel"/></button>
                             </div>
                         </div>
+                        :
+                        <div className="booking-modal-content">
+                            <div className="booking-modal-header">
+                                <span className="left">Thanh toán</span>
+                                <span className="right" onClick={()=>this.handleClosePayPal('back')}>
+                                    <i className="fas fa-times"></i>
+                                </span>
+                            </div>
+                            <Paypal 
+                                doctorId ={doctorId} 
+                                firstName = {firstName}
+                                lastName = {lastName}
+                                phoneNumber = {phoneNumber}
+                                email = {email}
+                                address = {address}
+                                reason = {reason}
+                                date ={this.props.dataTime.date}
+                                // birthday= {birthday}
+                                selectedGender = {selectedGender}
+                                timeType = {timeType}
+                                closePayPal={()=>this.handleClosePayPal()}
+                            />
+                        </div>
+                    }
                     </Modal>
                 </LoadingOverlay>
             </>

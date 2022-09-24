@@ -54,6 +54,9 @@ const postBookAppointment = (data)=>{
 const postVerifyBookAppointment = (data)=>{
     return axios.post(`/api/verify-book-appointment`,data)
 }
+const postVerifyPaypal = (data)=>{
+    return axios.post(`/api/verify-paypal`,data)
+}
 const getUpdatePassword = (data)=>{
     return axios.post(`/api/update-password`,data)
 }
@@ -109,6 +112,7 @@ export {
     getProfileDoctorById,
     postBookAppointment,
     postVerifyBookAppointment,
+    postVerifyPaypal,
     createNewSpecialty, getAllSpecialty, getDetailSpecialtyById,
     createNewClinic, getAllClinic, getDetailClinicById,
     getAllPatientForDoctor,

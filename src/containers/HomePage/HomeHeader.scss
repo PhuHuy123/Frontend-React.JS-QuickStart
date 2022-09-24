@@ -38,7 +38,10 @@
                 font-size: 13px;
                 font-weight: bold;
                 text-align: left;
-
+                text-decoration: none;
+                div{
+                    color: black;
+                }
                 span{
                     font-weight: lighter;
                     font-size: 10px;
@@ -97,7 +100,7 @@
 }
 
 .home-header-banner{
-    background: url(../../assets/images/backgroud.jpg) ;
+    background: url(../../assets/images/Backgroud1.jpg) ;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

@@ -25,7 +25,8 @@ import CustomScrollbars from '../components/CustomScrollbars';
 import Doctor from '../routes/Doctor';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import DetailClinic from './Patient/Clinic/DetailClinic';
-import HighChart from './HighCharts/HighChart'
+import HighChart from './HighCharts/HighChart';
+import Paypal from './Paypal/Paypal';
 class App extends Component {
 
     handlePersistorState = () => {
@@ -68,6 +69,7 @@ class App extends Component {
                                     <Route path={path.EMAIL_UPDATE_PASSWORD}component={NewPassword}/>
                                     <Route path={path.INPUT_EMAIL_RESET}component={ResetPassword}/>
                                     <Route path={path.COVID_19}component={HighChart}/>
+                                    <Route path={path.PAYPAL}component={Paypal}/>
                                 </Switch>
                             </CustomScrollbars>
                         </div>

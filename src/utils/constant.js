@@ -13,6 +13,7 @@ export const path = {
     EMAIL_UPDATE_PASSWORD: '/updatePassword',
     INPUT_EMAIL_RESET: '/account/password/reset',
     COVID_19: '/high-chart/covid',
+    PAYPAL: '/paypal',
 };
 
 export const LANGUAGES = {
