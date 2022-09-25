@@ -8,7 +8,11 @@ class TableUserManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            usersRedux: []
+            usersRedux: [],
+            arrShow: [],
+            numberAll: 0,
+            numberShowUser: 7,
+            selected:1,
         }
     }
     componentDidMount() {
@@ -19,17 +23,57 @@ class TableUserManage extends Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
     // gender
-    if(prevProps.arrUsers!==this.props.arrUsers){
-        this.setState({
-            usersRedux:this.props.arrUsers,
-        })
+        if(prevProps.arrUsers!==this.props.arrUsers){
+            this.setState({
+                usersRedux:this.props.arrUsers,
+                arrShow: this.props.arrUsers.slice(0,this.state.numberShowUser),
+                numberAll: this.props.arrUsers.length,
+            })
+        }
+        if(prevProps.classify!==this.props.classify){
+            let arr=[];
+            this.props.arrUsers.map((item)=>{
+                if(item.roleId === this.props.classify || this.props.classify === 'ALL'){
+                    arr.push(item)
+                }
+            })
+            this.setState({
+                usersRedux:arr,
+                arrShow: arr.slice(0,this.state.numberShowUser),
+                numberAll: arr.length,
+            })
         }
     }
     handlerEditUser =(user)=>{
         this.props.handlerEditUserFromParent(user)
     }
+    createButtonPage = (number) =>{
+        let arr=[];
+        let btn = Math.ceil(number / this.state.numberShowUser);
+        for(let i=1; i<=btn; i++){
+            arr.push(i);
+        }
+        return arr.map((item)=>{
+            return(
+                <button key ={item} 
+                    className={this.state.selected === item ? 'selected' : ''}
+                    onClick={()=>this.handlerNextPage(item)}
+                >{item}</button>
+            )
+                
+        })
+    }
+    handlerNextPage = (number) =>{
+        let {numberShowUser, usersRedux} = this.state;
+        let end = numberShowUser*number
+        this.setState({
+            arrShow: usersRedux.slice(end-numberShowUser, end),
+            selected: number
+        })
+    }
     render() {
-        let {usersRedux}=this.state;
+        let {usersRedux,arrShow, numberAll, numberShowUser}=this.state;
+        console.log("1",this.props.classify)
         return (
             <div className="container users-container">
                 <div className="root">
@@ -46,8 +90,8 @@ class TableUserManage extends Component {
                         </thead>
                         <tbody>
                             {
-                                usersRedux && usersRedux.length>0 &&
-                                usersRedux.map((item,index)=>{
+                                arrShow && arrShow.length>0 &&
+                                arrShow.map((item,index)=>{
                                     if(item.roleId === this.props.classify || this.props.classify === 'ALL')
                                     {
                                     return (
@@ -68,6 +112,10 @@ class TableUserManage extends Component {
                         </tbody>
 
                     </table>
+                    <div className="paging">
+
+                    {this.createButtonPage(numberAll)}
+                    </div>
                 </div>
             </div>
         );

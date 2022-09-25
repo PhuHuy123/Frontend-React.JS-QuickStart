@@ -17,27 +17,27 @@ class Handbook extends Component {
                     <Slider {...this.props.settings}>
                         <div className='slide'>
                             <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Phòng khám Vietlife MRI Trần Bình Trọng 1</div>
+                            <div className='title-slide'>Tiêu đề bài viết 1</div>
                         </div>
                         <div className='slide'>
                             <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Phòng khám Vietlife MRI Trần Bình Trọng 2</div>
+                            <div className='title-slide'>Tiêu đề bài viết 2</div>
                         </div>
                         <div className='slide'>
                             <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Phòng khám Vietlife MRI Trần Bình Trọng 3</div>
+                            <div className='title-slide'>Tiêu đề bài viết 3</div>
                         </div>
                         <div className='slide'>
                             <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Phòng khám Vietlife MRI Trần Bình Trọng 4</div>
+                            <div className='title-slide'>Tiêu đề bài viết 4</div>
                         </div>
                         <div className='slide'>
                             <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Phòng khám Vietlife MRI Trần Bình Trọng 5</div>
+                            <div className='title-slide'>Tiêu đề bài viết 5</div>
                         </div>
                         <div className='slide'>
                             <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Phòng khám Vietlife MRI Trần Bình Trọng 6</div>
+                            <div className='title-slide'>Tiêu đề bài viết 6</div>
                         </div>
                     </Slider>
                 </div>

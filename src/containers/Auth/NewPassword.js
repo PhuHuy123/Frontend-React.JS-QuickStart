@@ -63,7 +63,8 @@ class NewPassword extends Component {
         return (
             <>
                 <div className="reset-container">
-                        <div className="logo"><h2><b>Logo</b></h2></div>
+                        <div className="header-logo">
+                            </div>
                         <div className="reset-content">
                                 <div className="panel">
                                     <h2 className="h3">Enter your new password</h2>

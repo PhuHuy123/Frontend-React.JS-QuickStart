@@ -22,7 +22,9 @@
                 padding-right: 8px;
             }
             .header-logo{
-                background: url("../../assets/images/logo.svg") center center no-repeat;
+                background-image: url("../../assets/images/logo-svg.png");
+                background-repeat: no-repeat;
+                background-size: cover;
                 width: 55%;
                 height: 55%;
                 cursor: pointer;
