@@ -217,12 +217,16 @@ class UserRedux extends Component {
             gender, position, role, image}=this.state;
         return (
             <>
-                <div className="text-center" >User redux</div>
+                <div className="text-center">
+                    <h1 className="h2 mb-4 text-gray-800 mt-4"><FormattedMessage id="menu.admin.manage-user.crud-redux"/></h1>
+                </div>
                 <Modal 
                     isOpen={this.state.isOpenModal} 
                     toggle={()=>{this.toggle()}} 
                     className={'modal-user-container'}
-                    size="lg"
+
+                    
+                    
                 >
                 <ModalHeader toggle={()=>{this.toggle()}}>
                     {this.state.action === CRUD_ACTIONS.EDIT?
@@ -359,12 +363,14 @@ class UserRedux extends Component {
                 </ModalFooter>
             </Modal>
                 <button onClick={()=>this.handleAddNewUser()}
-                className="btn btn-primary add-new px-2">Add new user</button>
+                className="btn btn-primary add-new px-2">
+                    <FormattedMessage id="menu.admin.manage-user.add-new"/>
+                </button>
                 <select name="role" className="form-control classify"
                     onChange={(e)=>this.handlerOnChangeClassify(e)}
                 >
                     <option key={1} value='ALL'>
-                        All user
+                        {language===LANGUAGES.VI?"Tất cả":"All accounts"}
                     </option>
                     {roles && roles.length > 0 &&
                         roles.map((item, index)=>{

@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableUserManage.scss';
 import * as actions from '../../../store/actions';
+import {LANGUAGES} from '../../../utils';
 class TableUserManage extends Component {
 
     constructor(props) {
@@ -73,7 +74,7 @@ class TableUserManage extends Component {
     }
     render() {
         let {usersRedux,arrShow, numberAll, numberShowUser}=this.state;
-        console.log("1",this.props.classify)
+        let {language} = this.props;
         return (
             <div className="container users-container">
                 <div className="root">
@@ -82,10 +83,9 @@ class TableUserManage extends Component {
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">First name</th>
-                                <th scope="col">Last name</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col"><FormattedMessage id="menu.admin.manage-user.name"/></th>
+                                <th scope="col"><FormattedMessage id="menu.admin.manage-user.address"/></th>
+                                <th scope="col"><FormattedMessage id="menu.admin.manage-user.actions"/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,12 +98,11 @@ class TableUserManage extends Component {
                                         <tr key={index}>
                                             <td>{item.id}</td>
                                             <td>{item.email}</td>
-                                            <td>{item.firstName}</td>
-                                            <td>{item.lastName}</td>
+                                            <td>{language===LANGUAGES.VI?`${item.lastName} ${item.firstName}`:`${item.firstName} ${item.lastName}`}</td>
                                             <td>{item.address}</td>
                                             <td>
-                                                <button className="btn btn-warning" onClick={()=>this.handlerEditUser(item)}>Edit</button>
-                                                <button className="btn btn-danger ml-3" onClick={()=>this.handlerDeleteUser(item.id)}>Delete</button>
+                                                <button className="btn btn-warning" onClick={()=>this.handlerEditUser(item)}><FormattedMessage id="menu.admin.manage-user.edit"/></button>
+                                                <button className="btn btn-danger ml-3" onClick={()=>this.handlerDeleteUser(item.id)}><FormattedMessage id="menu.admin.manage-user.delete"/></button>
                                             </td>
                                         </tr>
                                     )}
@@ -125,7 +124,8 @@ class TableUserManage extends Component {
 
 const mapStateToProps = state => {
     return {
-        arrUsers: state.admin.users
+        arrUsers: state.admin.users,
+        language: state.app.language,
     };
 };
 
