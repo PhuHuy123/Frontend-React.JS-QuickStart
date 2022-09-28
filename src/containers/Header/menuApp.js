@@ -26,7 +26,7 @@ export const adminMenu = [
     },
         { //Quản lý cẩm nang "bài viết"
         name: 'menu.admin.handbook', menus: [
-            {name: 'menu.admin.manage-handbook',link: '/system/manage-handbook'}
+            {name: 'menu.admin.manage-handbook',link: '/system/manage-posts'}
         ]
     },
 ];

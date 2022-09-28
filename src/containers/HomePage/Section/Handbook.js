@@ -1,12 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-
+import {getAllPosts} from '../../../services/userService';
 import Slider from "react-slick";
-
+import './Specialty.scss'
+import { withRouter } from 'react-router';
 class Handbook extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataPosts: [],
+        }
+    }
+    async componentDidMount() {
+        let res = await getAllPosts();
+        if(res && res.errCode ===0) {
+            this.setState({
+                dataPosts: res.data ?res.data : []
+            })
+        }
+    }
+    handleViewDetailPosts = (item)=>{
+        if(this.props.history) {
+            this.props.history.push(`/detail-posts/${item.id}`)
+        }
+    }
     render() {
+        let {dataPosts} = this.state;
         return (
             <div className="section section-container">
                 <div className="section-content">
@@ -15,30 +35,20 @@ class Handbook extends Component {
                         <span>Bài viết</span>
                     </div>
                     <Slider {...this.props.settings}>
-                        <div className='slide'>
-                            <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Tiêu đề bài viết 1</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Tiêu đề bài viết 2</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Tiêu đề bài viết 3</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Tiêu đề bài viết 4</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Tiêu đề bài viết 5</div>
-                        </div>
-                        <div className='slide'>
-                            <div className='img-slide img-medical-facility'/>
-                            <div className='title-slide'>Tiêu đề bài viết 6</div>
-                        </div>
+                    {dataPosts && dataPosts.length > 0 && 
+                            dataPosts.map((item,index) =>{
+                                return (
+                                    <div className='slide' key={index}
+                                        onClick={()=>this.handleViewDetailPosts(item)}
+                                    >
+                                        <div className='img-slide img-medical-facility'
+                                            style={{backgroundImage: `url(${item.image})`}}
+                                        />
+                                        <div className='title-slide'>{item.name}</div>
+                                    </div>
+                                )
+                            })
+                        }
                     </Slider>
                 </div>
             </div>
@@ -59,4 +69,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Handbook);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Handbook));

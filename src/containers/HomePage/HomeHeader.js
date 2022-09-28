@@ -43,6 +43,10 @@ class HomeHeader extends Component {
                                 <span><FormattedMessage id="home-header.good-doctor"/></span>
                             </button>
                             <button className="child-content">
+                                <div><FormattedMessage id="home-header.posts"/></div>
+                                <span><FormattedMessage id="home-header.see-post"/></span>
+                            </button>
+                            <button className="child-content">
                                 <Link to={`/high-chart/covid`} className="link-to">
                                     <div><FormattedMessage id="home-header.checkup"/></div>
                                     <span><FormattedMessage id="home-header.general-health-check"/></span>

@@ -9,6 +9,7 @@ export const path = {
     DETAIL_DOCTOR: '/detail-doctor/:id',
     DETAIL_SPECIALTY: '/detail-specialty/:id',
     DETAIL_CLINIC: '/detail-clinic/:id',
+    DETAIL_POSTS: '/detail-posts/:id',
     VERIFY_EMAIL_BOOKING: '/verify-booking',
     EMAIL_UPDATE_PASSWORD: '/updatePassword',
     INPUT_EMAIL_RESET: '/account/password/reset',

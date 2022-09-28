@@ -25,6 +25,7 @@ import CustomScrollbars from '../components/CustomScrollbars';
 import Doctor from '../routes/Doctor';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import DetailClinic from './Patient/Clinic/DetailClinic';
+import DetailPosts from './Patient/Posts/DetailPosts';
 import HighChart from './HighCharts/HighChart';
 import Paypal from './Paypal/Paypal';
 class App extends Component {
@@ -65,6 +66,7 @@ class App extends Component {
                                     <Route path={path.DETAIL_DOCTOR}component={DetailDoctor}/>
                                     <Route path={path.DETAIL_SPECIALTY}component={DetailSpecialty}/>
                                     <Route path={path.DETAIL_CLINIC}component={DetailClinic}/>
+                                    <Route path={path.DETAIL_POSTS}component={DetailPosts}/>
                                     <Route path={path.VERIFY_EMAIL_BOOKING}component={VerifyEmail}/>
                                     <Route path={path.EMAIL_UPDATE_PASSWORD}component={NewPassword}/>
                                     <Route path={path.INPUT_EMAIL_RESET}component={ResetPassword}/>

@@ -95,6 +95,19 @@ const getCountriesCovid19 = (data)=>{
 const getReportByCountry = (country)=>{
     return axios.get(`https://api.covid19api.com/dayone/country/${country}`)
 }
+
+// posts
+const createNewPosts = (data)=>{
+    console.log(data);
+    return axios.post(`/api/create-new-posts`,data)
+}
+const getAllPosts = ()=>{
+    return axios.get(`/api/get-posts`)
+}
+const getDetailPostsById = (id)=>{
+    console.log(id);
+    return axios.get(`/api/get-detail-posts-by-id?id=${id}`)
+}
 export {
     handleLogin, 
     getAllUsers, 
@@ -121,5 +134,9 @@ export {
     handleCheckEmail,
 
     getCountriesCovid19,
-    getReportByCountry
+    getReportByCountry,
+
+    createNewPosts,
+    getAllPosts,
+    getDetailPostsById
 }
