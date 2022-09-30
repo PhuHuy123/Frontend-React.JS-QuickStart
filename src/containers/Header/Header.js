@@ -9,7 +9,8 @@ import './Header.scss';
 import {LANGUAGES, USER_ROLE} from '../../utils';
 import {setChangeLanguage} from '../../store/actions'
 import _ from 'lodash';
-import HomePage from '../HomePage/HomePage'
+import HomePage from '../HomePage/HomePage';
+import { Link, withRouter } from 'react-router-dom';
 
 class Header extends Component {
     constructor(props) {
@@ -54,6 +55,12 @@ class Header extends Component {
             <div className="header-container">
             {/* thanh navigator */}
             <div className="header-tabs-container">
+                <div className='dashboard'>
+                    <Link to={`/system/dashboard`}>
+                        <i className="fa-solid fa-house-chimney"></i>
+                        <b>Dashboard</b>
+                    </Link>
+                </div>
                 <Navigator menus={this.state.menuApp} />
             </div>
             <div className="languages">
@@ -97,4 +104,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

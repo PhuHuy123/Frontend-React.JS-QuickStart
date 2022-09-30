@@ -8,6 +8,22 @@
     color: $common-text-color;
     height: 40px;
     position: relative;
+    .header-tabs-container{
+        display: flex;
+        .dashboard{
+            align-items: center;
+            justify-content:center;
+            margin: auto 10px;
+            cursor: pointer;
+            i{
+                margin: 0 5px;
+            }
+            a{
+                color: white !important;
+                text-decoration: none;
+            }
+        }
+    }
     .btn-logout {
         color: $common-text-color;
         line-height: 40px;

@@ -105,8 +105,10 @@ const getAllPosts = ()=>{
     return axios.get(`/api/get-posts`)
 }
 const getDetailPostsById = (id)=>{
-    console.log(id);
     return axios.get(`/api/get-detail-posts-by-id?id=${id}`)
+}
+const getALLBooking = (id)=>{
+    return axios.get(`/api/get-booking?id=${id}`)
 }
 export {
     handleLogin, 
@@ -138,5 +140,6 @@ export {
 
     createNewPosts,
     getAllPosts,
-    getDetailPostsById
+    getDetailPostsById,
+    getALLBooking
 }

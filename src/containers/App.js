@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux'
 import { ToastContainer } from 'react-toastify';
-
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
 
