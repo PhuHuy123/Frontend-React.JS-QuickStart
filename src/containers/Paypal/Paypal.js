@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { PayPalButton } from "react-paypal-button-v2";
 import {getProfileDoctorById, postVerifyPaypal} from '../../services/userService';
 import { toast } from 'react-toastify';
-
+import './Paypal.scss';
 class Paypal extends Component {
   constructor(props) {
     super(props);
@@ -47,18 +47,31 @@ getVerifyPaypal = async () =>{
     language: this.props.language,
   })
   if(res && res.errCode === 0){
-    console.log("Ýes")
+    console.log(res.message)
   }
   else {
-    console.log("nooooooooooo")
+    console.log(res.message)
   }
 }
   render() {
     let {price} = this.state;
+    let {doctorId, firstName, lastName, phoneNumber,email, address, reason, date} = this.props;
     return (
       <>
-                    
-        <h3>Giá:</h3> <span>{price.valueEn}</span>
+        <div className="containers-paypal">
+            <div className="content-paypal">
+              <b>Giá:</b> <span>{price.valueEn}</span>
+            </div>
+            <div className="content-paypal">
+              <b>Giá:</b> <span>{price.valueEn}</span>
+            </div>
+            <div className="content-paypal">
+              <b>Giá:</b> <span>{price.valueEn}</span>
+            </div>
+            <div className="content-paypal">
+              <b>Giá:</b> <span>{price.valueEn}</span>
+            </div>
+        </div>      
         <PayPalButton
             // amount={price.valueEn}
             amount='1'
