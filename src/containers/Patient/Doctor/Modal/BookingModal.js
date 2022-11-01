@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./BookingModal.scss";
-import { postBookAppointment } from "../../../../services/userService";
+import {
+  postBookAppointment,
+  postReCapTCha,
+} from "../../../../services/userService";
 import { LANGUAGES } from "../../../../utils";
 import { FormattedMessage } from "react-intl";
 import { Modal } from "reactstrap";
@@ -38,6 +41,8 @@ class BookingModal extends Component {
 
       isShowLoading: false,
       isShowPayPay: false,
+      isReCaptCha: false,
+      captchaRef: null,
     };
   }
 
@@ -130,34 +135,71 @@ class BookingModal extends Component {
     return ``;
   };
   handleConfirmBooking = async () => {
-    let date = new Date(this.state.birthday).getTime();
-    let timeString = this.buildTimeBooking(this.props.dataTime);
-    let doctorName = this.buildDoctorName(this.props.dataTime);
-    this.setState({ isShowLoading: true });
-    let res = await postBookAppointment({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      phoneNumber: this.state.phoneNumber,
-      email: this.state.email,
-      address: this.state.address,
-      reason: this.state.reason,
-      date: this.props.dataTime.date,
-      birthday: date,
-      selectedGender: this.state.selectedGender.value,
-      doctorId: this.state.doctorId,
-      timeType: this.state.timeType,
-      language: this.props.language,
-      timeString: timeString,
-      doctorName: doctorName,
-    });
-    if (res && res.errCode === 0) {
-      this.setState({ isShowLoading: false });
-      toast.success("Booking a new appointment succeed!");
-      this.props.closeBooking();
-    } else {
-      this.setState({ isShowLoading: false });
-      toast.error("Booking a new appointment error!");
+    let {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      address,
+      reason,
+      isReCaptCha,
+    } = this.state;
+    if (
+      firstName !== "" &&
+      lastName !== "" &&
+      email !== "" &&
+      phoneNumber !== "" &&
+      address !== "" &&
+      reason !== ""
+    ) {
+      if (isReCaptCha === false) {
+        toast.error("Error: you are not done ReCaptCha !");
+      } else {
+        let birthday = new Date(this.state.birthday).getTime();
+        let timeString = this.buildTimeBooking(this.props.dataTime);
+        let doctorName = this.buildDoctorName(this.props.dataTime);
+        this.setState({ isShowLoading: true });
+        let res = await postBookAppointment({
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          email: email,
+          address: address,
+          reason: reason,
+          date: this.props.dataTime.date,
+          birthday: birthday,
+          selectedGender: this.state.selectedGender.value,
+          doctorId: this.props.dataTime.doctorId,
+          timeType: this.props.dataTime.timeType,
+          language: this.props.language,
+          timeString: timeString,
+          doctorName: doctorName,
+        });
+        if (res && res.errCode === 0) {
+          this.setState({ isShowLoading: false });
+          toast.success("Booking a new appointment succeed!");
+          this.props.closeBooking();
+          this.setState({
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            email: "",
+            address: "",
+            reason: "",
+            birthday: "",
+            selectedGender: "",
+            isReCaptCha: false,
+          });
+        } else {
+          this.setState({ isShowLoading: false });
+          toast.error("Booking a new appointment error!");
+          this.setState({
+            isReCaptCha: false,
+          });
+        }
+      }
     }
+    // window.grecaptcha.reset();
   };
   handlePayPal = () => {
     this.setState({ isShowPayPay: true });
@@ -170,8 +212,11 @@ class BookingModal extends Component {
     this.props.closeBooking();
     this.setState({ isShowPayPay: false });
   };
-  handleOnchangeCaptCha = (e) => {
-    console.log(e);
+  handleOnchangeCaptCha = async (e) => {
+    let res = await postReCapTCha(e);
+    if (res.success) {
+      this.setState({ isReCaptCha: true });
+    }
   };
   render() {
     let { language } = this.props;
@@ -189,8 +234,8 @@ class BookingModal extends Component {
       reason,
     } = this.state;
     let { isOpenModal, closeBooking, dataTime } = this.props;
-    console.log(process.env);
     let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : "";
+    console.log("captchaRef", this.state.captchaRef);
     return (
       <>
         <LoadingOverlay
@@ -206,6 +251,7 @@ class BookingModal extends Component {
             // backdrop={true}
           >
             {isShowPayPay === false ? (
+              // <form>
               <div className="booking-modal-content">
                 <div className="booking-modal-header">
                   <span className="left">
@@ -232,6 +278,7 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.firstName" />
                       </label>
                       <input
+                        required
                         className="form-control"
                         value={this.state.firstName}
                         onChange={(event) =>
@@ -244,6 +291,7 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.lastName" />
                       </label>
                       <input
+                        required
                         className="form-control"
                         value={this.state.lastName}
                         onChange={(event) =>
@@ -256,7 +304,10 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.phoneNumber" />
                       </label>
                       <input
-                        className="form-control"
+                        // required
+                        type="tel"
+                        pattern="[0]{1}[0-9]{9}"
+                        className="form-control inv"
                         value={this.state.phoneNumber}
                         onChange={(event) =>
                           this.handleOnChangeInput(event, "phoneNumber")
@@ -268,7 +319,9 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.email" />
                       </label>
                       <input
-                        className="form-control"
+                        // required
+                        type="email"
+                        className="form-control inv"
                         value={this.state.email}
                         onChange={(event) =>
                           this.handleOnChangeInput(event, "email")
@@ -280,6 +333,7 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.address" />
                       </label>
                       <input
+                        required
                         className="form-control"
                         value={this.state.address}
                         onChange={(event) =>
@@ -292,6 +346,7 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.reason" />
                       </label>
                       <input
+                        required
                         className="form-control"
                         value={this.state.reason}
                         onChange={(event) =>
@@ -331,61 +386,29 @@ class BookingModal extends Component {
                         options={this.state.genders}
                       />
                     </div>
-                    {/* <div className="col-6 form-group">
-                      <label>
-                        <b>Chọn phương thức thanh toán</b>
-                      </label>{" "}
-                      <br />
-                      <input
-                        type="radio"
-                        value="PAYPAL"
-                        name="PAYMENT"
-                        onChange={(event) =>
-                          this.handleOnChangeInput(event, "payment")
-                        }
-                      />{" "}
-                      Thanh toán bằng Paypal
-                      <br />
-                      <input
-                        type="radio"
-                        value="MONEY"
-                        name="PAYMENT"
-                        onChange={(event) =>
-                          this.handleOnChangeInput(event, "payment")
-                        }
-                      />{" "}
-                      Thanh toán bằng tiền mặt
-                    </div> */}
                     <div className="col-6 form-group">
                       <ReCAPTCHA
-                        sitekey="6LeNF3kiAAAAAAP1h_7FnCN99R5ipS-2hDYLRTEs"
+                        ref={this.state.captchaRef}
+                        sitekey={process.env.REACT_APP_SITE_KEY}
                         onChange={(e) => this.handleOnchangeCaptCha(e)}
                       />
                     </div>
                   </div>
                 </div>
                 <div className="booking-modal-footer">
-                  {payment && payment === "PAYPAL" ? (
-                    <button
-                      className="btn-booking-confirm"
-                      onClick={() => this.handlePayPal()}
-                    >
-                      Thanh toán
-                    </button>
-                  ) : (
-                    <button
-                      className="btn-booking-confirm"
-                      onClick={() => this.handleConfirmBooking()}
-                    >
-                      <FormattedMessage id="patient.booking-modal.btnConfirm" />
-                    </button>
-                  )}
+                  <button
+                    className="btn-booking-confirm"
+                    onClick={() => this.handleConfirmBooking()}
+                  >
+                    <FormattedMessage id="patient.booking-modal.btnConfirm" />
+                  </button>
                   <button className="btn-booking-cancel" onClick={closeBooking}>
                     <FormattedMessage id="patient.booking-modal.btnCancel" />
                   </button>
                 </div>
               </div>
             ) : (
+              // </form>
               <div className="booking-modal-content">
                 <div className="booking-modal-header">
                   <span className="left">Thanh toán</span>

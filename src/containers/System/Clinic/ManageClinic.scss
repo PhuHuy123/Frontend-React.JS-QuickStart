@@ -19,4 +19,18 @@
         }
     }
 }
-
+.img-lightbox{
+    position: relative;
+    .form-control-file{
+        max-width: 50%;
+    }
+}
+.preview-image-manage{
+    background: center center no-repeat;
+    background-size: contain;
+    height: 70px;
+    cursor: pointer;
+    width: 200px;
+    margin-top: 10px;
+    position: absolute;
+}
