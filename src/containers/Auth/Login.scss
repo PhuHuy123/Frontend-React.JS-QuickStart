@@ -16,7 +16,6 @@
     }
     .login-container{
         width: 25rem;
-        max-height: 450px;
         border-radius: 10px;
         top:0;
         bottom:0;
@@ -24,9 +23,9 @@
         left: 0;
         margin: auto;
         background-color: #fff;
-        position: absolute;
+        // position: absolute;
         .login-connect{
-            padding: 2rem;
+            padding: 1rem 2rem 0rem 2rem;
             .login-text{
                 text-align: center;
                 font-weight: 600;
@@ -65,6 +64,9 @@
                     background-color: #1d1922;
                     cursor: pointer;
                 }
+            }
+            .reCaptCha{
+                margin-top: 10px;
             }
             .social-login{
                 display: flex;
