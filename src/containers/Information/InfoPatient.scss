@@ -1,0 +1,15 @@
+.info-patient{
+    background-color: #f5f5f5;
+    padding: 50px;
+    .content-patient{
+        padding: 0 30px;
+        margin: 0 auto;
+        height: 500px;
+        width: 70%;
+        background-color: white;
+        .main-patient{
+            background-color: aqua;
+            height: 100%;
+        }
+    }
+}

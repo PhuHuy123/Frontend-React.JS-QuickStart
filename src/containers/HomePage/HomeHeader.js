@@ -7,6 +7,7 @@ import { LANGUAGES } from "../../utils";
 import { setChangeLanguage } from "../../store/actions";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
+import Search from "./Search/Search"
 class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.onChangeLanguage(language);
@@ -166,19 +167,7 @@ class HomeHeader extends Component {
                   </b>
                 </h1>
               </div>
-              <div className="banner-search">
-                <div className="search">
-                  <i className="fa fa-search"></i>
-                  <input
-                    type="search"
-                    placeholder={
-                      this.props.language === LANGUAGES.EN
-                        ? "Search"
-                        : "Tìm kiếm"
-                    }
-                  />
-                </div>
-              </div>
+              <Search />
             </div>
             <div className="banner-options">
               <ul>

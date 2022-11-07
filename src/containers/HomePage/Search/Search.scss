@@ -1,0 +1,53 @@
+.connect-search{
+    text-transform: none;
+    width: 456px;
+    display: flex;
+    margin: 0 auto;
+}
+.banner-search{
+    .live-search{
+        max-height: 350px;
+        overflow: auto;
+        position: absolute;
+        background-color: white;
+        text-transform: none;
+        width: 456px;
+        margin: 0 auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(17, 17, 17, 0.19);
+        border-radius: 5px;
+        z-index:999;
+        .no-result{
+            margin: 0px !important;
+            padding: 10px;
+            color: red;
+        }
+        .name-main{
+            display: flex;
+            padding-top: 5px;
+            padding-left: 5px;
+            background-color: #aba58554;
+        }
+        .link-search{
+            padding: 8px;
+            border-bottom: 1px solid rgba(99, 97, 97, 0.623);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            .img-medical{
+                width: 40px;
+                height: 40px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                display: flex;
+                margin-right: 10px;
+            }
+            .img-medical.doctor{
+                border-radius: 50%;
+            }
+            p{
+                margin: 0 !important;
+            }
+        }
+    }
+}

@@ -147,14 +147,14 @@ class Login extends Component {
               <div className="col-12 form-group btn-login">
                 <button type="submit">Login</button>
               </div>
-              <div className="col-12 text-center">
-                <span>Or sign in with: </span>
+              <div className="col-12 text-center mb-5">
+                <span>Do not have an account: </span>
                 <Link to={`/signup`}>Sign up</Link>
               </div>
-              <div className="col-12 social-login">
+              {/* <div className="col-12 social-login ">
                 <i className="fab fa-google-plus google"></i>
                 <i className="fab fa-facebook facebook"></i>
-              </div>
+              </div> */}
             </div>
           </div>
         </form>

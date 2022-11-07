@@ -14,12 +14,13 @@ import _ from "lodash";
 import {
   bulkCreateSchedule,
   getScheduleDoctorByDate,
+  deleteSchedule
 } from "../../../services/userService";
 class ManageSchedule extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDoctor: {},
+      selectedDoctor: '',
       listDoctors: "",
       chooseDate: "",
       rangeTime: [],
@@ -28,11 +29,13 @@ class ManageSchedule extends Component {
       startDate: "",
       endDate: "",
       arrayDate: [],
+      arrData:''
     };
   }
   componentDidMount() {
     this.props.fetAllDoctorsRedux();
     this.props.fetchAllScheduleTime();
+    
   }
   handleChange = async (selectedDoctor) => {
     this.setState(
@@ -109,7 +112,9 @@ class ManageSchedule extends Component {
         }));
       }
       let res = await getScheduleDoctorByDate(doctorId, date);
-      console.log("1111", res);
+      this.setState({
+        arrData: res.data,
+      });
       if (res && res.errCode === 0) {
         if (res.data && res.data.length > 0) {
           let check = res.data.map((item) => item.timeType);
@@ -132,6 +137,8 @@ class ManageSchedule extends Component {
     this.setState({
       chooseDate: dateTime,
       rangeTime: data,
+      startDate: "",
+      endDate:"",
     });
   };
   handleClickTime = (time) => {
@@ -147,12 +154,11 @@ class ManageSchedule extends Component {
     }
   };
   handleSaveSchedule = async () => {
-    let { rangeTime, selectedDoctor, startDate, maxNumber, arrayDate } =
-      this.state;
+    let { rangeTime, selectedDoctor, startDate, maxNumber, arrayDate, chooseDate } = this.state;
     let { userInfo } = this.props;
     let result = [];
     // let formatData =  moment(startDate).format(dateFormat.SEND_TO_SERVER)
-    let formatData = new Date(startDate).getTime();
+    // let formatData = new Date(startDate).getTime();
     if (userInfo && userInfo.roleId === USER_ROLE.DOCTOR) {
       selectedDoctor.label = "";
       selectedDoctor.value = userInfo.id;
@@ -161,7 +167,7 @@ class ManageSchedule extends Component {
       toast.error("Invalid choose doctor !");
       return;
     }
-    if (!startDate) {
+    if (!startDate && !chooseDate) {
       toast.error("Invalid start date!");
       return;
     }
@@ -192,16 +198,24 @@ class ManageSchedule extends Component {
         rangeTime: data,
       });
     }
-    // console.log(result);
-    // console.log(selectedDoctor.value);
-    // console.log(formatData);
-    console.log(arrayDate);
+    if(arrayDate && arrayDate.length === 0){
+      let arrDay = [];
+      let startDay = new Date(+chooseDate);
+      arrDay.push(new Date(startDay).getTime());
+      arrayDate= arrDay;
+;
+    }
     let res = await bulkCreateSchedule({
       arrSchedule: result,
       doctorId: selectedDoctor.value,
       formatData: arrayDate,
       maxNumber: maxNumber,
     });
+    this.setState({
+      arrayDate:[],
+      endDate:'',
+      maxNumber:'',
+    })
     if (res && res.errCode === 0) {
       toast.success("Save info successfully!");
     } else {
@@ -211,11 +225,13 @@ class ManageSchedule extends Component {
   handleStartDate = (dateTime) => {
     this.setState({
       startDate: dateTime,
+      chooseDate:'',
     });
   };
   handleEndDate = (dateTime) => {
     this.setState({
       endDate: dateTime,
+      chooseDate:'',
     });
   };
   handleCalculateDate = () => {
@@ -254,9 +270,23 @@ class ManageSchedule extends Component {
       ...copyState,
     });
   };
+  handleDelete = async(id)=>{
+    try {
+      let res =  await deleteSchedule({id});
+      console.log(res)
+      if(res && res.errCode!==0){
+          alert(res.message);
+      }
+      else{
+          this.handleDateChange(this.state.chooseDate)
+      }
+  } catch (e) {
+      console.log(e)
+  }
+  }
   render() {
     let { language, userInfo } = this.props;
-    let { rangeTime, endDate, startDate, maxNumber } = this.state;
+    let { rangeTime, endDate, startDate, maxNumber, arrData } = this.state;
     return (
       <div className="manage-schedule-container">
         <div className="m-s-title">
@@ -273,6 +303,7 @@ class ManageSchedule extends Component {
                   value={this.state.selectedDoctor}
                   onChange={this.handleChange}
                   options={this.state.listDoctors}
+                  placeholder={language === LANGUAGES.VI ? '---Chọn bác sĩ---' : '---Choose a doctor---'}
                 />
               </div>
             )}
@@ -287,7 +318,7 @@ class ManageSchedule extends Component {
                 }
                 selected={this.state.chooseDate}
                 onChange={(date) => this.handleDateChange(date)}
-                minDate={new Date()}
+                // minDate={new Date()}
                 value={
                   this.state.chooseDate === ""
                     ? language === LANGUAGES.VI
@@ -303,7 +334,7 @@ class ManageSchedule extends Component {
                     startDate === ""
                       ? language === LANGUAGES.VI
                         ? "-- Từ ngày --"
-                        : "-- Choose a date --"
+                        : "-- Start date --"
                       : false
                   }
                   minDate={new Date()}
@@ -322,7 +353,7 @@ class ManageSchedule extends Component {
                     endDate === ""
                       ? language === LANGUAGES.VI
                         ? "-- Đến ngày --"
-                        : "-- Choose a date --"
+                        : "-- End date --"
                       : false
                   }
                   dateFormat={
@@ -372,6 +403,45 @@ class ManageSchedule extends Component {
               </button>
             </div>
           </div>
+          <table className="table table-bordered mt-3">
+            <thead className='table-dark'>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Ngày</th>
+                    <th scope="col">Thời gian</th>
+                    <th scope="col">Số người tối đa</th>
+                    {/* <th scope="col">Trạng thái</th> */}
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {arrData && arrData.length > 0 ? 
+                    arrData.map((item, index)=>{
+                        return (
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{moment(item.date).format('DD-MM-YYYY')}</td>
+                                <td>{language === LANGUAGES.VI? 
+                                    item.timeTypeData.valueVi: item.timeTypeData.valueEn
+                                    }</td>
+                                <td>{item.maxNumber}</td>
+                                <td>
+                                    <button className='btn btn-info mr-2'
+                                    >Edit</button>
+                                    <button className='btn btn-danger'
+                                    onClick={()=>this.handleDelete(item.id)}
+                                    >Delete</button>
+                                </td>
+                            </tr>
+                        )
+                    })
+                    :
+                    <tr>
+                        <td colSpan='6' style={{textAlign: 'center'}}>No data</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
         </div>
       </div>
     );

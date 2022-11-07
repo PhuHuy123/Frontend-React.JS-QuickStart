@@ -36,6 +36,7 @@ const createInfoDoctorAPI = (data) => {
 const getDetailInfoDoctor = (idInput) => {
   return axios.get(`/api/get-detail-doctor-by-id?id=${idInput}`);
 };
+///
 const bulkCreateSchedule = (data) => {
   return axios.post(`/api/bulk-create-schedule`, data);
 };
@@ -44,6 +45,12 @@ const getScheduleDoctorByDate = (doctorId, date) => {
     `/api/get-Schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`
   );
 };
+const deleteSchedule =(id)=>{
+  return axios.delete("/api/delete-schedule", {
+    data: { id },
+  });
+}
+///
 const getExtraInfoDoctorById = (doctorId) => {
   return axios.get(`/api/get-extra-info-doctor-by-id?doctorId=${doctorId}`);
 };
@@ -93,7 +100,6 @@ const getAllPatientForDoctor = (data) => {
 const postSendRemedy = (data) => {
   return axios.post(`/api/send-remedy`, data);
 };
-
 // thống kê covid 19
 const getCountriesCovid19 = (data) => {
   return axios.get(`https://api.covid19api.com/countries`);
@@ -121,7 +127,16 @@ const postReCapTCha = (token) => {
     `https://www.google.com/recaptcha/api/siteverify?secret=6LeNF3kiAAAAAOdEIVZ_TIKrAHzq4xhGdeYPiO9n&response=${token}`
   );
 };
+// search
+const getSearchApi = (data) => {
+  return axios.get(
+    `/api/search?name=${data}`
+  );
+};
 
+const resetTokenPassword = (data) => {
+  return axios.post(`/api/reset-token-password`, data);
+};
 export {
   postReCapTCha,
   handleLogin,
@@ -136,6 +151,7 @@ export {
   getDetailInfoDoctor,
   bulkCreateSchedule,
   getScheduleDoctorByDate,
+  deleteSchedule,
   getExtraInfoDoctorById,
   getProfileDoctorById,
   postBookAppointment,
@@ -157,4 +173,6 @@ export {
   getAllPosts,
   getDetailPostsById,
   getALLBooking,
+  getSearchApi,
+  resetTokenPassword
 };

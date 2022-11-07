@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ResetPassword.scss";
-import { handleCheckEmail, postReCapTCha } from "../../services/userService";
+import { handleCheckEmail, postReCapTCha, resetTokenPassword} from "../../services/userService";
 import { LANGUAGES } from "../../utils";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
@@ -51,6 +51,12 @@ class ResetPassword extends Component {
           errCode: 0,
         });
         toast.info("Vui lòng check gmail vừa nhập!");
+
+        window.setTimeout(async()=>{
+          await resetTokenPassword({
+            email: this.state.email,
+          })
+        },300000)
       } else {
         this.setState({ isShowLoading: false });
         toast.error("Email không tồn tại");

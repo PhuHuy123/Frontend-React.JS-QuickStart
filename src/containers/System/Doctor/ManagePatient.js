@@ -18,7 +18,7 @@ class ManagePatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: new Date(),
+            startDate: '',
             dataPatient: [],
             isOpenRemedyModal: false,
             dataModal: {},
@@ -32,18 +32,23 @@ class ManagePatient extends Component {
     getDataPatient = async() =>{
         let {user} = this.props;
         let {startDate} = this.state;
-        let formattedDate = moment(startDate).format('YYYY-MM-DD')
+        let formattedDate="ALL"
+        if(startDate!==""){
+            formattedDate = moment(startDate).format('YYYY-MM-DD')
+        }
         let res = await getAllPatientForDoctor({
             doctorId: user.id, 
             date: formattedDate
         })
+        console.log(res)
         if(res && res.errCode ===0){
             this.setState({dataPatient: res.data});
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.language!==this.props.language){
+        if(prevState.startDate!==this.state.startDate){
+            this.getDataPatient();
         }
     }
     handleDateChange = (date)=>{
@@ -127,6 +132,9 @@ class ManagePatient extends Component {
                                         value={this.state.startDate===''?language === LANGUAGES.VI? '-- Chọn ngày --':'-- Choose a date --':false}
                                     />
                                 </div>
+                                <div className="col-4 form-group">
+                                    <button className='btn btn-primary btn-all' onClick={()=>{this.setState({startDate:''})}}>Tất cả</button>
+                                </div>
                                 <table className="table table-bordered mt-3">
                                     <thead className='table-dark'>
                                         <tr>
@@ -134,7 +142,9 @@ class ManagePatient extends Component {
                                             <th scope="col">Họ và tên</th>
                                             <th scope="col">Giới tính</th>
                                             <th scope="col">Thời gian</th>
+                                            <th scope="col">Ngày</th>
                                             <th scope="col">Số điện thoại</th>
+                                            <th scope="col">Trạng thái</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
@@ -151,14 +161,20 @@ class ManagePatient extends Component {
                                                         <td>{language === LANGUAGES.VI? 
                                                             item.timeTypeDataBooking.valueVi: item.timeTypeDataBooking.valueEn
                                                             }</td>
+                                                        <td>{moment(item.date).format('DD-MM-YYYY')}</td>
                                                         <td>{item.patientData.phoneNumber}</td>
+                                                        <td>{item.statusId ==='S0'?"Chưa xác nhận":
+                                                            item.statusId ==='S1'?"Lịch hẹn mới":
+                                                            item.statusId ==='S2'?"Đã xác nhận":
+                                                            item.statusId ==='S3'?"Đã khám xong":
+                                                            "Đã hủy"}</td>
                                                         <td>
                                                             <button className='mp-btn-confirm'
                                                                 onClick={()=>this.handleBtnConfirm(item)}
                                                             >Xác nhận</button>
-                                                            {/* <button className='mp-btn-remedy'
+                                                            <button className='btn btn-danger'
                                                                 onClick={()=>this.handleBtnRemedy()}
-                                                            >Gửi hóa đơn</button> */}
+                                                            >Hủy</button>
                                                         </td>
                                                     </tr>
                                                 )
