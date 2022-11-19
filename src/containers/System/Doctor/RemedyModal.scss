@@ -1,0 +1,33 @@
+.modal-dialog.booking-modal-container.modal-xm.modal-dialog-centered{
+    min-width: 600px !important;
+}
+.time_content_doctor{
+    gap: 15px;
+    flex-wrap: wrap;
+    h5{
+        margin-top: 20px;
+    }
+    button{
+        margin: 0 5px;
+        padding: 8px 10px;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+        background-color: #fff04b;
+        font-weight: 600;
+        color: #333;
+        &:hover{
+            background-color: #45c3d2;
+            color: #fff;
+        }
+    }
+    .btn-time-vi{
+        min-width: 120px;
+    }
+    .btn-time-en{
+        min-width: 155px;
+    }
+    .attention{
+        color: red;
+    }
+}

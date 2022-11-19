@@ -18,6 +18,22 @@ div._loading_overlay_wrapper{
             .btn-all{
                 margin-top: 30px;
             }
+            td>span{
+                color: white;
+                font-weight: 600;
+                font-size: 12px;
+                border-radius: 10px;
+                padding: 3px 10px;
+            }
+            .s0>span{
+                background-color: red;
+            }
+            .s2>span{
+                background-color: #4e73df;
+            }
+            .s3>span{
+                background-color: #1cc88a;
+            }
             table{
                 button{
                     border:none;
@@ -25,10 +41,19 @@ div._loading_overlay_wrapper{
                     cursor: pointer;    
                 }
                 .mp-btn-confirm{
+                    color: white;
                     margin-right: 10px;
                     height: 30px;
-                    border-radius: 3px;
-                    background-color: orange;
+                    border-radius: 50%;
+                    background-color: #36b9cc;
+                    border-color: #36b9cc;
+                    >i{
+                        padding-top: 5px;
+                    }
+                }
+                .btn-danger{
+                    color: white;
+                    border-radius: 50%;
                 }
                 
                 .mp-btn-remedy{

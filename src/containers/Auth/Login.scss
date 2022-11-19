@@ -2,13 +2,12 @@
     height: 100vh;
     background:rgb(252, 172, 25);
     padding-top: 25px;
-    // padding-top: 50px;
     .header-logo{
         padding-left: 50px;
         background-image: url("../../assets/images/logo-svg.png");
         background-repeat: no-repeat;
         background-size: cover;
-        width: 200px;
+        width: 135px;
         height: 50px;
         cursor: pointer;
         margin: 0 auto;
@@ -16,6 +15,7 @@
     }
     .login-container{
         width: 25rem;
+        max-height: 450px;
         border-radius: 10px;
         top:0;
         bottom:0;
@@ -25,11 +25,21 @@
         background-color: #fff;
         // position: absolute;
         .login-connect{
-            padding: 1rem 2rem 0rem 2rem;
+            padding: 1rem 2rem 0rem 2rem;  
+            input{
+                padding-bottom: 10px !important;
+                padding-top: 10px !important;
+            }
+            label{
+                font-size: 13px !important;
+                padding: 0 !important;
+                margin-top: -4px;
+            }
             .login-text{
                 text-align: center;
                 font-weight: 600;
                 font-size: 2rem;
+                padding-bottom: 10px;
             }
             .login-input{
                 margin: 7px 0;
@@ -39,15 +49,15 @@
                     i{
                         position: absolute;
                         right: 10px;
-                        top: 10px;
+                        top: 13px;
                     }
                     padding-right: -40px;
-                    .input{
-                    }
+                    margin-top: 20px;
                 }
             }
             .forgot-password{
                 color: #2196F3;
+                margin-top: 20px;
             }
             .btn-login{
                 padding: 20px 0;
@@ -66,7 +76,10 @@
                 }
             }
             .reCaptCha{
-                margin-top: 10px;
+                margin-top: 20px;
+            }
+            .text-center{
+                padding-bottom: 10px;
             }
             .social-login{
                 display: flex;

@@ -8,6 +8,7 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-toastify";
+import { TextField } from '@mui/material';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -87,36 +88,27 @@ class Login extends Component {
             <div className="login-connect row">
               <div className="col-12 login-text">Login</div>
               <div className="col-12 form-group login-input">
-                <label>
-                  <b>Email</b>
-                </label>
-                <input
+                <TextField
                   required
                   className="form-control"
                   type="text"
-                  placeholder="Email"
+                  label="Username"
                   value={this.state.username}
                   onChange={(e) => this.handlerOnChangeUserName(e.target.value)}
                   onKeyDown={(e) => this.handleKeyDown(e)}
                 />
               </div>
               <div className="col-12 form-group login-input">
-                <label>
-                  <b>Password</b>
-                </label>
                 <div className="custom-input-password">
-                  <input
+                  <TextField
                     required
                     className="form-control"
                     type={this.state.showPassword ? "text" : "password"}
-                    placeholder="Password"
+                    label="Password"
                     value={this.state.password}
-                    onChange={(e) =>
-                      this.handlerOnChangePassword(e.target.value)
-                    }
+                    onChange={(e) => this.handlerOnChangePassword(e.target.value)}
                     onKeyDown={(e) => this.handleKeyDown(e)}
                   />
-
                   <i
                     className={
                       this.state.showPassword

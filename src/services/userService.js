@@ -97,6 +97,9 @@ const getAllPatientForDoctor = (data) => {
     `/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`
   );
 };
+const postCancelAppointment = (data) => {
+  return axios.post(`/api/cancel-appointment`,data);
+};
 const postSendRemedy = (data) => {
   return axios.post(`/api/send-remedy`, data);
 };
@@ -137,6 +140,14 @@ const getSearchApi = (data) => {
 const resetTokenPassword = (data) => {
   return axios.post(`/api/reset-token-password`, data);
 };
+
+const createExamination = (data) => {
+  return axios.post(`/api/create-new-examination`, data);
+};
+
+const postDoctorForward = (data) => {
+  return axios.post(`/api/post-doctor-forward`,data);
+};
 export {
   postReCapTCha,
   handleLogin,
@@ -174,5 +185,8 @@ export {
   getDetailPostsById,
   getALLBooking,
   getSearchApi,
-  resetTokenPassword
+  resetTokenPassword,
+  postCancelAppointment,
+  createExamination,
+  postDoctorForward,
 };

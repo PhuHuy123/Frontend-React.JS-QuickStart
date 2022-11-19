@@ -10,17 +10,12 @@ class RemedyModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email:'',
-            imgBase64: '',
+            price: '',
+            comment: '',
         }
     }
 
     async componentDidMount() {
-        if(this.props.dataModal) {
-            this.setState({
-                email: this.props.dataModal.email
-            })
-        }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -33,37 +28,29 @@ class RemedyModal extends Component {
             })
         }
     }
-    handlerOnChangeEmail =(e)=>{
+    handlerOnChangePrice =(e)=>{
         this.setState({
-            email: e.target.value
+            price: e.target.value
         })
     }
-    handlerOnChangeImage = async(e)=>{
-        let data = e.target.files;
-        let file = data[0];
-        if(file){
-            let base64 = await CommonUtils.getBase64(file);
-            // let objectURL = URL.createObjectURL(file);
-            this.setState({
-                // previewImgURL:objectURL,
-                imgBase64: base64
-            })
-        }
+    handlerOnChangeComment =(e)=>{
+        this.setState({
+            comment: e.target.value
+        })
     }
     handlerSendRemedy = () => {
         this.props.sendRemedy(this.state);
     }
     render() {
         let {language} = this.props;
-        let {isOpenModal, closeRemedyModal, dataModal, sendRemedy} = this.props;
-
+        let {isOpenModal, closeRemedyModal, dataModal} = this.props;
         return (
             <Modal 
-                isOpen= {isOpenModal}
-                className={'booking-modal-container'}
-                size = "lg"
-                centered
-                // backdrop={true}
+            isOpen= {isOpenModal}
+            className={'booking-modal-container'}
+            size = "xm"
+            centered
+            // backdrop={true}
             >
                 <div className="modal-header">
                     <h5 className="modal-title">Modal title</h5>
@@ -73,17 +60,34 @@ class RemedyModal extends Component {
                 </div>
                 <ModalBody>
                     <div className="row">
-                        <div className="col-6 form-group">
-                            <label>Email bệnh nhân</label>
-                            <input className="form-control" type="email" value={this.state.email}
-                                onChange={(e)=>this.handlerOnChangeEmail(e)}
-                            />
+                        <div className="col-12 px-5 form-group">
+                        <h4>Chi tiết bệnh nhân</h4>
+                            <p><strong>Tên bệnh nhân: </strong>
+                            {language === LANGUAGES.VI?`${dataModal.dataBooking.lastName} ${dataModal.dataBooking.firstName}`
+                            : `${dataModal.dataBooking.firstName} ${dataModal.dataBooking.lastName}`}
+                            </p>
+                            <p><strong>Email: </strong>{dataModal.dataBooking.email}</p>
+                            <p><strong>Số điện thoại: </strong>{dataModal.dataBooking.phoneNumber}</p>
                         </div>
-                        <div className="col-6 form-group">
-                            <label>Chọn file hóa đơn</label>
-                            <input className="form-control-file" type="file"
-                                onChange={(e)=>this.handlerOnChangeImage(e)}
-                            />
+                        <hr className='mx-4' style={{border:"1px solid black", width:"100%"}}/>
+                        <div className="col-12 px-5 form-group">
+                            <h4>Chi tiết cuộc hẹn</h4>
+                            <p><strong>Cuộc hẹn số: </strong>{dataModal.id}</p>
+                            <p><strong>Tên bác sĩ: </strong>
+                            {language === LANGUAGES.VI?`${dataModal.dataDoctor.lastName} ${dataModal.dataDoctor.firstName}`
+                            : `${dataModal.dataDoctor.firstName} ${dataModal.dataDoctor.lastName}`}
+                            </p>
+                            <p><strong>Lý do khám: </strong>{dataModal.reason}</p>
+                            <p><strong>Ngày hẹn: </strong>
+                            {language === LANGUAGES.VI? 
+                                moment(dataModal.date).format('DD-MM-YYYY'): moment(dataModal.date).format('MM-DD-YYYY')
+                            }</p>
+                            <p><strong>Thời gian: </strong>
+                            {language === LANGUAGES.VI? 
+                                dataModal.timeTypeDataExamination.valueVi: dataModal.timeTypeDataExamination.valueEn
+                            }</p>
+                            <p><strong>Giá khám: </strong><input disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.price} onChange={(e)=>this.handlerOnChangePrice(e)} type="text" style={{width:"100px"}}></input></p>
+                            <p style={{display:"flex"}}><strong>Nhận xét của bác sĩ: </strong><textarea disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.comment} onChange={(e)=>this.handlerOnChangeComment(e)} type="text" style={{width:"65%", minHeight:"100px"}}></textarea></p>
                         </div>
                     </div>
                 </ModalBody>
