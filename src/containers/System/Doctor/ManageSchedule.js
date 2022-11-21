@@ -14,13 +14,14 @@ import _ from "lodash";
 import {
   bulkCreateSchedule,
   getScheduleDoctorByDate,
-  deleteSchedule
+  deleteSchedule,
+  getScheduleDoctorALL
 } from "../../../services/userService";
 class ManageSchedule extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDoctor: '',
+      selectedDoctor: {},
       listDoctors: "",
       chooseDate: "",
       rangeTime: [],
@@ -35,7 +36,23 @@ class ManageSchedule extends Component {
   componentDidMount() {
     this.props.fetAllDoctorsRedux();
     this.props.fetchAllScheduleTime();
-    
+    this.getScheduleAll();
+  }
+  getScheduleAll=async()=>{
+    let { userInfo } = this.props;
+    let { doctorId } = this.state;
+    if (userInfo && userInfo.roleId === USER_ROLE.DOCTOR) {
+      doctorId= userInfo.id
+    }
+    if (userInfo && userInfo.roleId === USER_ROLE.ADMIN) {
+      doctorId= 'ALL'
+    }
+    let res = await getScheduleDoctorALL(doctorId);
+      if(res && res.errCode ===0){
+        this.setState({
+            arrData: res.data,
+        });
+      }
   }
   handleChange = async (selectedDoctor) => {
     this.setState(
@@ -262,7 +279,6 @@ class ManageSchedule extends Component {
     }
   };
   handleOnChangeInput = (event, id) => {
-    console.log(event);
     let valueInput = event.target.value;
     let copyState = { ...this.state };
     copyState[id] = valueInput;
@@ -273,12 +289,17 @@ class ManageSchedule extends Component {
   handleDelete = async(id)=>{
     try {
       let res =  await deleteSchedule({id});
-      console.log(res)
       if(res && res.errCode!==0){
-          alert(res.message);
+        toast.error(res.message);
       }
       else{
+        toast.success("Delete successfully!");
+        if(this.state.chooseDate){
           this.handleDateChange(this.state.chooseDate)
+        }
+        else{
+          this.getScheduleAll();
+        }
       }
   } catch (e) {
       console.log(e)
@@ -419,7 +440,7 @@ class ManageSchedule extends Component {
                     arrData.map((item, index)=>{
                         return (
                             <tr key={index}>
-                                <td>{index+1}</td>
+                                <td>{item.id}</td>
                                 <td>{moment(item.date).format('DD-MM-YYYY')}</td>
                                 <td>{language === LANGUAGES.VI? 
                                     item.timeTypeData.valueVi: item.timeTypeData.valueEn

@@ -213,8 +213,10 @@ class BookingModal extends Component {
     this.setState({ isShowPayPay: false });
   };
   handleOnchangeCaptCha = async (e) => {
-    let res = await postReCapTCha(e);
-    if (res.success) {
+    let res = await postReCapTCha({
+      token:e
+    });
+    if (res && res.errCode===0 && res.data.success) {
       this.setState({ isReCaptCha: true });
     }
   };
