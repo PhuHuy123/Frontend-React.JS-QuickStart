@@ -15,6 +15,7 @@ export const path = {
     INPUT_EMAIL_RESET: '/account/password/reset',
     COVID_19: '/high-chart/covid',
     INFO_PATIENT: '/info-patient',
+    HISTORY: '/history',
     PAYPAL: '/paypal',
 };
 

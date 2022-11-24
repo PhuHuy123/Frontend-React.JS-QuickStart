@@ -118,6 +118,7 @@ const getReportByCountry = (country) => {
 
 // posts
 const createNewPosts = (data) => {
+  console.log(data);
   return axios.post(`/api/create-new-posts`, data);
 };
 const getAllPosts = () => {
@@ -130,7 +131,9 @@ const getALLBooking = (id) => {
   return axios.get(`/api/get-booking?id=${id}`);
 };
 const postReCapTCha = (data) => {
-  return axios.post(`/api/recaptcha`, data);
+  return axios.post(
+    `/api/recaptcha`, data
+  );
 };
 // search
 const getSearchApi = (data) => {

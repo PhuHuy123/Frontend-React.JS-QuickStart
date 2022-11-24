@@ -9,12 +9,14 @@ import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty';
 import ManageClinic from '../containers/System/Clinic/ManageClinic';
 import ManagePosts from '../containers/System/Posts/ManagePosts';
 import Statistical from '../containers/System/Statistical/Statistical';
+import {USER_ROLE} from '../utils';
 class System extends Component {
     render() {
-        const { systemMenuPath, isLoggedIn } = this.props;
+        const { systemMenuPath, isLoggedIn, userInfo } = this.props;
         return (
             <>
                 {isLoggedIn && <Header />}
+                {userInfo.roleId  === USER_ROLE.ADMIN &&
                 <div className="system-container">
                     <div className="system-list">
                         <Switch>
@@ -24,11 +26,12 @@ class System extends Component {
                             <Route path="/system/manage-specialty" component={ManageSpecialty} />
                             <Route path="/system/manage-clinic" component={ManageClinic} />
                             <Route path="/system/manage-posts" component={ManagePosts} />
-                            <Route path="/system/dashboard" component={Statistical} />
+                            <Route path="/system/dashboard" component={Statistical} />                     
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                         </Switch>
                     </div>
                 </div>
+                }
             </>
         );
     }
@@ -37,7 +40,8 @@ class System extends Component {
 const mapStateToProps = state => {
     return {
         systemMenuPath: state.app.systemMenuPath,
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
     };
 };
 

@@ -4,13 +4,16 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import ManageSchedule from '../containers/System/Doctor/ManageSchedule';
 import Header from '../containers/Header/Header';
 import ManagePatient from '../containers/System/Doctor/ManagePatient';
+import {USER_ROLE} from '../utils';
 
 class Doctor extends Component {
     render() {
-        const { isLoggedIn } = this.props;
+        const { isLoggedIn, userInfo } = this.props;
+        console.log("userInfo", userInfo)
         return (
             <>
                 {isLoggedIn && <Header />}
+                {(userInfo.roleId  === USER_ROLE.DOCTOR || userInfo.roleId  === USER_ROLE.ADMIN) &&
                 <div className="system-container">
                     <div className="system-list">
                         <Switch>
@@ -19,6 +22,7 @@ class Doctor extends Component {
                         </Switch>
                     </div>
                 </div>
+                }
             </>
         );
     }
@@ -27,7 +31,8 @@ class Doctor extends Component {
 const mapStateToProps = state => {
     return {
         systemMenuPath: state.app.systemMenuPath,
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
     };
 };
 

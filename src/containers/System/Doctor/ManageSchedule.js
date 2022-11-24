@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManageSchedule.scss";
 import { FormattedMessage } from "react-intl";
+import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { LANGUAGES, USER_ROLE } from "../../../utils";
 import Select from "react-select";
 import * as actions from "../../../store/actions";
@@ -30,13 +31,15 @@ class ManageSchedule extends Component {
       startDate: "",
       endDate: "",
       arrayDate: [],
-      arrData:''
+      arrData:'',
+      isOpenModal:false,
     };
   }
   componentDidMount() {
     this.props.fetAllDoctorsRedux();
     this.props.fetchAllScheduleTime();
     this.getScheduleAll();
+    
   }
   getScheduleAll=async()=>{
     let { userInfo } = this.props;
@@ -279,6 +282,7 @@ class ManageSchedule extends Component {
     }
   };
   handleOnChangeInput = (event, id) => {
+    console.log(event);
     let valueInput = event.target.value;
     let copyState = { ...this.state };
     copyState[id] = valueInput;
@@ -289,17 +293,18 @@ class ManageSchedule extends Component {
   handleDelete = async(id)=>{
     try {
       let res =  await deleteSchedule({id});
+      console.log(res)
       if(res && res.errCode!==0){
-        toast.error(res.message);
-      }
-      else{
-        toast.success("Delete successfully!");
-        if(this.state.chooseDate){
-          this.handleDateChange(this.state.chooseDate)
+          toast.error(res.message);
         }
         else{
-          this.getScheduleAll();
-        }
+          toast.success("Delete successfully!");
+          if(this.state.chooseDate){
+            this.handleDateChange(this.state.chooseDate)
+          }
+          else{
+            this.getScheduleAll();
+          }
       }
   } catch (e) {
       console.log(e)
@@ -307,7 +312,7 @@ class ManageSchedule extends Component {
   }
   render() {
     let { language, userInfo } = this.props;
-    let { rangeTime, endDate, startDate, maxNumber, arrData } = this.state;
+    let { rangeTime, endDate, startDate, maxNumber, arrData, isOpenModal, numberAll } = this.state;
     return (
       <div className="manage-schedule-container">
         <div className="m-s-title">
@@ -328,7 +333,7 @@ class ManageSchedule extends Component {
                 />
               </div>
             )}
-            <div className="col-6">
+            <div className="col-4">
               <label>
                 <FormattedMessage id="manage-schedule.choose-date" />
               </label>
@@ -348,81 +353,116 @@ class ManageSchedule extends Component {
                     : false
                 }
               />
-
-              <div className="datePicker">
-                <DatePicker
-                  value={
-                    startDate === ""
-                      ? language === LANGUAGES.VI
-                        ? "-- Từ ngày --"
-                        : "-- Start date --"
-                      : false
-                  }
-                  minDate={new Date()}
-                  selected={startDate}
-                  dateFormat={
-                    language === LANGUAGES.VI ? "dd/MM/yyyy" : "MM/dd/yyyy"
-                  }
-                  onChange={(date) => this.handleStartDate(date)}
-                  selectsStart
-                  startDate={startDate}
-                  endDate={endDate}
-                />
-                <DatePicker
-                  selected={endDate}
-                  value={
-                    endDate === ""
-                      ? language === LANGUAGES.VI
-                        ? "-- Đến ngày --"
-                        : "-- End date --"
-                      : false
-                  }
-                  dateFormat={
-                    language === LANGUAGES.VI ? "dd/MM/yyyy" : "MM/dd/yyyy"
-                  }
-                  onChange={(date) => this.handleEndDate(date)}
-                  selectsEnd
-                  startDate={startDate}
-                  endDate={endDate}
-                  minDate={startDate}
-                />
-                <input
-                  type="text"
-                  placeholder="Số bệnh nhân"
-                  value={maxNumber}
-                  onChange={(event) =>
-                    this.handleOnChangeInput(event, "maxNumber")
-                  }
-                />
+              <button type="button" style={{marginTop:'28px'}} className="btn btn-success form-control col-4"
+                onClick={()=>this.setState({isOpenModal:true})}
+              ><i className="fa-solid fa-plus" style={{marginLeft:'-10px', marginRight:'5px'}}></i>Thêm mới</button>
               </div>
-            </div>
-            <div className="col-12 pick-hour">
-              {rangeTime &&
-                rangeTime.length > 0 &&
-                rangeTime.map((item, index) => {
-                  return (
+              <button type="button" style={{marginTop:'28px'}} className="btn btn-primary form-control col-1"
+                onClick={()=>this.getScheduleAll()}
+              >Tất cả</button>
+            <Modal
+              isOpen= {isOpenModal}
+              className={"booking-modal-container"}
+              size="lg"
+              centered
+              // backdrop={true}
+            >
+              <div className="modal-header">
+                <h5 className="modal-title"><strong>Thêm mới lịch khám</strong></h5>
+                <button
+                  type="button"
+                  className="close"
+                  aria-label="Close"
+                  onClick={()=>this.setState({isOpenModal:false})}
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <ModalBody>
+                <form className=" modal-timeType">
+                  <div className="col-10">
+
+                    <label>
+                      <FormattedMessage id="manage-schedule.choose-date" />
+                    </label>
+                    <div className="datePicker"  style={{marginTop:'0px'}}>
+                      <DatePicker
+                        value={
+                          startDate === ""
+                            ? language === LANGUAGES.VI
+                              ? "-- Từ ngày --"
+                              : "-- Start date --"
+                            : false
+                        }
+                        minDate={new Date()}
+                        selected={startDate}
+                        dateFormat={
+                          language === LANGUAGES.VI ? "dd/MM/yyyy" : "MM/dd/yyyy"
+                        }
+                        onChange={(date) => this.handleStartDate(date)}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                      />
+                      <DatePicker
+                        selected={endDate}
+                        value={
+                          endDate === ""
+                            ? language === LANGUAGES.VI
+                              ? "-- Đến ngày --"
+                              : "-- End date --"
+                            : false
+                        }
+                        dateFormat={
+                          language === LANGUAGES.VI ? "dd/MM/yyyy" : "MM/dd/yyyy"
+                        }
+                        onChange={(date) => this.handleEndDate(date)}
+                        selectsEnd
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
+                      />
+                      <input
+                        required
+                        type="text"
+                        placeholder="Số lượng khám"
+                        value={maxNumber}
+                        onChange={(event) =>
+                          this.handleOnChangeInput(event, "maxNumber")
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 pick-hour">
+                    {rangeTime &&
+                      rangeTime.length > 0 &&
+                      rangeTime.map((item, index) => {
+                        return (
+                          <button
+                            key={index}
+                            className={
+                              item.isSelected === true
+                                ? "btn btn-warning m-2 p-2"
+                                : "btn m-2 p-2"
+                            }
+                            onClick={() => this.handleClickTime(item)}
+                          >
+                            {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
+                          </button>
+                        );
+                      })}
+                  </div>
+                  <div className="col-12">
                     <button
-                      key={index}
-                      className={
-                        item.isSelected === true
-                          ? "btn btn-warning m-2 p-2"
-                          : "btn m-2 p-2"
-                      }
-                      onClick={() => this.handleClickTime(item)}
+                      className="btn btn-primary"
+                      onClick={() => this.handleSaveSchedule()}
                     >
-                      {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
+                      <FormattedMessage id="manage-schedule.save-info" />
                     </button>
-                  );
-                })}
-            </div>
-            <div className="col-12">
-              <button
-                className="btn btn-primary"
-                onClick={() => this.handleSaveSchedule()}
-              >
-                <FormattedMessage id="manage-schedule.save-info" />
-              </button>
-            </div>
+                  </div>
+                </form>
+              </ModalBody>
+            </Modal>
           </div>
           <table className="table table-bordered mt-3">
             <thead className='table-dark'>
@@ -440,7 +480,7 @@ class ManageSchedule extends Component {
                     arrData.map((item, index)=>{
                         return (
                             <tr key={index}>
-                                <td>{item.id}</td>
+                                <td>{index+1}</td>
                                 <td>{moment(item.date).format('DD-MM-YYYY')}</td>
                                 <td>{language === LANGUAGES.VI? 
                                     item.timeTypeData.valueVi: item.timeTypeData.valueEn

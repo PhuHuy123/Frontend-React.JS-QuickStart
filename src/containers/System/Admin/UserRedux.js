@@ -282,9 +282,9 @@ class UserRedux extends Component {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => this.handlerOnChangeInput(e, "email")}
-                    disabled={
-                      this.state.action === CRUD_ACTIONS.EDIT ? true : false
-                    }
+                    // disabled={
+                    //   this.state.action === CRUD_ACTIONS.EDIT ? true : false
+                    // }
                   />
                 </div>
                 <div className="col-6 mt-2">
@@ -298,9 +298,9 @@ class UserRedux extends Component {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => this.handlerOnChangeInput(e, "password")}
-                    disabled={
-                      this.state.action === CRUD_ACTIONS.EDIT ? true : false
-                    }
+                    // disabled={
+                    //   this.state.action === CRUD_ACTIONS.EDIT ? true : false
+                    // }
                   />
                 </div>
 

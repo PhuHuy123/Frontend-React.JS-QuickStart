@@ -86,7 +86,7 @@ class RemedyModal extends Component {
                             {language === LANGUAGES.VI? 
                                 dataModal.timeTypeDataExamination.valueVi: dataModal.timeTypeDataExamination.valueEn
                             }</p>
-                            <p><strong>Giá khám: </strong><input disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.price} onChange={(e)=>this.handlerOnChangePrice(e)} type="text" style={{width:"100px"}}></input></p>
+                            <p><strong>Giá khám: </strong><input disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.price} onChange={(e)=>this.handlerOnChangePrice(e)} type="text" style={{width:"100px"}}></input> Vnđ</p>
                             <p style={{display:"flex"}}><strong>Nhận xét của bác sĩ: </strong><textarea disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.comment} onChange={(e)=>this.handlerOnChangeComment(e)} type="text" style={{width:"65%", minHeight:"100px"}}></textarea></p>
                         </div>
                     </div>
