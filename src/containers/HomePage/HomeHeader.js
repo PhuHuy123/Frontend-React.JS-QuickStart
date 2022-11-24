@@ -107,6 +107,7 @@ class HomeHeader extends Component {
               {userInfo ? (
                 <>
                   <label
+                    style={{backgroundImage: `url(${userInfo.image})`}}
                     className="nav-avatar avatar"
                     htmlFor="click-avatar"
                   ></label>
@@ -118,7 +119,7 @@ class HomeHeader extends Component {
                   />
                   <div className="row nav-menu">
                     <div className="name-user col-12">
-                      <div className="avatar"></div>
+                      <div style={{backgroundImage: `url(${userInfo.image})`}} className="avatar"></div>
                       <span className="">
                         {userInfo && userInfo.firstName
                           ? userInfo.firstName
@@ -131,9 +132,11 @@ class HomeHeader extends Component {
                     <div className="btn btn-logout">
                       <p>Đơn đặt khám</p>
                     </div>
-                    <div className="btn btn-logout">
-                      <p>Lịch sử khám</p>
-                    </div>
+                    <Link to='/history'>
+                      <div className="btn btn-logout">
+                        <p>Lịch sử khám</p>
+                      </div>
+                    </Link>
                     <hr />
                     <div className="btn btn-logout" onClick={processLogout}>
                       <i className="fas fa-sign-out-alt"></i>

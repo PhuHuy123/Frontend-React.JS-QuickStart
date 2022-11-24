@@ -7,6 +7,15 @@
         font-size: 17px;
         text-align: center;
     }
+}
+.datePicker{
+    display: flex;
+    margin-top: 20px;
+    input{
+        width: 80%;
+    }
+}
+.modal-timeType{
     .pick-hour{
         padding-top: 30px;
         padding-bottom: 20px;
@@ -22,12 +31,5 @@
                 }
             }
         }
-    }
-}
-.datePicker{
-    display: flex;
-    margin-top: 20px;
-    input{
-        width: 80%;
     }
 }

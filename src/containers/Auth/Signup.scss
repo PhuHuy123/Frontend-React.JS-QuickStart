@@ -69,6 +69,7 @@
     z-index: 2;
   }
   .thumbnail__logo {
+    margin-left: 150px;
     align-self: flex-start;
     background-image: url("../../assets/images/logo-svg.png");
     background-position: center center;
@@ -120,7 +121,7 @@
   label {
     font-size: 0.85rem;
   //   text-transform: uppercase;
-    color: #ccc;
+    // color: #ccc;
   }
   .form-control {
     background-color: transparent;

@@ -7,6 +7,8 @@ import moment from "moment";
 import localization from "moment/locale/vi";
 import { FormattedMessage } from "react-intl";
 import BookingModal from "./Modal/BookingModal";
+import { Link } from "react-router-dom";
+import {Modal,Button, ModalBody, ModalFooter} from 'reactstrap';
 class DoctorSchedule extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +17,7 @@ class DoctorSchedule extends Component {
       allAvailableTime: [],
       isOpenModalBooking: false,
       dataScheduleTimeModal: {},
+      checkLogin: false,
     };
   }
 
@@ -100,6 +103,11 @@ class DoctorSchedule extends Component {
     }
   };
   handleClickScheduleTime = (time) => {
+    if(this.props.isLoggedIn === false) {
+      return this.setState({
+        checkLogin: true
+      })
+    }
     this.setState({
       isOpenModalBooking: true,
       dataScheduleTimeModal: time,
@@ -117,9 +125,9 @@ class DoctorSchedule extends Component {
       allAvailableTime,
       isOpenModalBooking,
       dataScheduleTimeModal,
+      checkLogin,
     } = this.state;
     let { language } = this.props;
-    // console.log("res: ",this.state.allAvailableTime);
     return (
       <>
         <div className="doctor-schedule-container">
@@ -177,6 +185,29 @@ class DoctorSchedule extends Component {
           closeBooking={this.closeBooking}
           dataTime={dataScheduleTimeModal}
         />
+          <Modal
+            isOpen={checkLogin}
+            className={"booking-modal-container"}
+            // size="xl"
+            centered
+            // backdrop={true}
+          >
+            <div className="modal-header">
+                <h5 className="modal-title"><b style={{color:'red'}}>Thông báo</b></h5>
+                <button type="button" className="close" aria-label="Close" onClick={()=>this.setState({checkLogin:false})}>
+                    <span aria-hidden='true'>×</span>
+                </button>
+            </div>
+            <ModalBody>
+            <p><strong>Bạn chưa đăng nhập:</strong> vui lòng đăng nhập để đặt lịch hẹn</p>
+            </ModalBody>
+            <ModalFooter>
+              <Link to={`/login`}>
+                <Button color="warning">Login</Button>{' '}
+              </Link>
+                <Button color="secondary" onClick={()=>this.setState({checkLogin:false})}>Cancel</Button>
+            </ModalFooter>
+          </Modal>
       </>
     );
   }
@@ -184,6 +215,7 @@ class DoctorSchedule extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
   };
 };

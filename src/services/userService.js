@@ -40,6 +40,11 @@ const getDetailInfoDoctor = (idInput) => {
 const bulkCreateSchedule = (data) => {
   return axios.post(`/api/bulk-create-schedule`, data);
 };
+const getScheduleDoctorALL = (doctorId) => {
+  return axios.get(
+    `/api/get-Schedule-doctor-all?doctorId=${doctorId}`
+  );
+};
 const getScheduleDoctorByDate = (doctorId, date) => {
   return axios.get(
     `/api/get-Schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`
@@ -125,9 +130,9 @@ const getDetailPostsById = (id) => {
 const getALLBooking = (id) => {
   return axios.get(`/api/get-booking?id=${id}`);
 };
-const postReCapTCha = (token) => {
+const postReCapTCha = (data) => {
   return axios.post(
-    `https://www.google.com/recaptcha/api/siteverify?secret=6LeNF3kiAAAAAOdEIVZ_TIKrAHzq4xhGdeYPiO9n&response=${token}`
+    `/api/recaptcha`, data
   );
 };
 // search
@@ -161,6 +166,7 @@ export {
   createInfoDoctorAPI,
   getDetailInfoDoctor,
   bulkCreateSchedule,
+  getScheduleDoctorALL,
   getScheduleDoctorByDate,
   deleteSchedule,
   getExtraInfoDoctorById,

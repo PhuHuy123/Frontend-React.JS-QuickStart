@@ -134,7 +134,22 @@ class BookingModal extends Component {
     }
     return ``;
   };
-  handleConfirmBooking = async () => {
+  handleCloseBook = ()=>{
+    this.props.closeBooking();
+    this.setState({
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
+      address: "",
+      reason: "",
+      birthday: "",
+      selectedGender: "",
+      isReCaptCha: false,
+    });
+  }
+  handleConfirmBooking = async (e) => {
+    e.preventDefault();
     let {
       firstName,
       lastName,
@@ -213,11 +228,12 @@ class BookingModal extends Component {
     this.setState({ isShowPayPay: false });
   };
   handleOnchangeCaptCha = async (e) => {
-    let res = await postReCapTCha(e);
-    if (res.success) {
+    let res = await postReCapTCha({
+      token:e
+    });
+    if (res && res.errCode===0 && res.data.success) {
       this.setState({ isReCaptCha: true });
-    }
-  };
+    }  };
   render() {
     let { language } = this.props;
     // toggle cha
@@ -235,7 +251,6 @@ class BookingModal extends Component {
     } = this.state;
     let { isOpenModal, closeBooking, dataTime } = this.props;
     let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : "";
-    console.log("captchaRef", this.state.captchaRef);
     return (
       <>
         <LoadingOverlay
@@ -251,7 +266,7 @@ class BookingModal extends Component {
             // backdrop={true}
           >
             {isShowPayPay === false ? (
-              // <form>
+              <form onSubmit={(e) => this.handleConfirmBooking(e)}>
               <div className="booking-modal-content">
                 <div className="booking-modal-header">
                   <span className="left">
@@ -304,7 +319,7 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.phoneNumber" />
                       </label>
                       <input
-                        // required
+                        required
                         type="tel"
                         pattern="[0]{1}[0-9]{9}"
                         className="form-control inv"
@@ -319,7 +334,7 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.email" />
                       </label>
                       <input
-                        // required
+                        required
                         type="email"
                         className="form-control inv"
                         value={this.state.email}
@@ -381,6 +396,7 @@ class BookingModal extends Component {
                         <FormattedMessage id="patient.booking-modal.gender" />
                       </label>
                       <Select
+                        required
                         value={this.state.selectedGender}
                         onChange={this.handleChangeSelect}
                         options={this.state.genders}
@@ -398,17 +414,17 @@ class BookingModal extends Component {
                 <div className="booking-modal-footer">
                   <button
                     className="btn-booking-confirm"
-                    onClick={() => this.handleConfirmBooking()}
+                    type="submit"
                   >
                     <FormattedMessage id="patient.booking-modal.btnConfirm" />
                   </button>
-                  <button className="btn-booking-cancel" onClick={closeBooking}>
+                  <button className="btn-booking-cancel" onClick={() => this.handleCloseBook()}>
                     <FormattedMessage id="patient.booking-modal.btnCancel" />
                   </button>
                 </div>
               </div>
+              </form>
             ) : (
-              // </form>
               <div className="booking-modal-content">
                 <div className="booking-modal-header">
                   <span className="left">Thanh toán</span>
