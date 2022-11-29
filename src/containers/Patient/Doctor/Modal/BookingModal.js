@@ -7,7 +7,7 @@ import {
 } from "../../../../services/userService";
 import { LANGUAGES } from "../../../../utils";
 import { FormattedMessage } from "react-intl";
-import { Modal } from "reactstrap";
+import { Modal, ModalBody, ModalFooter, Button } from "reactstrap";
 import ProfileDoctor from "../ProfileDoctor";
 import _ from "lodash";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 class BookingModal extends Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
     this.state = {
       isShowMarkdown: false,
       firstName: "",
@@ -38,19 +39,55 @@ class BookingModal extends Component {
       timeType: "",
 
       payment: "",
-
       isShowLoading: false,
       isShowPayPay: false,
-      isReCaptCha: false,
-      captchaRef: null,
+      time: {}, 
+      seconds: 180,
+      isCountDown: false,
     };
+    this.timer = 0;
+    this.startTimer = this.startTimer.bind(this);
+    this.countDown = this.countDown.bind(this);
   }
-
+  secondsToTime(secs){
+    let hours = Math.floor(secs / (60 * 60));
+ 
+    let divisor_for_minutes = secs % (60 * 60);
+    let minutes = Math.floor(divisor_for_minutes / 60);
+ 
+    let divisor_for_seconds = divisor_for_minutes % 60;
+    let seconds = Math.ceil(divisor_for_seconds);
+ 
+    let obj = {
+      "h": hours,
+      "m": minutes,
+      "s": seconds
+    };
+    return obj;
+  }
   async componentDidMount() {
     this.props.getGenders();
-    //    this.setState({
-    //         isShowPayPay: false
-    //    })
+    let timeLeftVar = this.secondsToTime(this.state.seconds);
+    this.setState({ time: timeLeftVar });
+  }
+  startTimer() {
+    if (this.timer == 0 && this.state.seconds > 0) {
+      this.timer = setInterval(this.countDown, 1000);
+    }
+  }
+ 
+  countDown() {
+    // Remove one second, set state so a re-render happens.
+    let seconds = this.state.seconds - 1;
+    this.setState({
+      time: this.secondsToTime(seconds),
+      seconds: seconds,
+    });
+    
+    // Check if we're at zero.
+    if (seconds == 0) { 
+      clearInterval(this.timer);
+    }
   }
   buildDataGender = (data) => {
     let result = [];
@@ -145,7 +182,6 @@ class BookingModal extends Component {
       reason: "",
       birthday: "",
       selectedGender: "",
-      isReCaptCha: false,
     });
   }
   handleConfirmBooking = async (e) => {
@@ -157,7 +193,6 @@ class BookingModal extends Component {
       phoneNumber,
       address,
       reason,
-      isReCaptCha,
     } = this.state;
     if (
       firstName !== "" &&
@@ -167,14 +202,17 @@ class BookingModal extends Component {
       address !== "" &&
       reason !== ""
     ) {
-      if (isReCaptCha === false) {
-        toast.error("Error: you are not done ReCaptCha !");
-      } else {
+      this.setState({ isShowLoading: true });
+      let res = await postReCapTCha({
+        token:this.myRef.current.getValue()
+      });
+      this.myRef.current.reset();
+      if (res && res.errCode===0 && res.data.success) {
         let birthday = new Date(this.state.birthday).getTime();
         let timeString = this.buildTimeBooking(this.props.dataTime);
         let doctorName = this.buildDoctorName(this.props.dataTime);
-        this.setState({ isShowLoading: true });
         let res = await postBookAppointment({
+          userId: this.props.userInfo.id,
           firstName: firstName,
           lastName: lastName,
           phoneNumber: phoneNumber,
@@ -203,8 +241,9 @@ class BookingModal extends Component {
             reason: "",
             birthday: "",
             selectedGender: "",
-            isReCaptCha: false,
+            isCountDown: true,
           });
+          this.startTimer()
         } else {
           this.setState({ isShowLoading: false });
           toast.error("Booking a new appointment error!");
@@ -212,10 +251,18 @@ class BookingModal extends Component {
             isReCaptCha: false,
           });
         }
+      } else {
+        this.setState({ isShowLoading: false });
+        toast.error("Error: you are not done ReCaptCha !");
       }
     }
     // window.grecaptcha.reset();
   };
+  countdown=()=>{
+    setTimeout(() => {
+      
+    }, 1000);
+  }
   handlePayPal = () => {
     this.setState({ isShowPayPay: true });
   };
@@ -227,13 +274,6 @@ class BookingModal extends Component {
     this.props.closeBooking();
     this.setState({ isShowPayPay: false });
   };
-  handleOnchangeCaptCha = async (e) => {
-    let res = await postReCapTCha({
-      token:e
-    });
-    if (res && res.errCode===0 && res.data.success) {
-      this.setState({ isReCaptCha: true });
-    }  };
   render() {
     let { language } = this.props;
     // toggle cha
@@ -248,9 +288,11 @@ class BookingModal extends Component {
       timeType,
       selectedGender,
       reason,
+      isCountDown,
     } = this.state;
     let { isOpenModal, closeBooking, dataTime } = this.props;
     let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : "";
+    console.log(this.state.time.s);
     return (
       <>
         <LoadingOverlay
@@ -404,11 +446,12 @@ class BookingModal extends Component {
                     </div>
                     <div className="col-6 form-group">
                       <ReCAPTCHA
-                        ref={this.state.captchaRef}
+                        ref={this.myRef}
                         sitekey={process.env.REACT_APP_SITE_KEY}
-                        onChange={(e) => this.handleOnchangeCaptCha(e)}
                       />
                     </div>
+                    </div>
+                    <div>
                   </div>
                 </div>
                 <div className="booking-modal-footer">
@@ -452,6 +495,28 @@ class BookingModal extends Component {
               </div>
             )}
           </Modal>
+            <Modal isOpen={isCountDown}
+            className={"booking-modal-container"}
+            // size="xl"
+            centered>
+              <div className="modal-header">
+                <h5 className="modal-title"><b style={{color:'red'}}>Thông báo</b></h5>
+                <button type="button" className="close" aria-label="Close" onClick={()=>this.setState({isCountDown:false})}>
+                    <span aria-hidden='true'>×</span>
+                </button>
+            </div>
+            <ModalBody style={{padding:"10px 40px"}}>
+              <div className="countdown">
+                <b>Vui lòng xác nhận lịch hẹn trong email của bạn trong 3phút</b>
+                <h4 style={{textAlign: 'center', paddingTop: '20px', color: 'red'}}> 
+                  <strong>0{this.state.time.m} : {this.state.time.s}</strong>
+                </h4>
+              </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary"  onClick={()=>this.setState({isCountDown:false})}>Cancel</Button>
+            </ModalFooter>
+            </Modal>
         </LoadingOverlay>
       </>
     );
@@ -462,6 +527,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     genders: state.admin.genders,
+    userInfo: state.user.userInfo,
   };
 };
 

@@ -12,6 +12,7 @@ class RemedyModal extends Component {
         this.state = {
             price: '',
             comment: '',
+            name: '',
         }
     }
 
@@ -31,6 +32,11 @@ class RemedyModal extends Component {
     handlerOnChangePrice =(e)=>{
         this.setState({
             price: e.target.value
+        })
+    }
+    handlerOnChangeName =(e)=>{
+        this.setState({
+            name: e.target.value
         })
     }
     handlerOnChangeComment =(e)=>{
@@ -53,7 +59,7 @@ class RemedyModal extends Component {
             // backdrop={true}
             >
                 <div className="modal-header">
-                    <h5 className="modal-title">Modal title</h5>
+                    <h5 className="modal-title">Thông tin</h5>
                     <button type="button" className="close" aria-label="Close" onClick={closeRemedyModal}>
                         <span aria-hidden='true'>×</span>
                     </button>
@@ -86,6 +92,7 @@ class RemedyModal extends Component {
                             {language === LANGUAGES.VI? 
                                 dataModal.timeTypeDataExamination.valueVi: dataModal.timeTypeDataExamination.valueEn
                             }</p>
+                            <p><strong>Chuẩn đoán: </strong><input disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.name} onChange={(e)=>this.handlerOnChangeName(e)} type="text"></input></p>
                             <p><strong>Giá khám: </strong><input disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.price} onChange={(e)=>this.handlerOnChangePrice(e)} type="text" style={{width:"100px"}}></input> Vnđ</p>
                             <p style={{display:"flex"}}><strong>Nhận xét của bác sĩ: </strong><textarea disabled={dataModal.statusId!=='S2'? true: false} value={dataModal.comment} onChange={(e)=>this.handlerOnChangeComment(e)} type="text" style={{width:"65%", minHeight:"100px"}}></textarea></p>
                         </div>

@@ -16,6 +16,7 @@ export const path = {
     COVID_19: '/high-chart/covid',
     INFO_PATIENT: '/info-patient',
     HISTORY: '/history',
+    SINGLE: '/single',
     PAYPAL: '/paypal',
 };
 

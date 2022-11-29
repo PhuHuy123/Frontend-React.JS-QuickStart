@@ -379,7 +379,7 @@ class ManageSchedule extends Component {
                 </button>
               </div>
               <ModalBody>
-                <form className=" modal-timeType">
+                <div className=" modal-timeType">
                   <div className="col-10">
 
                     <label>
@@ -460,7 +460,7 @@ class ManageSchedule extends Component {
                       <FormattedMessage id="manage-schedule.save-info" />
                     </button>
                   </div>
-                </form>
+                </div>
               </ModalBody>
             </Modal>
           </div>

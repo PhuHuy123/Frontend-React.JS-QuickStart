@@ -12,12 +12,11 @@ import ReCAPTCHA from "react-google-recaptcha";
 class ResetPassword extends Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
     this.state = {
       email: "",
       errCode: 1,
       isShowLoading: false,
-      isReCaptCha: false,
-      captchaRef: null,
     };
   }
 
@@ -38,17 +37,19 @@ class ResetPassword extends Component {
   };
   handlerSubmit = async (e) => {
     e.preventDefault();
-    if (this.state.isReCaptCha === false) {
-      toast.error("Error: you are not done ReCaptCha !");
-    } else {
-      this.setState({ isShowLoading: true });
+    this.setState({ isShowLoading: true });
+    let res = await postReCapTCha({
+      token:this.myRef.current.getValue()
+    });
+    this.myRef.current.reset();
+    if (res && res.errCode===0 && res.data.success) {
       let data = await handleCheckEmail({
         email: this.state.email,
       });
       if (data && data.userData && data.userData.errCode === 0) {
-        this.setState({ isShowLoading: false });
         this.setState({
           errCode: 0,
+          isShowLoading: false,
         });
         toast.info("Vui lòng check gmail vừa nhập!");
 
@@ -61,17 +62,14 @@ class ResetPassword extends Component {
         this.setState({ isShowLoading: false });
         toast.error("Email không tồn tại");
       }
+    } else {
+      this.setState({ isShowLoading: false });
+      toast.error("Error: you are not done ReCaptCha !");
     }
   };
   handleKeyDown = (event) => {
     if (event.key === "Enter" || event.keyCode === 13) {
       this.handlerSubmit();
-    }
-  };
-  handleOnchangeCaptCha = async (e) => {
-    let res = await postReCapTCha(e);
-    if (res.success) {
-      this.setState({ isReCaptCha: true });
     }
   };
   render() {
@@ -113,9 +111,8 @@ class ResetPassword extends Component {
                         />
                         <div className="control mt-3">
                           <ReCAPTCHA
-                            ref={this.state.captchaRef}
+                            ref={this.myRef}
                             sitekey={process.env.REACT_APP_SITE_KEY}
-                            onChange={(e) => this.handleOnchangeCaptCha(e)}
                           />
                         </div>
                         <button

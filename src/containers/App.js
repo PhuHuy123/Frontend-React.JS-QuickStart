@@ -26,9 +26,10 @@ import Doctor from '../routes/Doctor';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import DetailClinic from './Patient/Clinic/DetailClinic';
 import DetailPosts from './Patient/Posts/DetailPosts';
+import Single from './Patient/Single';
+import InfoPatient from './Patient/Information';
 import History from './Patient/History';
 import HighChart from './HighCharts/HighChart';
-import InfoPatient from './Information/InfoPatient';
 import Paypal from './Paypal/Paypal';
 class App extends Component {
 
@@ -74,6 +75,7 @@ class App extends Component {
                                     <Route path={path.INPUT_EMAIL_RESET}component={ResetPassword}/>
                                     <Route path={path.COVID_19}component={HighChart}/>
                                     <Route path={path.INFO_PATIENT} component={userIsAuthenticated(InfoPatient)}/>
+                                    <Route path={path.SINGLE} component={userIsAuthenticated(Single)}/>
                                     <Route path={path.HISTORY} component={userIsAuthenticated(History)}/>
                                     <Route path={path.PAYPAL}component={Paypal}/>
                                 </Switch>

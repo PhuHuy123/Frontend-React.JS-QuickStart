@@ -17,6 +17,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 class Signup extends Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
     this.state = {
       genderArr: [],
       previewImgURL: "",
@@ -70,14 +71,6 @@ class Signup extends Component {
       });
     }
   }
-  handleOnchangeCaptCha = async (e) => {
-    let res = await postReCapTCha({
-      token:e
-    });
-    if (res && res.errCode===0 && res.data.success) {
-      this.setState({ isReCaptCha: true });
-    }
-  };
   handlerOnChangeImage = async (event) => {
     let data = event.target.files;
     let file = data[0];
@@ -108,10 +101,12 @@ class Signup extends Component {
     if(this.state.password !== this.state.passwordRepeat){
       return this.setState({errMessage: 'Password không giống nhau !!'})
     }
-    if (this.state.isReCaptCha === true) {
-      this.setState({
-        errMessage: "",
-      });
+    this.setState({ isShowLoading: true });
+    let res = await postReCapTCha({
+      token:this.myRef.current.getValue()
+    });
+    this.myRef.current.reset();
+    if (res && res.errCode===0 && res.data.success) {
       try {
         let res = await createNewUserAPI({
           email: this.state.email,
@@ -126,14 +121,17 @@ class Signup extends Component {
           gender: '',
         });
         if (res && res.errCode === 0) {
+          this.setState({ isShowLoading: false });
           toast.success("Đăng ký thành công!!");
           if (this.props.history) {
             this.props.history.push(`/login`);
           }
         } else {
+          this.setState({ isShowLoading: false });
           toast.error("Email đã tồn tại");
         }
       } catch (error) {
+        this.setState({ isShowLoading: false });
         if (error.response) {
           if (error.response.data) {
             this.setState({
@@ -143,6 +141,7 @@ class Signup extends Component {
         }
       }
     } else {
+      this.setState({ isShowLoading: false });
       toast.error("Error: you are not done ReCaptCha !");
     }
   };
@@ -229,9 +228,8 @@ class Signup extends Component {
                 </div>
               <div className="col-12 mb-4 reCaptCha">
                   <ReCAPTCHA
-                    ref={this.state.captchaRef}
+                    ref={this.myRef}
                     sitekey={process.env.REACT_APP_SITE_KEY}
-                    onChange={(e) => this.handleOnchangeCaptCha(e)}
                   />
                 </div>
               <div className="m-t-lg ml-3">

@@ -130,6 +130,12 @@ const getDetailPostsById = (id) => {
 const getALLBooking = (id) => {
   return axios.get(`/api/get-booking?id=${id}`);
 };
+const getBookingSingleId = (id) => {
+  return axios.get(`/api/booking-single-by-id?id=${id}`);
+};
+const getCancelBook = (id) => {
+  return axios.get(`/api/cancel-book?id=${id}`);
+};
 const postReCapTCha = (data) => {
   return axios.post(
     `/api/recaptcha`, data
@@ -148,6 +154,10 @@ const resetTokenPassword = (data) => {
 
 const createExamination = (data) => {
   return axios.post(`/api/create-new-examination`, data);
+};
+
+const getAllExaminationById = (id) => {
+  return axios.get(`/api/get-all-examination-byId?id=${id}`);
 };
 
 const postDoctorForward = (data) => {
@@ -190,9 +200,12 @@ export {
   getAllPosts,
   getDetailPostsById,
   getALLBooking,
+  getBookingSingleId,
+  getCancelBook,
   getSearchApi,
   resetTokenPassword,
   postCancelAppointment,
   createExamination,
   postDoctorForward,
+  getAllExaminationById,
 };

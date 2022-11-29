@@ -107,7 +107,7 @@ class HomeHeader extends Component {
               {userInfo ? (
                 <>
                   <label
-                    style={{backgroundImage: `url(${userInfo.image})`}}
+                    style={{backgroundImage: `url(${userInfo.image ? userInfo.image :"https://i.imgur.com/LntFpBn.png"})`}}
                     className="nav-avatar avatar"
                     htmlFor="click-avatar"
                   ></label>
@@ -119,19 +119,23 @@ class HomeHeader extends Component {
                   />
                   <div className="row nav-menu">
                     <div className="name-user col-12">
-                      <div style={{backgroundImage: `url(${userInfo.image})`}} className="avatar"></div>
+                      <div style={{backgroundImage: `url(${userInfo.image ? userInfo.image :"https://i.imgur.com/LntFpBn.png"})`}} className="avatar"></div>
                       <span className="">
                         {userInfo && userInfo.firstName
                           ? userInfo.firstName
                           : ""}
                       </span>
                     </div>
-                    <div className="btn btn-logout">
-                      <p>Thông tin cá nhân</p>
-                    </div>
-                    <div className="btn btn-logout">
-                      <p>Đơn đặt khám</p>
-                    </div>
+                    <Link to='/info-patient'>
+                      <div className="btn btn-logout">
+                        <p>Thông tin cá nhân</p>
+                      </div>
+                    </Link>
+                    <Link to='/single'>
+                      <div className="btn btn-logout">
+                        <p>Đơn đặt khám</p>
+                      </div>
+                    </Link>
                     <Link to='/history'>
                       <div className="btn btn-logout">
                         <p>Lịch sử khám</p>

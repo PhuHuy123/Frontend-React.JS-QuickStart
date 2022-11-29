@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-toastify";
 import { TextField } from '@mui/material';
+import LoadingOverlay from "react-loading-overlay";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +20,9 @@ class Login extends Component {
       errMessage: "",
       isReCaptCha: false,
       captchaRef: null,
+      isShowLoading: false,
     };
+    this.myRef = React.createRef();
   }
   handlerOnChangeUserName = (input) => {
     this.setState({
@@ -33,22 +36,28 @@ class Login extends Component {
   };
   handlerLogin = async (e) => {
     e.preventDefault();
-    if (this.state.isReCaptCha === true) {
-      this.setState({
-        errMessage: "",
-      });
+    this.setState({ isShowLoading: true });
+    let res = await postReCapTCha({
+      token:this.myRef.current.getValue()
+    });
+    this.myRef.current.reset();
+    if (res && res.errCode===0 && res.data.success) {
       try {
         let data = await handleLogin(this.state.username, this.state.password);
         if (data && data.errCode !== 0) {
           this.setState({
             errMessage: data.message,
           });
+          this.setState({ isShowLoading: false });
+          toast.error(data.message);
         }
         if (data && data.errCode === 0) {
+          this.setState({ isShowLoading: false });
           toast.success("Logged in successfully !");
           this.props.userLoginSuccess(data.user);
         }
       } catch (error) {
+        this.setState({ isShowLoading: false });
         if (error.response) {
           if (error.response.data) {
             this.setState({
@@ -58,6 +67,7 @@ class Login extends Component {
         }
       }
     } else {
+      this.setState({ isShowLoading: false });
       toast.error("Error: you are not done ReCaptCha !");
     }
   };
@@ -71,16 +81,13 @@ class Login extends Component {
       this.handlerLogin();
     }
   };
-  handleOnchangeCaptCha = async (e) => {
-    let res = await postReCapTCha({
-      token:e
-    });
-    if (res && res.errCode===0 && res.data.success) {
-      this.setState({ isReCaptCha: true });
-    }
-  };
   render() {
     return (
+      <LoadingOverlay
+          active={this.state.isShowLoading}
+          spinner
+          text="Loading..."
+        >
       <div className="login-background">
         <Link to={`/home`}>
           <div className="header-logo"></div>
@@ -103,6 +110,7 @@ class Login extends Component {
               <div className="col-12 form-group login-input">
                 <div className="custom-input-password">
                   <TextField
+                  ref={this.myRef}
                     required
                     className="form-control"
                     type={this.state.showPassword ? "text" : "password"}
@@ -126,9 +134,8 @@ class Login extends Component {
               </div>
               <div className="col-12 reCaptCha">
                 <ReCAPTCHA
-                  ref={this.state.captchaRef}
+                  ref={this.myRef}
                   sitekey={process.env.REACT_APP_SITE_KEY}
-                  onChange={(e) => this.handleOnchangeCaptCha(e)}
                 />
               </div>
               <div className="col-12 forgot-password">
@@ -153,6 +160,7 @@ class Login extends Component {
           </div>
         </form>
       </div>
+      </LoadingOverlay>
     );
   }
 }

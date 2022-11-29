@@ -95,6 +95,7 @@ class ManagePatient extends Component {
         language: this.props.language,
         comment: dataChild.comment,
         price: dataChild.price,
+        name: dataChild.name,
       });
       if (res && res.errCode === 0) {
         this.setState({
