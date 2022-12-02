@@ -88,6 +88,14 @@ const getDetailSpecialtyById = (data) => {
     `/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`
   );
 };
+const deleteSpecialtyById =(id)=>{
+  return axios.delete("/api/delete-specialty", {
+    data: { id },
+  });
+}
+const editSpecialty = (data) => {
+  return axios.put(`/api/update-specialty`, data);
+};
 const createNewClinic = (data) => {
   return axios.post(`/api/create-new-clinic`, data);
 };
@@ -96,6 +104,14 @@ const getAllClinic = () => {
 };
 const getDetailClinicById = (data) => {
   return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`);
+};
+const deleteClinicById =(id)=>{
+  return axios.delete("/api/delete-clinic", {
+    data: { id },
+  });
+}
+const editClinic = (data) => {
+  return axios.put(`/api/update-clinic`, data);
 };
 const getAllPatientForDoctor = (data) => {
   return axios.get(
@@ -126,6 +142,14 @@ const getAllPosts = () => {
 };
 const getDetailPostsById = (id) => {
   return axios.get(`/api/get-detail-posts-by-id?id=${id}`);
+};
+const deletePostById =(id)=>{
+  return axios.delete("/api/delete-post", {
+    data: { id },
+  });
+}
+const editPost = (data) => {
+  return axios.put(`/api/update-post`, data);
 };
 const getALLBooking = (id) => {
   return axios.get(`/api/get-booking?id=${id}`);
@@ -187,9 +211,13 @@ export {
   createNewSpecialty,
   getAllSpecialty,
   getDetailSpecialtyById,
+  deleteSpecialtyById,
+  editSpecialty,
   createNewClinic,
   getAllClinic,
   getDetailClinicById,
+  deleteClinicById,
+  editClinic,
   getAllPatientForDoctor,
   postSendRemedy,
   getUpdatePassword,
@@ -199,6 +227,8 @@ export {
   createNewPosts,
   getAllPosts,
   getDetailPostsById,
+  deletePostById,
+  editPost,
   getALLBooking,
   getBookingSingleId,
   getCancelBook,

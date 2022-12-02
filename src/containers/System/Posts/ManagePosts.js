@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManagePosts.scss";
-import { createNewPosts } from "../../../services/userService";
+import { createNewPosts, editPost } from "../../../services/userService";
 import { LANGUAGES, CommonUtils } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
@@ -17,6 +17,7 @@ class ManagePosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name: "",
       description: "",
       imageBase64: "",
@@ -26,7 +27,19 @@ class ManagePosts extends Component {
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    if(this.props.history.location.state){
+      let data=this.props.history.location.state
+      this.setState({
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        contentMarkdown: data.descriptionMarkdown,
+        contentHTML: data.descriptionHTML,
+        previewImgURL: data.image,
+      })
+    }
+  }
   handlerOnChangeInput = (e, id) => {
     let copyState = { ...this.state };
     copyState[id] = e.target.value;
@@ -61,6 +74,7 @@ class ManagePosts extends Component {
         imageBase64: "",
         contentMarkdown: "",
         contentHTML: "",
+        previewImgURL: "",
       });
     } else {
       toast.error("Error creating new Posts!");
@@ -76,8 +90,27 @@ class ManagePosts extends Component {
       isOpen: true,
     });
   };
+  handlerEditPost=async()=>{
+    let res = await editPost(this.state);
+    if (res && res.errCode === 0) {
+      toast.success("Update Post success!");
+      this.setState({
+        name: "",
+        description: "",
+        imageBase64: "",
+        contentMarkdown: "",
+        contentHTML: "",
+        previewImgURL: "",
+      });
+      if (this.props.history) {
+        this.props.history.push(`/system/manage-posts`);
+      }
+    } else {
+      toast.error("Error Update Post!");
+    }
+  }
   render() {
-    let { language } = this.props;
+    let { language, history } = this.props;
     return (
       <div className="manage-posts-container">
         <div className="ms-title">Quản lý bài viết</div>
@@ -131,12 +164,20 @@ class ManagePosts extends Component {
             />
           </div>
           <div className="col-12">
+          {history.location.state?
+            <button
+              className="btn-save-posts"
+              onClick={() => this.handlerEditPost()}
+            >
+              Update
+            </button>:
             <button
               className="btn-save-posts"
               onClick={() => this.handlerSaveNewPosts()}
             >
               save
             </button>
+          }
           </div>
         </div>
       </div>

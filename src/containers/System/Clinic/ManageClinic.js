@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManageClinic.scss";
-import { createNewClinic } from "../../../services/userService";
+import { createNewClinic, editClinic } from "../../../services/userService";
 import { LANGUAGES, CommonUtils } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
@@ -17,6 +17,7 @@ class ManageClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id:"",
       name: "",
       address: "",
       imageBase64: "",
@@ -27,7 +28,19 @@ class ManageClinic extends Component {
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    if(this.props.history.location.state){
+      let data=this.props.history.location.state
+      this.setState({
+        id: data.id,
+        name: data.name,
+        address: data.address,
+        contentMarkdown: data.descriptionMarkdown,
+        contentHTML: data.descriptionHTML,
+        previewImgURL: data.image,
+      })
+    }
+  }
   handlerOnChangeInput = (e, id) => {
     let copyState = { ...this.state };
     copyState[id] = e.target.value;
@@ -52,7 +65,6 @@ class ManageClinic extends Component {
     }
   };
   handlerSaveNewClinic = async () => {
-    console.log("Saving new Clinic", this.state);
     let res = await createNewClinic(this.state);
     if (res && res.errCode === 0) {
       toast.success("Add new Clinic success!");
@@ -62,6 +74,7 @@ class ManageClinic extends Component {
         imageBase64: "",
         contentMarkdown: "",
         contentHTML: "",
+        previewImgURL: "",
       });
     } else {
       toast.error("Error creating new Clinic!");
@@ -77,8 +90,27 @@ class ManageClinic extends Component {
       isOpen: true,
     });
   };
+  handlerEditClinic=async()=>{
+    let res = await editClinic(this.state);
+    if (res && res.errCode === 0) {
+      toast.success("Update Clinic success!");
+      this.setState({
+        name: "",
+        address: "",
+        imageBase64: "",
+        contentMarkdown: "",
+        contentHTML: "",
+        previewImgURL: "",
+      });
+      if (this.props.history) {
+        this.props.history.push(`/system/manage-clinic`);
+      }
+    } else {
+      toast.error("Error Update Clinic!");
+    }
+  }
   render() {
-    let { language } = this.props;
+    let { language, history } = this.props;
     return (
       <div className="manage-clinic-container">
         <div className="ms-title">Quản lý phòng khám</div>
@@ -131,12 +163,20 @@ class ManageClinic extends Component {
             />
           </div>
           <div className="col-12">
+            {history.location.state?
             <button
               className="btn-save-clinic"
-              onClick={() => this.handlerSaveNewClinic()}
+              onClick={() => this.handlerEditClinic()}
             >
-              save
-            </button>
+              Update
+            </button>:
+            <button
+            className="btn-save-clinic"
+            onClick={() => this.handlerSaveNewClinic()}
+          >
+            Save
+          </button>
+          }
           </div>
         </div>
       </div>

@@ -1,3 +1,22 @@
+.clinic-table{
+    padding: 20px 80px 0 80px;
+    >h3{
+        text-align: center;
+    }
+    .btn-success{
+        width: 150px;
+    }
+    .table-bordered{
+        border: none;
+    }
+    .img-medical{
+        height: 50px;
+        width: 120px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
 .manage-clinic-container{
     padding: 0 15px;
     .ms-title{

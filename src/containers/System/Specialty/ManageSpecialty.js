@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManageSpecialty.scss";
-import { createNewSpecialty } from "../../../services/userService";
+import { createNewSpecialty, editSpecialty } from "../../../services/userService";
 import { LANGUAGES, CommonUtils } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
@@ -16,6 +16,7 @@ class ManageSpecialty extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name: "",
       imageBase64: "",
       contentMarkdown: "",
@@ -24,7 +25,18 @@ class ManageSpecialty extends Component {
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    if(this.props.history.location.state){
+      let data=this.props.history.location.state
+      this.setState({
+        id: data.id,
+        name: data.name,
+        contentMarkdown: data.descriptionMarkdown,
+        contentHTML: data.descriptionHTML,
+        previewImgURL: data.image,
+      })
+    }
+  }
   handlerOnChangeInput = (e, id) => {
     let copyState = { ...this.state };
     copyState[id] = e.target.value;
@@ -58,6 +70,7 @@ class ManageSpecialty extends Component {
         imageBase64: "",
         contentMarkdown: "",
         contentHTML: "",
+        previewImgURL: "",
       });
     } else {
       toast.error("Error creating new specialty!");
@@ -73,8 +86,26 @@ class ManageSpecialty extends Component {
       isOpen: true,
     });
   };
+  handlerEditSpecialty=async()=>{
+    let res = await editSpecialty(this.state);
+    if (res && res.errCode === 0) {
+      toast.success("Update Specialty success!");
+      this.setState({
+        name: "",
+        imageBase64: "",
+        contentMarkdown: "",
+        contentHTML: "",
+        previewImgURL: "",
+      });
+      if (this.props.history) {
+        this.props.history.push(`/system/manage-specialty`);
+      }
+    } else {
+      toast.error("Error Update Specialty!");
+    }
+  }
   render() {
-    let { language } = this.props;
+    let { language, history } = this.props;
     return (
       <div className="manage-specialty-container">
         <div className="ms-title">Quản lý chuyên khoa</div>
@@ -118,12 +149,20 @@ class ManageSpecialty extends Component {
             />
           </div>
           <div className="col-12">
+          {history.location.state?
+            <button
+              className="btn-save-specialty"
+              onClick={() => this.handlerEditSpecialty()}
+            >
+              Update
+            </button>:
             <button
               className="btn-save-specialty"
               onClick={() => this.handlerSaveNewSpecialty()}
             >
               save
             </button>
+          }
           </div>
         </div>
       </div>

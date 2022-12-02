@@ -9,9 +9,14 @@ import { LANGUAGES } from "../../../utils";
 import HomeHeader from "../../HomePage/HomeHeader";
 import { Link } from "react-router-dom";
 import "./Single.scss";
-import {getBookingSingleId, getCancelBook} from '../../../services/userService';
+import {
+  getBookingSingleId,
+  getCancelBook,
+} from "../../../services/userService";
 import moment from "moment";
-import Cancal from './Cancal'
+import { Modal, Button, ModalBody, ModalFooter } from "reactstrap";
+import Cancal from "./Cancal";
+import { toast } from "react-toastify";
 
 const Single = (props) => {
   const steps = [
@@ -21,24 +26,32 @@ const Single = (props) => {
   ];
   const [currentStep, setCurrentStep] = useState([]);
   const [dataBook, setDataBook] = useState();
-  const [dataDoctor, setDataDoctor] = useState('');
+  const [dataDoctor, setDataDoctor] = useState("");
   const [gender, setGender] = useState();
-
+  const [checkDelete, setCheckDelete] = useState(false);
+  
   useEffect(() => {
     handleSingleById();
   }, []);
-  const handleSingleById =async()=>{
-    let res = await getBookingSingleId(props.userInfo.id)
-    if(res && res.errCode ===0){
-      setCurrentStep(res.data)
-      setDataBook(res.data.dataBooking[0])
-      setDataDoctor(res.data.dataBooking[0].dataDoctor)
-      setGender(res.data.genderData2)
+  const handleSingleById = async () => {
+    let res = await getBookingSingleId(props.userInfo.id);
+    if (res && res.errCode === 0) {
+      setCurrentStep(res.data);
+      setDataBook(res.data.dataBooking[0]);
+      setDataDoctor(res.data.dataBooking[0].dataDoctor);
+      setGender(res.data.genderData2);
     }
-  }
-  const handleCancelBook = async ()=>{
-    await getCancelBook(dataBook.bookingId)
-  }
+  };
+  const handleCancelBook = async () => {
+    let res = await getCancelBook(dataBook.bookingId);
+    if(res && res.errCode === 0) {
+      toast.success("Successfully canceled appointment!");
+      handleSingleById();
+    }else{
+      toast.error("Canceling the appointment is a failure!");
+    }
+    setCheckDelete(false);
+  };
   return (
     <div className="single-case">
       <HomeHeader />
@@ -64,37 +77,64 @@ const Single = (props) => {
             </div>
           </div>
           <div className="nav-right col-10">
-          {currentStep && currentStep.statusId==='S4'?<Cancal/>:
-            <Box sx={{ width: "100%" }}>
-              <Stepper activeStep={currentStep && currentStep.statusId==='S1'?1
-                      :currentStep.statusId==='S2'?2
-                      :currentStep.statusId==='S3'?3:0} alternativeLabel>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-            </Box>
-            }
+            {currentStep && currentStep.statusId === "S4" ? (
+              <Cancal />
+            ) : (
+              <Box sx={{ width: "100%" }}>
+                <Stepper
+                  activeStep={
+                    currentStep && currentStep.statusId === "S1"
+                      ? 1
+                      : currentStep.statusId === "S2"
+                      ? 2
+                      : currentStep.statusId === "S3"
+                      ? 3
+                      : 0
+                  }
+                  alternativeLabel
+                >
+                  {steps.map((label) => (
+                    <Step key={label}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Box>
+            )}
             <div className="content-single">
               <h6>Thông tin đơn đặt khám: </h6>
               <ul className="row">
-                <p className="col-6"><b>Bác sĩ: </b> 
-                 {props.language === LANGUAGES.VI ? dataDoctor && `${dataDoctor.lastName} ${dataDoctor.firstName}`:
-                dataDoctor && `${dataDoctor.firstName} ${dataDoctor.lastName}`}
+                <p className="col-6">
+                  <b>Bác sĩ: </b>
+                  {props.language === LANGUAGES.VI
+                    ? dataDoctor &&
+                      `${dataDoctor.lastName} ${dataDoctor.firstName}`
+                    : dataDoctor &&
+                      `${dataDoctor.firstName} ${dataDoctor.lastName}`}
                 </p>
-                <p className="col-6"><b>Chuyên khoa:</b> {dataDoctor && dataDoctor.DoctorInfo.specialtyData.name}</p>
-                <p className="col-6"><b>Ngày khám:</b> {props.language === LANGUAGES.VI
-                            ? moment(dataBook?dataBook.date:0).format("DD-MM-YYYY")
-                            : moment(dataBook?dataBook.date:0).format("MM-DD-YYYY")}</p>
-                <p className="col-6"><b>Giờ khám:</b> {props.language === LANGUAGES.VI
-                            ? dataBook && dataBook.timeTypeDataExamination.valueVi
-                            : dataBook && dataBook.timeTypeDataExamination.valueEn}</p>
-                <p className="col-12"><b>Giá khám: </b> 
-                  0 - {props.language===LANGUAGES.VI?
-                  dataDoctor&& `${dataDoctor.DoctorInfo.priceTypeData.valueVi} VNĐ`:
-                  dataDoctor&& `${dataDoctor.DoctorInfo.priceTypeData.valueEn} $`}
+                <p className="col-6">
+                  <b>Chuyên khoa:</b>{" "}
+                  {dataDoctor && dataDoctor.DoctorInfo.specialtyData.name}
+                </p>
+                <p className="col-6">
+                  <b>Ngày khám:</b>{" "}
+                  {props.language === LANGUAGES.VI
+                    ? moment(dataBook ? dataBook.date : 0).format("DD-MM-YYYY")
+                    : moment(dataBook ? dataBook.date : 0).format("MM-DD-YYYY")}
+                </p>
+                <p className="col-6">
+                  <b>Giờ khám:</b>{" "}
+                  {props.language === LANGUAGES.VI
+                    ? dataBook && dataBook.timeTypeDataExamination.valueVi
+                    : dataBook && dataBook.timeTypeDataExamination.valueEn}
+                </p>
+                <p className="col-12">
+                  <b>Giá khám: </b>0 -{" "}
+                  {props.language === LANGUAGES.VI
+                    ? dataDoctor &&
+                      `${dataDoctor.DoctorInfo.priceTypeData.valueVi} VNĐ`
+                    : dataDoctor &&
+                      `${dataDoctor.DoctorInfo.priceTypeData.valueEn} $`}
                 </p>
                 <div className="col-6">
                   <b>Khám tại:</b>
@@ -111,31 +151,85 @@ const Single = (props) => {
               </ul>
               <h6>Thông tin người đặt: </h6>
               <ul className="row">
-                <p className="col-12"><b>Email đăng ký:</b> {currentStep.email}</p>
-                <p className="col-5"><b>Họ và tên: </b> 
-                  {props.language === LANGUAGES.VI ? currentStep && `${currentStep.lastName} ${currentStep.firstName}`:
-                  currentStep && `${currentStep.firstName} ${currentStep.lastName}`}
+                <p className="col-12">
+                  <b>Email đăng ký:</b> {currentStep.email}
                 </p>
-                <p className="col-6"><b>Số điện thoại:</b> {currentStep.phoneNumber }</p>
-                <p className="col-5"><b>Ngày sinh:</b> {props.language === LANGUAGES.VI
-                            ? moment(currentStep.birthday).format("DD-MM-YYYY")
-                            : moment(currentStep.birthday).format("MM-DD-YYYY")}
+                <p className="col-5">
+                  <b>Họ và tên: </b>
+                  {props.language === LANGUAGES.VI
+                    ? currentStep &&
+                      `${currentStep.lastName} ${currentStep.firstName}`
+                    : currentStep &&
+                      `${currentStep.firstName} ${currentStep.lastName}`}
                 </p>
-                <p className="col-5"><b>Giới tính: </b> 
-                {props.language===LANGUAGES.VI?
-                  gender && gender.valueVi:
-                  gender && gender.valueEn
-                }
+                <p className="col-6">
+                  <b>Số điện thoại:</b> {currentStep.phoneNumber}
                 </p>
-                <p className="col-12"><b>Địa chỉ:</b> {currentStep.address}</p>
-                {currentStep && currentStep.statusId==='S4'?<></>:
-                <button  type="button" className="btn btn-outline-danger col-10" 
-                onClick={handleCancelBook}>Hủy lịch khám</button>}
+                <p className="col-5">
+                  <b>Ngày sinh:</b>{" "}
+                  {props.language === LANGUAGES.VI
+                    ? moment(currentStep.birthday).format("DD-MM-YYYY")
+                    : moment(currentStep.birthday).format("MM-DD-YYYY")}
+                </p>
+                <p className="col-5">
+                  <b>Giới tính: </b>
+                  {props.language === LANGUAGES.VI
+                    ? gender && gender.valueVi
+                    : gender && gender.valueEn}
+                </p>
+                <p className="col-12">
+                  <b>Địa chỉ:</b> {currentStep.address}
+                </p>
+                {currentStep && currentStep.statusId === "S4" ? (
+                  <></>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger col-10"
+                    onClick={()=>setCheckDelete(true)}
+                  >
+                    Hủy lịch khám
+                  </button>
+                )}
               </ul>
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={checkDelete}
+        className={"booking-modal-container"}
+        centered
+      >
+        <div className="modal-header">
+          <h5 className="modal-title">
+            <b style={{ color: "red" }}>Thông báo</b>
+          </h5>
+          <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={() => setCheckDelete(false)}
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <p style={{textAlign:"center"}}>
+            <strong>Bạn:</strong> muốn hủy lịch khám này
+          </p>
+        </ModalBody>
+        <ModalFooter>
+            <Button className="btn btn-danger" 
+            onClick={handleCancelBook}>Delete</Button>{" "}
+          <Button
+            color="secondary"
+            onClick={() => setCheckDelete(false)}
+          >
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };
