@@ -1,0 +1,93 @@
+.all-clinic{
+    // text-align: center;
+    padding-top: 20px;
+    width: 100%;
+    background-color: #f0f2f1;
+    padding-bottom: 20px;
+    .top{
+        display: flex;
+        a{
+            color: black;
+        }
+        p{
+            cursor: pointer;
+            padding-left: 5px;
+            padding-right: 5px;
+            &:hover{
+                text-decoration:underline;
+                color: orange;
+            }
+        }
+    }
+    .background{
+        background-size: cover;
+        img{
+            width: 100%;
+            height: 325px;
+        }
+    }
+    .center{
+        .top{
+            width:100%;
+            background-color: white;
+            h4{
+                text-transform: uppercase;
+                font-weight: 600;
+                margin: 20px auto;
+                font-size: 24px;
+                border-bottom: 4px solid rgb(250, 192, 0);
+            }
+        }
+        .list{
+            .clinic{
+                padding: 10px;
+                // padding: 0px;
+                background-color: aliceblue;
+                padding-top: 20px;
+                a{
+                    text-decoration: none;
+                }
+                .ct-clinic{
+                    background: white;
+                    .image{
+                        height: 200px;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    }
+                    p{
+                        padding: 10px 0px;
+                        margin:auto;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+    .paging{
+        border:none;
+        display: flex;
+        flex-direction: row;
+        justify-content:center;
+        margin-top: 20px;
+        // margin: 10px;
+        // float: left;
+       
+        // text-align: center;
+        button{
+            // color: #999;
+            padding: 0 2px;
+            font-size: 15px;
+            border: 1px solid #999;
+            background-color: white;
+            border-radius: 0 !important;
+            width: 40px;
+            line-height: 35px;
+            margin: 0 2px 1px 0;
+        }
+        .selected{
+            border: 1px solid red;
+            color: red;
+        }
+    }
+    
+}

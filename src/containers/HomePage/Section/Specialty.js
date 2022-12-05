@@ -5,6 +5,7 @@ import './Specialty.scss'
 import Slider from "react-slick";
 import {getAllSpecialty} from '../../../services/userService';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 
 class Specialty extends Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class Specialty extends Component {
             <div className="section">
                 <div className="section-content">
                     <div className="section-header">
-                        <button><FormattedMessage id="homepage.see-more"/></button>
+                    <Link to='/all-specialty'><button><FormattedMessage id="homepage.see-more"/></button></Link>
                         <span><FormattedMessage id="homepage.specialty-popular"/></span>
                     </div>
                     <Slider {...this.props.settings}>

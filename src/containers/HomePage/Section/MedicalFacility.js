@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Slider from "react-slick";
 import { withRouter } from 'react-router';
 import {getAllClinic} from '../../../services/userService';
+import { Link } from 'react-router-dom';
 class MedicalFacility extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +32,7 @@ class MedicalFacility extends Component {
             <div className="section section-container">
                 <div className="section-content">
                     <div className="section-header">
-                    <button>TÌM KIẾM</button>
+                    <Link to='/all-clinic'><button><FormattedMessage id="homepage.see-more"/></button></Link>
                         <span>Cơ sở y tế nổi bật</span>
                     </div>
                     <Slider {...this.props.settings}>

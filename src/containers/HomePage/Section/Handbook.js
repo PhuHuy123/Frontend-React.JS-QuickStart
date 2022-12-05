@@ -5,6 +5,7 @@ import {getAllPosts} from '../../../services/userService';
 import Slider from "react-slick";
 import './Specialty.scss'
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 class Handbook extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +32,7 @@ class Handbook extends Component {
             <div className="section section-container">
                 <div className="section-content">
                     <div className="section-header">
-                        <button>TẤT CẢ BÀI VIẾT</button>
+                    <Link to='/all-posts'><button>TẤT CẢ BÀI VIẾT</button></Link>
                         <span>Bài viết</span>
                     </div>
                     <Slider {...this.props.settings}>

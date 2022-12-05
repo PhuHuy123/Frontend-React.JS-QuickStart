@@ -33,36 +33,47 @@ class HomeHeader extends Component {
             </div>
             <div className="center-content">
               <button className="child-content">
-                <div>
-                  <FormattedMessage id="home-header.specialist" />
-                </div>
-                <span>
-                  <FormattedMessage id="home-header.find-doctor" />
-                </span>
+                <Link to={`/all-specialty`} className="link-to">
+                  <div>
+                    <FormattedMessage id="home-header.specialist" />
+                  </div>
+                  <span>
+                    <FormattedMessage id="home-header.find-doctor" />
+                  </span>
+                </Link>
               </button>
               <button className="child-content">
+              <Link to={`/all-clinic`} className="link-to">
+
                 <div>
                   <FormattedMessage id="home-header.health-facilities" />
                 </div>
                 <span>
                   <FormattedMessage id="home-header.choose-hospital-clinic" />
                 </span>
+                </Link>
+
               </button>
               <button className="child-content">
+              <Link to={`/all-doctor`} className="link-to">
                 <div>
                   <FormattedMessage id="home-header.doctor" />
                 </div>
                 <span>
                   <FormattedMessage id="home-header.good-doctor" />
                 </span>
+                </Link>
+
               </button>
               <button className="child-content">
-                <div>
-                  <FormattedMessage id="home-header.posts" />
-                </div>
-                <span>
-                  <FormattedMessage id="home-header.see-post" />
-                </span>
+                <Link to={`/all-posts`} className="link-to">
+                  <div>
+                    <FormattedMessage id="home-header.posts" />
+                  </div>
+                  <span>
+                    <FormattedMessage id="home-header.see-post" />
+                  </span>
+                </Link>
               </button>
               <button className="child-content">
                 <Link to={`/high-chart/covid`} className="link-to">

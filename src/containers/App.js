@@ -17,6 +17,7 @@ import Signup from './Auth/Signup';
 import System from '../routes/System';
 import HomePage from './HomePage/HomePage';
 import DetailDoctor from './Patient/Doctor/DetailDoctor';
+import AllDoctor from './Patient/Doctor/AllDoctor';
 import VerifyEmail from './Patient/VerifyEmail';
 import NewPassword from './../containers/Auth/NewPassword';
 import ResetPassword from './../containers/Auth/ResetPassword';
@@ -24,8 +25,11 @@ import { CustomToastCloseButton } from '../components/CustomToast';
 import CustomScrollbars from '../components/CustomScrollbars';
 import Doctor from '../routes/Doctor';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
+import AllSpecialty from './Patient/Specialty/ AllSpecialty';
 import DetailClinic from './Patient/Clinic/DetailClinic';
+import AllClinic from './Patient/Clinic/ AllClinic';
 import DetailPosts from './Patient/Posts/DetailPosts';
+import AllPosts from './Patient/Posts/ AllPosts';
 import Single from './Patient/Single';
 import InfoPatient from './Patient/Information';
 import History from './Patient/History';
@@ -67,9 +71,13 @@ class App extends Component {
                                     <Route path={path.DOCTOR} component={userIsAuthenticated(Doctor)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
                                     <Route path={path.DETAIL_DOCTOR}component={DetailDoctor}/>
+                                    <Route path={path.ALL_DOCTOR}component={AllDoctor}/>
                                     <Route path={path.DETAIL_SPECIALTY}component={DetailSpecialty}/>
+                                    <Route path={path.ALL_SPECIALTY}component={AllSpecialty}/>
                                     <Route path={path.DETAIL_CLINIC}component={DetailClinic}/>
+                                    <Route path={path.ALL_CLINIC}component={AllClinic}/>
                                     <Route path={path.DETAIL_POSTS}component={DetailPosts}/>
+                                    <Route path={path.ALL_POSTS}component={AllPosts}/>
                                     <Route path={path.VERIFY_EMAIL_BOOKING}component={VerifyEmail}/>
                                     <Route path={path.EMAIL_UPDATE_PASSWORD}component={NewPassword}/>
                                     <Route path={path.INPUT_EMAIL_RESET}component={ResetPassword}/>

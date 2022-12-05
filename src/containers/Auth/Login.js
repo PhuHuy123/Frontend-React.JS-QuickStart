@@ -48,7 +48,10 @@ class Login extends Component {
           this.setState({
             errMessage: data.message,
           });
-          this.setState({ isShowLoading: false });
+          this.setState({ 
+            isShowLoading: false,
+            password: "",
+          });
           toast.error(data.message);
         }
         if (data && data.errCode === 0) {
@@ -57,7 +60,10 @@ class Login extends Component {
           this.props.userLoginSuccess(data.user);
         }
       } catch (error) {
-        this.setState({ isShowLoading: false });
+        this.setState({ 
+          isShowLoading: false,
+          password: "",
+        });
         if (error.response) {
           if (error.response.data) {
             this.setState({
@@ -67,7 +73,10 @@ class Login extends Component {
         }
       }
     } else {
-      this.setState({ isShowLoading: false });
+      this.setState({ 
+        isShowLoading: false,
+        password: "",
+      });
       toast.error("Error: you are not done ReCaptCha !");
     }
   };
