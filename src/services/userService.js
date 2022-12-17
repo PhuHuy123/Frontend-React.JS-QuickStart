@@ -187,6 +187,10 @@ const getAllExaminationById = (id) => {
 const postDoctorForward = (data) => {
   return axios.post(`/api/post-doctor-forward`,data);
 };
+
+const postSupport = (data) => {
+  return axios.post(`https://sheet.best/api/sheets/32c1f043-19b1-4614-a200-9e12966429e6`,data);
+};
 export {
   postReCapTCha,
   handleLogin,
@@ -238,4 +242,5 @@ export {
   createExamination,
   postDoctorForward,
   getAllExaminationById,
+  postSupport,
 };

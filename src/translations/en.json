@@ -27,7 +27,7 @@
     "menu": {
          "admin":{
             "user": "Users System",
-            "manage-doctor": "Manage doctor",
+            "manage-doctor": "Manage doctor information",
             "manage-admin": "Manage admin",
             "manage-user":{
                 "crud": "CRUD User",
@@ -71,7 +71,15 @@
     "homepage":{
         "outstanding-doctor": "Outstanding Doctor",
         "see-more": "SEE MORE",
-        "specialty-popular": "Popular specialties"
+        "specialty-popular": "Popular specialties",
+        "outstanding-clinic": "Outstanding clinic",
+        "new-posts": "New posts",
+        "all-posts": "ALL POSTS",
+        "guide": "Instructions for booking an online medical appointment",
+        "g1": "Customers wishing to make an appointment at the System, please follow the instructions:",
+        "g2": "Make an appointment by calling the Customer Care switchboard at 0202 102 2202 (Customer Advice Hotline) or 1800 0000 (Tam Anh Hanoi General Hospital)",
+        "g3": "Book an appointment online by filling out the form below.",
+        "g4": "Please note, in case of emergency, please immediately go to the nearest medical facility or directly to the System"
     },
     "manage-schedule":{
         "title": "Manage doctor's examination plan",
@@ -113,5 +121,11 @@
             "success": "Confirmation of successful appointment appointment",
             "fail": "Appointment does not exist or is confirmed"
         }
+    },
+    "navbar":{
+        "personal-information": "Personal information",
+        "medical-order": "Medical order",
+        "medical-history": "Medical history",
+        "log-out": "Log out"
     }
 }

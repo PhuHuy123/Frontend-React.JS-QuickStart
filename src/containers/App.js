@@ -35,6 +35,7 @@ import InfoPatient from './Patient/Information';
 import History from './Patient/History';
 import HighChart from './HighCharts/HighChart';
 import Paypal from './Paypal/Paypal';
+import Support from './Support';
 class App extends Component {
 
     handlePersistorState = () => {
@@ -86,6 +87,7 @@ class App extends Component {
                                     <Route path={path.SINGLE} component={userIsAuthenticated(Single)}/>
                                     <Route path={path.HISTORY} component={userIsAuthenticated(History)}/>
                                     <Route path={path.PAYPAL}component={Paypal}/>
+                                    <Route path={path.SUPPORT}component={Support}/>
                                 </Switch>
                             </CustomScrollbars>
                         </div>

@@ -31,3 +31,18 @@
         color: red;
     }
 }
+.history-bn{
+    color: blue;
+    cursor: pointer;
+    &:hover{
+        color: black;
+    }
+}
+.see-details-history{
+    border: none;
+    background: transparent;
+    color: blue;
+    &:hover{
+        color: black;
+    }
+}

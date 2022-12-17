@@ -1,0 +1,21 @@
+.support{
+    // height:100vh;
+    .image{
+        background-image: url("../../assets/images/suppor.jpg");
+        width: 100%;
+        height: 250px;
+        text-align: center;
+        padding-top: 50px;
+        color: white;
+    }
+    .row{
+        margin: 20px auto;
+        width: 45%;
+        label{
+            font-weight: 600;
+        }
+        .btn-warning{
+            padding: 5px 20px;
+        }
+    }
+}

@@ -6,6 +6,7 @@ import Summary from './Summary/Summary';
 import {getCountriesCovid19, getReportByCountry} from '../../services/userService';
 import HomeHeader from '../HomePage/HomeHeader';
 import './HighChart.scss';
+import Loading from '../Loading'
 
 class HighChart extends Component {
     constructor(props) {
@@ -14,15 +15,17 @@ class HighChart extends Component {
             countries: [],
             selectedCountryId: 'Viet Nam',
             report: [],
+            isLoading: true,
         }
     }
     async componentDidMount(){
-        let {countries, selectedCountryId} = this.state;
-
+        let {countries, selectedCountryId} = this.state; 
         let res = await getCountriesCovid19()
-
         const {Slug} = res.find((item)=>item.Country=== selectedCountryId);
         let Country = await getReportByCountry(Slug);
+        this.setState({
+            isLoading: false
+        })
         Country.pop();
         this.setState({
             countries: res,
@@ -48,9 +51,10 @@ class HighChart extends Component {
         
     }
     render() {
-        let {countries, report, selectedCountryId} = this.state
+        let {countries, report, selectedCountryId, isLoading} = this.state
         return (
             <>
+                {isLoading && <Loading/>}
                 <HomeHeader/>
                 <div className="high-chart-covid">
                     <CountrySelector

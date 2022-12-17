@@ -13,6 +13,7 @@ import { editUserAPI, getAllUsers } from "../../../services/userService";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import * as actions from "../../../store/actions";
+import { FormattedMessage } from "react-intl";
 function Info(props) {
   const [userInfo, setUserInfo] = useState();
   const [lastName, setLastName] = useState();
@@ -86,17 +87,17 @@ function Info(props) {
             <div className="navBar-info">
               <Link to="/info-patient">
                 <p style={{ color: "blue" }}>
-                  <i className="fa-regular fa-user"></i> Thông tin cá nhân
+                  <i className="fa-regular fa-user"></i> <FormattedMessage id="navbar.personal-information" />
                 </p>
               </Link>
               <Link to="/single">
                 <p>
-                  <i className="fa-solid fa-file-invoice"></i> Đơn đặt khám
+                  <i className="fa-solid fa-file-invoice"></i> <FormattedMessage id="navbar.medical-order" />
                 </p>
               </Link>
               <Link to="/history">
                 <p>
-                  <i className="fa-solid fa-clock-rotate-left"></i> Lịch sử khám
+                  <i className="fa-solid fa-clock-rotate-left"></i> <FormattedMessage id="navbar.medical-history" />
                 </p>
               </Link>
             </div>

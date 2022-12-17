@@ -59,7 +59,7 @@ class Specialty extends Component {
                                             <h3 className='title-slide'>
                                                 {language===LANGUAGES.VI?nameVi:nameEn}
                                             </h3>
-                                            <h4 className='title-2'>Thần kinh-Cột sống</h4>
+                                            {/* <h4 className='title-2'>Thần kinh-Cột sống</h4> */}
                                         </div>
                                     </div>
                                 )

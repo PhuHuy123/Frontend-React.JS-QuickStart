@@ -27,7 +27,7 @@
     "menu": {
         "admin":{
             "user": "Người dùng",
-            "manage-doctor": "Quản lý bác sĩ",
+            "manage-doctor": "Quản lý thông tin bác sĩ",
             "manage-admin": "Quản lý admin",
             "manage-user":{
                 "crud": "CRUD User",
@@ -49,7 +49,7 @@
 
         },
         "doctor":{
-            "manage-schedule": "Quản lý kế hoạch khám bệnh",
+            "manage-schedule": "Quản lý lịch trình khám bệnh",
             "manage-patient": "Quản lý bệnh nhân khám bệnh"
         }
     },
@@ -71,7 +71,15 @@
     "homepage":{
         "outstanding-doctor": "Bác sĩ nổi bật",
         "see-more": "XEM THÊM",
-        "specialty-popular": "Chuyên khoa phổ biến"
+        "specialty-popular": "Chuyên khoa phổ biến",
+        "outstanding-clinic": "Cơ sở y tế nổi bật",
+        "new-posts": "Bài viết mới nhât",
+        "all-posts": "TẤT CẢ BÀI VIẾT",
+        "guide": "Hướng dẫn đặt lịch khám bệnh trực tuyến",
+        "g1": "Quý khách hàng có nhu cầu đặt hẹn khám tại Hệ thống, xin vui lòng thực hiện theo hướng dẫn:",
+        "g2": "Đặt hẹn bằng cách gọi tổng đài Chăm sóc khách hàng tại số 0202 102 2202 (Đường dây nóng tư vấn khách hàng) hoặc 1800 0000 (Bệnh viện Đa khoa Tâm Anh Hà Nội)",
+        "g3": "Đặt hẹn trực tuyến bằng cách điền thông tin vào mẫu bên dưới.",
+        "g4": "Xin lưu ý, trong các trường hợp khẩn cấp, quý khách vui lòng đến ngay cơ sở y tế gần nhất hoặc đến trực tiếp Hệ thống"
     },
     "manage-schedule":{
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
@@ -113,6 +121,12 @@
             "success": "Xác nhận lịch đặt hẹn thành công",
             "fail": "Lịch hẹn không tồn tại hoặc đã xác nhận"
         }
+    },
+    "navbar":{
+        "personal-information": "Thông tin cá nhân",
+        "medical-order": "Đơn đặt khám bệnh",
+        "medical-history": "Lịch sử khám bệnh",
+        "log-out": "Đăng xuất"
     }
     
 }

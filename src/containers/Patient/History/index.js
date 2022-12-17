@@ -62,9 +62,9 @@ console.log(history)
           <div className="row">
             <div className="nav-left col-2">
               <div className="navBar-info">
-                <Link to='/info-patient'><p><i className="fa-regular fa-user"></i> Thông tin cá nhân</p></Link>
-                <Link to='/single'><p><i className="fa-solid fa-file-invoice"></i> Đơn đặt khám</p></Link>
-                <Link to='/history'><p style={{color: 'blue'}}><i className="fa-solid fa-clock-rotate-left"></i> Lịch sử khám</p></Link>
+                <Link to='/info-patient'><p><i className="fa-regular fa-user"></i> <FormattedMessage id="navbar.personal-information" /></p></Link>
+                <Link to='/single'><p><i className="fa-solid fa-file-invoice"></i> <FormattedMessage id="navbar.medical-order" /></p></Link>
+                <Link to='/history'><p style={{color: 'blue'}}><i className="fa-solid fa-clock-rotate-left"></i> <FormattedMessage id="navbar.medical-history" /></p></Link>
               </div>
             </div>
             <div className="nav-right col-10 row">

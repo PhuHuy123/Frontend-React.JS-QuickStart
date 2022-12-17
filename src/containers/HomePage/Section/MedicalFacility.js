@@ -33,7 +33,7 @@ class MedicalFacility extends Component {
                 <div className="section-content">
                     <div className="section-header">
                     <Link to='/all-clinic'><button><FormattedMessage id="homepage.see-more"/></button></Link>
-                        <span>Cơ sở y tế nổi bật</span>
+                        <span><FormattedMessage id="homepage.outstanding-clinic"/></span>
                     </div>
                     <Slider {...this.props.settings}>
                         {dataClinic && dataClinic.length > 0 && 

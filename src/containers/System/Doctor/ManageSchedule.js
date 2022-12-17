@@ -487,7 +487,7 @@ class ManageSchedule extends Component {
                                     }</td>
                                 <td>{item.maxNumber}</td>
                                 <td>
-                                    <button className='btn btn-info mr-2'
+                                    <button className='btn btn-info mr-2' onClick={()=>this.handleEdit}
                                     >Edit</button>
                                     <button className='btn btn-danger'
                                     onClick={()=>this.handleDelete(item.id)}

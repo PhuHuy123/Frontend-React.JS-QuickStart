@@ -17,6 +17,7 @@ import moment from "moment";
 import { Modal, Button, ModalBody, ModalFooter } from "reactstrap";
 import Cancal from "./Cancal";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 
 const Single = (props) => {
   const steps = [
@@ -61,17 +62,17 @@ const Single = (props) => {
             <div className="navBar-info">
               <Link to="/info-patient">
                 <p>
-                  <i className="fa-regular fa-user"></i> Thông tin cá nhân
+                  <i className="fa-regular fa-user"></i> <FormattedMessage id="navbar.personal-information" />
                 </p>
               </Link>
               <Link to="/single">
                 <p style={{ color: "blue" }}>
-                  <i className="fa-solid fa-file-invoice"></i> Đơn đặt khám
+                  <i className="fa-solid fa-file-invoice"></i> <FormattedMessage id="navbar.medical-order" />
                 </p>
               </Link>
               <Link to="/history">
                 <p>
-                  <i className="fa-solid fa-clock-rotate-left"></i> Lịch sử khám
+                  <i className="fa-solid fa-clock-rotate-left"></i> <FormattedMessage id="navbar.medical-history" />
                 </p>
               </Link>
             </div>

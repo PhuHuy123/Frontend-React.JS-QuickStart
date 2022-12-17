@@ -32,8 +32,8 @@ class Handbook extends Component {
             <div className="section section-container">
                 <div className="section-content">
                     <div className="section-header">
-                    <Link to='/all-posts'><button>TẤT CẢ BÀI VIẾT</button></Link>
-                        <span>Bài viết</span>
+                    <Link to='/all-posts'><button><FormattedMessage id="homepage.all-posts"/></button></Link>
+                        <span><FormattedMessage id="homepage.new-posts"/></span>
                     </div>
                     <Slider {...this.props.settings}>
                     {dataPosts && dataPosts.length > 0 && 

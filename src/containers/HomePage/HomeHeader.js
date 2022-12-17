@@ -86,11 +86,13 @@ class HomeHeader extends Component {
                 </Link>
               </button>
             </div>
-            <div className="right-content">
-              <div className="support">
-                <i className="fa fa-question-circle"></i>
-                <FormattedMessage id="home-header.support" />
-              </div>
+            <div className="right-content ">
+              <Link to={`/support`} className="link-to">
+                <div className="support">
+                  <i className="fa fa-question-circle"></i>
+                  <FormattedMessage id="home-header.support" />
+                </div>
+              </Link>
               <div className="flag">
                 <div
                   className={
@@ -139,23 +141,23 @@ class HomeHeader extends Component {
                     </div>
                     <Link to='/info-patient'>
                       <div className="btn btn-logout">
-                        <p>Thông tin cá nhân</p>
+                        <p><FormattedMessage id="navbar.personal-information" /></p>
                       </div>
                     </Link>
                     <Link to='/single'>
                       <div className="btn btn-logout">
-                        <p>Đơn đặt khám</p>
+                        <p><FormattedMessage id="navbar.medical-order" /></p>
                       </div>
                     </Link>
                     <Link to='/history'>
                       <div className="btn btn-logout">
-                        <p>Lịch sử khám</p>
+                        <p><FormattedMessage id="navbar.medical-history" /></p>
                       </div>
                     </Link>
                     <hr />
                     <div className="btn btn-logout" onClick={processLogout}>
                       <i className="fas fa-sign-out-alt"></i>
-                      <p>Log out</p>
+                      <p><FormattedMessage id="navbar.log-out" /></p>
                     </div>
                   </div>
                 </>

@@ -78,6 +78,7 @@ class Search extends Component {
     }
     render() {
         let {arrClinic, arrSpecialty, arrPost, search, checkSearch, arrDoctor}= this.state
+        let {language}= this.props
         return (
             <div className="banner-search">
                 <div className="search">
@@ -95,10 +96,10 @@ class Search extends Component {
                 </div>
                 <div className="connect-search">
                     <div className="live-search">
-                        {checkSearch ?"":<p className='no-result'>No result is found!</p>}
+                        {checkSearch ?"":<p className='no-result'>{language ===LANGUAGES.VI?'Không có kết quả được tìm thấy!':'No result is found!'}</p>}
                         {arrDoctor && arrDoctor.length>0 && 
                         (   <>
-                            <b className='name-main'>Doctor</b>
+                            <b className='name-main'>{language ===LANGUAGES.VI?'Bác sĩ':'Doctor'}</b>
                             {arrDoctor.map((item, index)=>{
                                 return <Link to={`/detail-${item.detail}/${item.id}`} key={index} className="link-search">
                                     <div className='img-medical doctor'
@@ -114,7 +115,7 @@ class Search extends Component {
                         }
                         {arrClinic && arrClinic.length>0 && 
                         (   <>
-                            <b className='name-main'>Clinic</b>
+                            <b className='name-main'>{language ===LANGUAGES.VI?'Cơ sở y tế':'Clinic'}</b>
                             {arrClinic.map((item, index)=>{
                                 return <Link to={`/detail-${item.detail}/${item.id}`} key={index} className="link-search">
                                     <div className='img-medical'
@@ -131,7 +132,7 @@ class Search extends Component {
 
                         {arrSpecialty && arrSpecialty.length>0 && 
                         ( <>
-                            <b className='name-main'>Specialty</b>
+                            <b className='name-main'>{language ===LANGUAGES.VI?'Chuyên khoa':'Specialty'}</b>
                             {arrSpecialty.map((item, index)=>{
                                 return <Link to={`/detail-${item.detail}/${item.id}`} key={index} className="link-search">
                                     <div className='img-medical'
@@ -146,7 +147,7 @@ class Search extends Component {
 
                         {arrPost && arrPost.length>0 && 
                         (   <>
-                            <b className='name-main'>Posts</b>
+                            <b className='name-main'>{language ===LANGUAGES.VI?'Bài viết':'Posts'}</b>
                             {arrPost.map((item, index)=>{
                                 return <Link to={`/detail-${item.detail}/${item.id}`} key={index} className="link-search">
                                     <div className='img-medical'

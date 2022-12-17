@@ -31,7 +31,7 @@ const Modals =(props, state) =>{
             <p><strong>Giờ khám:</strong> {props.language === LANGUAGES.VI ? 
                 `${props.dataSee.timeTypeDataExamination.valueVi}`
                 :`${props.dataSee.timeTypeDataExamination.valueEn}`}</p>
-            <p><strong>Giá khám:</strong> {props.dataSee.price} VNĐ</p>
+            <p><strong>Giá khám:</strong> {(+props.dataSee.price).toLocaleString()} VNĐ</p>
             <p><strong>Bác sĩ đánh giá:</strong> {props.dataSee.comment}</p>
             </ModalBody>
             <ModalFooter>

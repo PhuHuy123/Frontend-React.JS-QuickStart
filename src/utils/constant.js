@@ -22,6 +22,7 @@ export const path = {
     HISTORY: '/history',
     SINGLE: '/single',
     PAYPAL: '/paypal',
+    SUPPORT: '/support',
 };
 
 export const LANGUAGES = {
