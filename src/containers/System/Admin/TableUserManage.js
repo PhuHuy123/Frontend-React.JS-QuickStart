@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './TableUserManage.scss';
 import * as actions from '../../../store/actions';
 import {LANGUAGES} from '../../../utils';
+import Delete from "../../Modal/Delete"
 class TableUserManage extends Component {
 
     constructor(props) {
@@ -14,13 +15,25 @@ class TableUserManage extends Component {
             numberAll: 0,
             numberShowUser: 7,
             selected:1,
+            id: '',
+            isModalDelete: false,
         }
     }
     componentDidMount() {
         this.props.fetchUserRedux()
     }
-    handlerDeleteUser=(id)=>{
-        this.props.deleteUserRedux(id);
+    handleModalDelete = (id) =>{
+        this.setState({
+            id,
+            isModalDelete: true,
+        })
+    }
+    handlerDeleteUser=()=>{
+        this.props.deleteUserRedux(this.state.id);
+        this.setState({
+            id: '',
+            isModalDelete: false,
+        })
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
     // gender
@@ -73,7 +86,7 @@ class TableUserManage extends Component {
         })
     }
     render() {
-        let {usersRedux,arrShow, numberAll, numberShowUser}=this.state;
+        let {usersRedux,arrShow, numberAll, numberShowUser, isModalDelete}=this.state;
         let {language} = this.props;
         return (
             <div className="container users-container">
@@ -96,13 +109,13 @@ class TableUserManage extends Component {
                                     {
                                     return (
                                         <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{index+1}</td>
                                             <td>{item.email}</td>
                                             <td>{language===LANGUAGES.VI?`${item.lastName} ${item.firstName}`:`${item.firstName} ${item.lastName}`}</td>
                                             <td>{item.address}</td>
                                             <td>
                                                 <button className="btn btn-warning" onClick={()=>this.handlerEditUser(item)}><FormattedMessage id="menu.admin.manage-user.edit"/></button>
-                                                <button className="btn btn-danger ml-3" onClick={()=>this.handlerDeleteUser(item.id)}><FormattedMessage id="menu.admin.manage-user.delete"/></button>
+                                                <button className="btn btn-danger ml-3" onClick={()=>this.handleModalDelete(item.id)}><FormattedMessage id="menu.admin.manage-user.delete"/></button>
                                             </td>
                                         </tr>
                                     )}
@@ -116,6 +129,13 @@ class TableUserManage extends Component {
                     {this.createButtonPage(numberAll)}
                     </div>
                 </div>
+                {isModalDelete &&
+                    <Delete 
+                    isOpen={isModalDelete}
+                    closeOpen={()=>this.setState({isModalDelete: false})}
+                    handelDelete={()=>this.handlerDeleteUser()}
+                    />
+                }
             </div>
         );
     }

@@ -13,10 +13,14 @@ import "../Clinic/ManageClinic.scss";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import Delete from "../../Modal/Delete"
+import { reverse } from "lodash";
 
 export default function Clinic() {
   const [page, setPage] = React.useState(0);
+  const [id, setId] = React.useState();
   const [data, setData] = React.useState([]);
+  const [isModalDelete, setIsModalDelete] = React.useState(false);
   const history = useHistory()
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   useEffect(() => {
@@ -33,11 +37,15 @@ export default function Clinic() {
   const getScheduleAll = async () => {
     let res = await getAllPosts();
     if (res && res.errCode === 0) {
-      setData(res.data);
+      setData(reverse(res.data));
     }
   };
-  const handleDelete = async(id)=>{
-    console.log(id)
+  const handleModalDelete = (id) =>{
+    setId(id)
+    setIsModalDelete(true)
+  }
+  const handleDelete = async()=>{
+    setIsModalDelete(false)
     try {
       let res =  await deletePostById(id);
       if(res && res.errCode!==0){
@@ -47,6 +55,7 @@ export default function Clinic() {
           toast.success("Delete successfully!");
           getScheduleAll()
       }
+      setId('')
   } catch (e) {
       console.log(e)
   }
@@ -95,7 +104,7 @@ export default function Clinic() {
                           <button className="btn btn-info mr-2" onClick={()=>handleEdit(item)}>Edit</button>
                           <button
                             className="btn btn-danger"
-                            onClick={() => handleDelete(item.id)}
+                            onClick={() => handleModalDelete(item.id)}
                           >
                             Delete
                           </button>
@@ -121,6 +130,13 @@ export default function Clinic() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      {isModalDelete &&
+        <Delete 
+        isOpen={isModalDelete}
+        closeOpen={()=>setIsModalDelete(false)}
+        handelDelete={()=>handleDelete()}
+        />
+      }
     </div>
   );
 }

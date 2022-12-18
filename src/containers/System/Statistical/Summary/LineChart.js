@@ -26,7 +26,7 @@ class LineChart extends Component {
         if(item.statusId === 'S3'){
           done++
         }
-        if(item.statusId === 'S4'){
+        if(item.statusId === 'S0'){
           cancel++
         }
         return ({

@@ -66,7 +66,7 @@ class Highlight extends Component {
                         else if(item.statusId === 'S3'){
                             recovered.push(item)
                         }
-                        else if(item.statusId === 'S4'){
+                        else if(item.statusId === 'S0'){
                             death.push(item)
                         }
                     })

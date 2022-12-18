@@ -66,7 +66,7 @@
         "position": "Chức danh",
         "role": "Vai trò",
         "save": "Thêm mới",
-        "edit": "Cập nhật"
+        "edit": "Chỉnh sửa"
     },
     "homepage":{
         "outstanding-doctor": "Bác sĩ nổi bật",
@@ -127,6 +127,15 @@
         "medical-order": "Đơn đặt khám bệnh",
         "medical-history": "Lịch sử khám bệnh",
         "log-out": "Đăng xuất"
+    },
+    "manage":{
+        "all": "Tất cả",
+        "add-new": "Thêm mới",
+        "day": "Ngày",
+        "time": "Thời gian",
+        "max-person": "Số người tối đa",
+        "no-data": "Không có dữ liệu",
+        "add-new-appointment": "Thêm mới lịch khám"
     }
     
 }

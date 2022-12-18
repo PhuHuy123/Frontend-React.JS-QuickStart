@@ -127,5 +127,14 @@
         "medical-order": "Medical order",
         "medical-history": "Medical history",
         "log-out": "Log out"
+    },
+    "manage":{
+        "all": "All",
+        "add-new": "Add new",
+        "day": "Day",
+        "time": "Time",
+        "max-person": "Maximum person",
+        "no-data": "No data",
+        "add-new-appointment": "Add a new appointment"
     }
 }

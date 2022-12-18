@@ -18,6 +18,7 @@ import {
   deleteSchedule,
   getScheduleDoctorALL
 } from "../../../services/userService";
+import Delete from "../../Modal/Delete"
 class ManageSchedule extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +34,9 @@ class ManageSchedule extends Component {
       arrayDate: [],
       arrData:'',
       isOpenModal:false,
+      id: '',
+      isModalDelete: false,
+      isEdit: false,
     };
   }
   componentDidMount() {
@@ -51,20 +55,19 @@ class ManageSchedule extends Component {
       doctorId= 'ALL'
     }
     let res = await getScheduleDoctorALL(doctorId);
-      if(res && res.errCode ===0){
+    console.log(res)
+    if(res && res.errCode ===0){
         this.setState({
             arrData: res.data,
         });
       }
   }
   handleChange = async (selectedDoctor) => {
+    console.log('selectedDoctor', selectedDoctor);
     this.setState(
       {
         selectedDoctor,
         doctorId: selectedDoctor.value,
-      },
-      () => {
-        this.handleDateChange(this.state.chooseDate);
       }
     );
   };
@@ -83,7 +86,15 @@ class ManageSchedule extends Component {
     }
     return result;
   };
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  async componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.doctorId !== this.state.doctorId) {
+      let res = await getScheduleDoctorALL(this.state.doctorId);
+      if(res && res.errCode ===0){
+          this.setState({
+              arrData: res.data,
+          });
+        }
+    }
     if (prevProps.arrDoctors !== this.props.arrDoctors) {
       let dataSelect = this.buildDataInputSelect(this.props.arrDoctors);
       this.setState({
@@ -122,8 +133,8 @@ class ManageSchedule extends Component {
       doctorId = userInfo.id;
     }
     let data = this.props.allScheduleTimes;
-    let dt = new Date(+dateTime);
-    let date = moment(dt).format("YYYY-MM-DD");
+    let dt =new Date(+dateTime);
+    let date = moment(dt).format("YYYY-MM-DD")
     if (doctorId) {
       if (data && data.length > 0) {
         data = data.map((item) => ({
@@ -135,10 +146,12 @@ class ManageSchedule extends Component {
       this.setState({
         arrData: res.data,
       });
+      console.log('111');
       if (res && res.errCode === 0) {
         if (res.data && res.data.length > 0) {
           let check = res.data.map((item) => item.timeType);
           if (data && data.length > 0) {
+            console.log(data);
             data = data.map((item) =>
               check.some((element) => element === item.keyMap)
                 ? {
@@ -282,7 +295,6 @@ class ManageSchedule extends Component {
     }
   };
   handleOnChangeInput = (event, id) => {
-    console.log(event);
     let valueInput = event.target.value;
     let copyState = { ...this.state };
     copyState[id] = valueInput;
@@ -290,10 +302,25 @@ class ManageSchedule extends Component {
       ...copyState,
     });
   };
-  handleDelete = async(id)=>{
+  handleEdit = (data)=>{
+    console.log(data);
+    this.setState({
+      isOpenModal: true,
+      isEdit: true,
+      maxNumber: data.maxNumber,
+    },()=>{
+      this.handleDateChange(new Date(data.date))
+    })
+  }
+  handleModalDelete = (id) =>{
+    this.setState({
+        id,
+        isModalDelete: true,
+    })
+}
+  handleDelete = async()=>{
     try {
-      let res =  await deleteSchedule({id});
-      console.log(res)
+      let res =  await deleteSchedule({id: this.state.id});
       if(res && res.errCode!==0){
           toast.error(res.message);
         }
@@ -306,13 +333,18 @@ class ManageSchedule extends Component {
             this.getScheduleAll();
           }
       }
+      this.setState({
+        id: '',
+        isModalDelete: false,
+    })
   } catch (e) {
       console.log(e)
   }
   }
   render() {
     let { language, userInfo } = this.props;
-    let { rangeTime, endDate, startDate, maxNumber, arrData, isOpenModal, numberAll } = this.state;
+    let { isEdit, rangeTime, endDate, startDate, maxNumber, arrData, isOpenModal, numberAll, isModalDelete } = this.state;
+    console.log(arrData);
     return (
       <div className="manage-schedule-container">
         <div className="m-s-title">
@@ -355,11 +387,11 @@ class ManageSchedule extends Component {
               />
               <button type="button" style={{marginTop:'28px'}} className="btn btn-success form-control col-4"
                 onClick={()=>this.setState({isOpenModal:true})}
-              ><i className="fa-solid fa-plus" style={{marginLeft:'-10px', marginRight:'5px'}}></i>Thêm mới</button>
+              ><i className="fa-solid fa-plus" style={{marginLeft:'-10px', marginRight:'5px'}}></i><FormattedMessage id="manage.add-new" /></button>
               </div>
               <button type="button" style={{marginTop:'28px'}} className="btn btn-primary form-control col-1"
                 onClick={()=>this.getScheduleAll()}
-              >Tất cả</button>
+              ><FormattedMessage id="manage.all" /></button>
             <Modal
               isOpen= {isOpenModal}
               className={"booking-modal-container"}
@@ -368,12 +400,15 @@ class ManageSchedule extends Component {
               // backdrop={true}
             >
               <div className="modal-header">
-                <h5 className="modal-title"><strong>Thêm mới lịch khám</strong></h5>
+                <h5 className="modal-title"><strong><FormattedMessage id="manage.add-new-appointment"/></strong></h5>
                 <button
                   type="button"
                   className="close"
                   aria-label="Close"
-                  onClick={()=>this.setState({isOpenModal:false})}
+                  onClick={()=>this.setState(
+                    { isOpenModal:false,
+                      isEdit:false,
+                  })}
                 >
                   <span aria-hidden="true">×</span>
                 </button>
@@ -425,7 +460,11 @@ class ManageSchedule extends Component {
                       <input
                         required
                         type="text"
-                        placeholder="Số lượng khám"
+                        placeholder={
+                          language === LANGUAGES.VI
+                              ? "Số người tối đa"
+                              : "Maximum person"
+                        }
                         value={maxNumber}
                         onChange={(event) =>
                           this.handleOnChangeInput(event, "maxNumber")
@@ -467,12 +506,12 @@ class ManageSchedule extends Component {
           <table className="table table-bordered mt-3">
             <thead className='table-dark'>
                 <tr>
-                    <th scope="col">STT</th>
-                    <th scope="col">Ngày</th>
-                    <th scope="col">Thời gian</th>
-                    <th scope="col">Số người tối đa</th>
+                    <th scope="col">#</th>
+                    <th scope="col"><FormattedMessage id="manage.day" /></th>
+                    <th scope="col"><FormattedMessage id="manage.time" /></th>
+                    <th scope="col"><FormattedMessage id="manage.max-person" /></th>
                     {/* <th scope="col">Trạng thái</th> */}
-                    <th scope="col">Actions</th>
+                    <th scope="col"><FormattedMessage id="menu.admin.manage-user.actions" /></th>
                 </tr>
             </thead>
             <tbody>
@@ -487,23 +526,30 @@ class ManageSchedule extends Component {
                                     }</td>
                                 <td>{item.maxNumber}</td>
                                 <td>
-                                    <button className='btn btn-info mr-2' onClick={()=>this.handleEdit}
-                                    >Edit</button>
+                                    <button className='btn btn-info mr-2' onClick={()=>this.handleEdit(item)}
+                                    ><FormattedMessage id="menu.admin.manage-user.edit" /></button>
                                     <button className='btn btn-danger'
-                                    onClick={()=>this.handleDelete(item.id)}
-                                    >Delete</button>
+                                    onClick={()=>this.handleModalDelete(item.id)}
+                                    ><FormattedMessage id="menu.admin.manage-user.delete" /></button>
                                 </td>
                             </tr>
                         )
                     })
                     :
                     <tr>
-                        <td colSpan='6' style={{textAlign: 'center'}}>No data</td>
+                        <td colSpan='6' style={{textAlign: 'center'}}><FormattedMessage id="manage.no-data"/></td>
                     </tr>
                 }
             </tbody>
         </table>
         </div>
+        {isModalDelete &&
+            <Delete 
+            isOpen={isModalDelete}
+            closeOpen={()=>this.setState({isModalDelete: false})}
+            handelDelete={()=>this.handleDelete()}
+            />
+        }
       </div>
     );
   }
