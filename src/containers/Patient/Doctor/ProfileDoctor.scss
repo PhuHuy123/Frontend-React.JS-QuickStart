@@ -1,38 +1,58 @@
-.info-doctor{
+.info-doctor {
+  display: flex;
+  .content-left {
+    width: 20%;
+    background: center center no-repeat;
+    background-size: contain;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 10px 0px;
+  }
+  .content-right {
+    width: 80%;
     display: flex;
-    .content-left{
-        width: 20%;
-        background: center center no-repeat;
-        background-size: contain;
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        margin: 10px 0px;
+    flex-direction: column;
+    padding-left: 20px;
+    .up {
+      padding-top: 15px;
+      font-weight: 600;
     }
-    .content-right{
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        padding-left: 20px;
-        .up{
-            padding-top: 15px;
-            font-weight: 600;
-        }
-        .down{
-            margin-top: 10px;
-            color: #555;
-            font-size: 13px;
-            text-align: justify;
-        }
+    .down {
+      margin-top: 10px;
+      color: #555;
+      font-size: 13px;
+      text-align: justify;
+      margin-right: 10px;
     }
+  }
 }
-.price{
-    .currency{
-        font-size: 15px;
-        color: red;
-        margin-left: 5px;
+.price {
+  .currency {
+    font-size: 15px;
+    color: red;
+    margin-left: 5px;
+  }
+}
+.render-date {
+  text-transform: capitalize;
+}
+@media only screen and (max-width: 992px) {
+  .info-doctor {
+    .content-left {
+      width: 60px;
+      height: 60px;
     }
+  }
 }
-.render-date{
-    text-transform: capitalize;
-}
+@media only screen and (max-width: 521px) {
+    .info-doctor {
+      .content-left {
+        width: 50px;
+        height: 50px;
+      }
+      span{
+        font-size: 12px;
+      }
+    }
+  }

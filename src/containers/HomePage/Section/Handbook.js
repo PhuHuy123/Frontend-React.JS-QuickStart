@@ -11,15 +11,25 @@ class Handbook extends Component {
         super(props);
         this.state = {
             dataPosts: [],
+            isMobile: window.innerWidth < 768,
         }
     }
     async componentDidMount() {
         let res = await getAllPosts();
         if(res && res.errCode ===0) {
             this.setState({
-                dataPosts: res.data ?res.data : []
+                dataPosts: res.data ?res.data : [],
             })
+            window.addEventListener("resize", this.updateIsMobile);
         }
+    }
+    updateIsMobile=()=> {
+        this.setState({
+          isMobile: window.innerWidth < 768,
+        });
+    }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateIsMobile);
     }
     handleViewDetailPosts = (item)=>{
         if(this.props.history) {
@@ -27,10 +37,10 @@ class Handbook extends Component {
         }
     }
     render() {
-        let {dataPosts} = this.state;
+        let {dataPosts, isMobile} = this.state;
         return (
             <div className="section section-container">
-                <div className="section-content">
+                <div className={isMobile?"section-content section-mobi":"section-content"}>
                     <div className="section-header">
                     <Link to='/all-posts'><button><FormattedMessage id="homepage.all-posts"/></button></Link>
                         <span><FormattedMessage id="homepage.new-posts"/></span>

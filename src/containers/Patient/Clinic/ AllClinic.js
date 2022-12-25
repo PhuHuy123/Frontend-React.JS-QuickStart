@@ -5,12 +5,16 @@ import HomeFooter from "../../HomePage/HomeFooter";
 import "./AllClinic.scss";
 import { getAllClinic } from "../../../services/userService";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive'
 const AllClinic = () => {
   const [data, setData] = useState([]);
   const [numberAll, setNumberAll] = useState(0);
   const [numberShowUser, setNumberShowUser] = useState(12);
   const [selected, setSelected] = useState();
   const [arrShow, setAllShow] = useState([]);
+  const isTablet = useMediaQuery({ query: '(max-width: 991px)' })
+  const isMobi = useMediaQuery({ query: '(max-width: 768px)' })
+  const isIphone = useMediaQuery({ query: '(max-width: 414px)' })
   useEffect(() => {
     getScheduleAll();
   }, []);
@@ -54,7 +58,7 @@ const AllClinic = () => {
             /
           <p> Cơ sở y tế</p>
         </div>
-        <div className="background">
+        <div className={isTablet? isMobi? isIphone?'background-iphone':'background-mobi':'background-tablet': 'background'}>
           <img
             src="https://www.mayoclinic.org/-/media/kcms/gbs/patient-consumer/images/2019/10/28/15/57/roch-methodist-1520x600-1227506-01r.jpg"
             alt="brg"
@@ -67,8 +71,8 @@ const AllClinic = () => {
           <div className="list container">
             <div className="row">
               {arrShow.map((item) => (
-                <div className="col-3 clinic" key={item.id}>
-                  <Link to={`/detail-clinic/${item.id}`}>
+                <div className={isTablet? isMobi? isIphone?'col-12 clinic':'col-6 clinic':'col-4 clinic': 'col-3 clinic'} key={item.id}>
+                <Link to={`/detail-clinic/${item.id}`}>
                     <div className="ct-clinic">
                       <div
                         className="image"

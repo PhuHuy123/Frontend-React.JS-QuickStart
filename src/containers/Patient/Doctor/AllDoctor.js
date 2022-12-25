@@ -8,12 +8,16 @@ import { Link } from "react-router-dom";
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfo from '../Doctor/DoctorExtraInfo';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
+import { useMediaQuery } from 'react-responsive'
 const AllDoctor = () => {
   const [data, setData] = useState([]);
   const [numberAll, setNumberAll] = useState(0);
   const [numberShowUser, setNumberShowUser] = useState(8);
   const [selected, setSelected] = useState();
   const [arrShow, setAllShow] = useState([]);
+  const isTablet = useMediaQuery({ query: '(max-width: 991px)' })
+  const isMobi = useMediaQuery({ query: '(max-width: 768px)' })
+  const isIphone = useMediaQuery({ query: '(max-width: 414px)' })
   useEffect(() => {
     getScheduleAll();
   }, []);
@@ -58,7 +62,7 @@ const AllDoctor = () => {
           /
           <p>Bác sĩ</p>
         </div>
-        <div className="background">
+        <div className={isTablet? isMobi? isIphone?'background-iphone':'background-mobi':'background-tablet': 'background'}>
           <img
             src="https://tamanhhospital.vn/wp-content/uploads/2020/12/banner-chuyen-gia-bac-si-desk.jpg"
             alt="brg"

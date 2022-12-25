@@ -18,6 +18,7 @@ import { Modal, Button, ModalBody, ModalFooter } from "reactstrap";
 import Cancal from "./Cancal";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
+import { useMediaQuery } from 'react-responsive'
 
 const Single = (props) => {
   const steps = [
@@ -30,6 +31,10 @@ const Single = (props) => {
   const [dataDoctor, setDataDoctor] = useState("");
   const [gender, setGender] = useState();
   const [checkDelete, setCheckDelete] = useState(false);
+  const isTablet = useMediaQuery({ query: '(max-width: 1062px)' })
+  const isMobi = useMediaQuery({ query: '(max-width: 768px)' })
+  const isIphone = useMediaQuery({ query: '(max-width: 414px)' })
+  
 
   useEffect(() => {
     handleSingleById();
@@ -54,31 +59,33 @@ const Single = (props) => {
     setCheckDelete(false);
   };
   return (
-    <div className="single-case">
+    <div className={isTablet ?"single-case-tablet":"single-case"}>
       <HomeHeader />
-      <div className="container">
+      <div className={!isTablet ? "container":"al"}>
         <div className="row">
-          <div className="nav-left col-2">
-            <div className="navBar-info">
-              <Link to="/info-patient">
-                <p>
-                  <i className="fa-regular fa-user"></i> <FormattedMessage id="navbar.personal-information" />
-                </p>
-              </Link>
-              <Link to="/single">
-                <p style={{ color: "blue" }}>
-                  <i className="fa-solid fa-file-invoice"></i> <FormattedMessage id="navbar.medical-order" />
-                </p>
-              </Link>
-              <Link to="/history">
-                <p>
-                  <i className="fa-solid fa-clock-rotate-left"></i> <FormattedMessage id="navbar.medical-history" />
-                </p>
-              </Link>
+          {!isTablet &&
+            <div className="nav-left col-2">
+              <div className="navBar-info">
+                <Link to="/info-patient">
+                  <p>
+                    <i className="fa-regular fa-user"></i> <FormattedMessage id="navbar.personal-information" />
+                  </p>
+                </Link>
+                <Link to="/single">
+                  <p style={{ color: "blue" }}>
+                    <i className="fa-solid fa-file-invoice"></i> <FormattedMessage id="navbar.medical-order" />
+                  </p>
+                </Link>
+                <Link to="/history">
+                  <p>
+                    <i className="fa-solid fa-clock-rotate-left"></i> <FormattedMessage id="navbar.medical-history" />
+                  </p>
+                </Link>
+              </div>
             </div>
-          </div>
+          }
           {currentStep && (
-            <div className="nav-right col-10">
+            <div className={isTablet ?"nav-right col-12":"nav-right col-10"}>
               {currentStep && currentStep.statusId === "S4" ? (
                 <Cancal />
               ) : (
@@ -191,7 +198,7 @@ const Single = (props) => {
                   ) : (
                     <button
                       type="button"
-                      className="btn btn-outline-danger col-10"
+                      className={isTablet ?"btn btn-outline-danger col-11" : "btn btn-outline-danger col-10"}
                       onClick={() => setCheckDelete(true)}
                     >
                       Hủy lịch khám

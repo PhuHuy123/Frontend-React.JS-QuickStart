@@ -12,14 +12,25 @@ class Specialty extends Component {
         super(props);
         this.state = {
             doctorsArr:[],
+            isMobile: window.innerWidth < 768,
         }}
     async componentDidMount() {
         this.props.loadTopDoctors();
+        window.addEventListener("resize", this.updateIsMobile);
+    }
+    updateIsMobile=()=> {
+        this.setState({
+          isMobile: window.innerWidth < 768,
+        });
+    }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateIsMobile);
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.topDoctors!==this.props.topDoctors){
             this.setState({
-                doctorsArr:this.props.topDoctors
+                doctorsArr:this.props.topDoctors,
+                isMobi: window.innerWidth < 768
             })
         }
     }
@@ -30,11 +41,11 @@ class Specialty extends Component {
     }
     render() {
         console.log(this.props.topDoctors)
-        let {doctorsArr} = this.state
+        let {doctorsArr, isMobile} = this.state
         let {language} = this.props
         return (
             <div className="section section-doctor">
-                <div className="section-content">
+                <div className={isMobile?"section-content section-mobi":"section-content"}>
                     <div className="section-header">
                     <Link to='/all-doctor'><button><FormattedMessage id="homepage.see-more"/></button></Link>
                         <span><FormattedMessage id="homepage.outstanding-doctor"/></span>

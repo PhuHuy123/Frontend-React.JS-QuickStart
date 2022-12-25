@@ -36,7 +36,7 @@ class ResetPassword extends Component {
     });
   };
   handlerSubmit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     this.setState({ isShowLoading: true });
     let res = await postReCapTCha({
       token:this.myRef.current.getValue()

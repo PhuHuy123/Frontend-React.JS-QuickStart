@@ -29,8 +29,15 @@
                 background-repeat: no-repeat;
                 background-size: cover;
                 width: 51%;
-                height: 55%;
+                height: 50%;
                 cursor: pointer;
+            }
+        }
+        .left-content.mobi{
+            width: 50%;
+            .header-logo{
+                width: 45%;
+                height: 40px;
             }
         }
         .center-content{
@@ -158,6 +165,10 @@
                 border-radius: 50%;
             }
         }
+        .right-content.mobi{
+            width: 50%;
+            justify-content: right;
+        }
     }
 }
 
@@ -244,4 +255,7 @@
             }
         }
     }
+}
+.span-type-header{
+    display: none !important;
 }

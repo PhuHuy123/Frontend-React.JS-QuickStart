@@ -97,7 +97,7 @@ class Signup extends Component {
     });
   };
   handlerSaveUser = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     if(this.state.password !== this.state.passwordRepeat){
       return this.setState({errMessage: 'Password không giống nhau !!'})
     }

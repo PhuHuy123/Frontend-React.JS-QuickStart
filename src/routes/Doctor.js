@@ -5,6 +5,7 @@ import ManageSchedule from '../containers/System/Doctor/ManageSchedule';
 import Header from '../containers/Header/Header';
 import ManagePatient from '../containers/System/Doctor/ManagePatient';
 import {USER_ROLE} from '../utils';
+import Statistical from '../containers/System/Statistical/Statistical';
 
 class Doctor extends Component {
     render() {
@@ -18,7 +19,8 @@ class Doctor extends Component {
                     <div className="system-list">
                         <Switch>
                             <Route path="/doctor/manage-schedule" component={ManageSchedule} />
-                            <Route path="/doctor/manage-patient" component={ManagePatient} />                      
+                            <Route path="/doctor/manage-patient" component={ManagePatient} /> 
+                            <Route path="/doctor/system/dashboard" component={Statistical} />                     
                         </Switch>
                     </div>
                 </div>

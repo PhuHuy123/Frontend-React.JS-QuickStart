@@ -35,7 +35,7 @@ class Login extends Component {
     });
   };
   handlerLogin = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     this.setState({ isShowLoading: true });
     let res = await postReCapTCha({
       token:this.myRef.current.getValue()
@@ -110,7 +110,7 @@ class Login extends Component {
                   required
                   className="form-control"
                   type="text"
-                  label="Username"
+                  label="Email"
                   value={this.state.username}
                   onChange={(e) => this.handlerOnChangeUserName(e.target.value)}
                   onKeyDown={(e) => this.handleKeyDown(e)}

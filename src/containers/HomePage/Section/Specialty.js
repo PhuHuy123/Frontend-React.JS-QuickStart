@@ -12,13 +12,32 @@ class Specialty extends Component {
         super(props);
         this.state = {
             dataSpecialty: [],
+            isMobile: window.innerWidth < 768,
         }
     }
     async componentDidMount() {
         let res = await getAllSpecialty();
         if(res && res.errCode ===0) {
             this.setState({
-                dataSpecialty: res.data ?res.data : []
+                dataSpecialty: res.data ?res.data : [],
+                isMobi: window.innerWidth < 768
+            })
+            window.addEventListener("resize", this.updateIsMobile);
+        }
+    }
+    updateIsMobile=()=> {
+        this.setState({
+          isMobile: window.innerWidth < 768,
+        });
+    }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateIsMobile);
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.topDoctors!==this.props.topDoctors){
+            this.setState({
+                doctorsArr:this.props.topDoctors,
+                isMobi: window.innerWidth < 768
             })
         }
     }
@@ -28,10 +47,10 @@ class Specialty extends Component {
         }
     }
     render() {
-        let {dataSpecialty} = this.state;
+        let {dataSpecialty, isMobile} = this.state;
         return (
             <div className="section">
-                <div className="section-content">
+                <div className={isMobile?"section-content section-mobi":"section-content"}>
                     <div className="section-header">
                     <Link to='/all-specialty'><button><FormattedMessage id="homepage.see-more"/></button></Link>
                         <span><FormattedMessage id="homepage.specialty-popular"/></span>

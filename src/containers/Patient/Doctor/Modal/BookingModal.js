@@ -185,7 +185,7 @@ class BookingModal extends Component {
     });
   }
   handleConfirmBooking = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     let {
       firstName,
       lastName,

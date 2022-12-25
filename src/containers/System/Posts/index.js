@@ -83,8 +83,8 @@ export default function Clinic() {
             <TableHead>
               <TableRow>
                 <TableCell className="table-cell">STT</TableCell>
-                <TableCell className="table-cell">Tên phòng khám</TableCell>
-                <TableCell className="table-cell">Ảnh phòng khám</TableCell>
+                <TableCell className="table-cell">Tên bài viết</TableCell>
+                <TableCell className="table-cell">Ảnh bài viết</TableCell>
                 <TableCell className="table-cell">Actions</TableCell>
               </TableRow>
             </TableHead>

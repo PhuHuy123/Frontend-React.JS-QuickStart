@@ -6,3 +6,23 @@
         margin-top:20px;
     }
 }
+.pie-chart{
+    display: flex;
+    text-align: center;
+    width: 100%;
+    p{
+        padding-top: 20px;
+        width: 33.33%;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .sum{
+        color: #8abff5;
+    }
+    .take{
+        color: #ffc57f;
+    }
+    .pay{
+        color: #ff86b3;
+    }
+}

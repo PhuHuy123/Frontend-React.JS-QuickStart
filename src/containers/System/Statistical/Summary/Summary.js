@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LineChart from './LineChart';
 import Grid from '@material-ui/core/Grid';
+import PieChart from '../PieChart'
 
 class Summary extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class Summary extends Component {
        
     }
     render() {
-        let {report} = this.props;
+        let {report, money} = this.props;
         return (
             <div style={{ height: '500px', marginTop: 10 }}>
                 <Grid container spacing={3}>
@@ -21,6 +22,7 @@ class Summary extends Component {
                     <LineChart data={report} />
                     </Grid>
                     <Grid item sm={4} xs={12}>
+                    <PieChart sumMoney={money}/>
                     </Grid>
                 </Grid>
             </div>

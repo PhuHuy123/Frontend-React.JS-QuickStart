@@ -11,26 +11,37 @@ class MedicalFacility extends Component {
         super(props);
         this.state = {
             dataClinic: [],
+            isMobile: window.innerWidth < 768,
         }
     }
     async componentDidMount() {
         let res = await getAllClinic();
         if(res && res.errCode ===0) {
             this.setState({
-                dataClinic: res.data ?res.data : []
+                dataClinic: res.data ?res.data : [],
+                isMobi: window.innerWidth < 768
             })
+            window.addEventListener("resize", this.updateIsMobile);
         }
     }
+    updateIsMobile=()=> {
+        this.setState({
+          isMobile: window.innerWidth < 768,
+        });
+      }
+      componentWillUnmount() {
+        window.removeEventListener("resize", this.updateIsMobile);
+      }
     handleViewDetailClinic = (item)=>{
         if(this.props.history) {
             this.props.history.push(`/detail-clinic/${item.id}`)
         }
     }
     render() {
-        let {dataClinic} = this.state;
+        let {dataClinic, isMobile} = this.state;
         return (
             <div className="section section-container">
-                <div className="section-content">
+                <div className={isMobile?"section-content section-mobi":"section-content"}>
                     <div className="section-header">
                     <Link to='/all-clinic'><button><FormattedMessage id="homepage.see-more"/></button></Link>
                         <span><FormattedMessage id="homepage.outstanding-clinic"/></span>

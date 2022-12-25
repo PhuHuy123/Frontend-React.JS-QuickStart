@@ -33,7 +33,7 @@ class NewPassword extends Component {
     });
   };
   handlerSaveUser = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     if (this.state.isReCaptCha === false) {
       toast.error("Error: you are not done ReCaptCha !");
     } else {

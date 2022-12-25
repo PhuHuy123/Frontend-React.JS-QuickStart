@@ -49,6 +49,7 @@ class Header extends Component {
     }
     render() {
         const { processLogout ,userInfo,language} = this.props;
+        console.log(userInfo);
         return (
             <>
             { this.state.menuApp !== '' ?
@@ -56,7 +57,7 @@ class Header extends Component {
             {/* thanh navigator */}
             <div className="header-tabs-container">
                 <div className='dashboard'>
-                    <Link to={`/system/dashboard`}>
+                    <Link to={userInfo.roleId=== USER_ROLE.ADMIN ?`/system/dashboard`:`/doctor/system/dashboard`}>
                         <i className="fa-solid fa-house-chimney"></i>
                         <b>Dashboard</b>
                     </Link>
@@ -76,8 +77,50 @@ class Header extends Component {
                     onClick={()=>this.changeLanguage(LANGUAGES.EN)}
                 >EN</span>
                 {/* nút logout */}
-                <div className="btn btn-logout" onClick={processLogout}>
-                    <i className="fas fa-sign-out-alt"></i>
+                <div className="btn btn-logout" >
+                    {/* <i className="fas fa-sign-out-alt"></i> */}
+                    <label htmlFor="click-avatar">
+                        <img alt="avarta" src={userInfo?.image}/>
+                    </label>
+                    <input
+                        type="checkbox"
+                        id="click-avatar"
+                        hidden
+                        className="click-avatar"
+                    />
+                    <div className="row nav-menu">
+                    <div className="name-user col-12">
+                      <div
+                        style={{
+                          backgroundImage: `url(${
+                            userInfo.image
+                              ? userInfo.image
+                              : "https://i.imgur.com/LntFpBn.png"
+                          })`,
+                        }}
+                        className="avatar"
+                      ></div>
+                      <span className="">
+                        {userInfo && userInfo.firstName
+                          ? userInfo.firstName
+                          : ""}
+                      </span>
+                    </div>
+                    <Link to="/info-patient">
+                      <div className="btn btn-logout">
+                        <p>
+                          <FormattedMessage id="navbar.personal-information" />
+                        </p>
+                      </div>
+                    </Link>
+                    <hr />
+                    <div className="btn btn-logout" onClick={processLogout}>
+                      <i className="fas fa-sign-out-alt"></i>
+                      <p>
+                        <FormattedMessage id="navbar.log-out" />
+                      </p>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>:

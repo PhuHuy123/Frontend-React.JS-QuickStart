@@ -10,7 +10,7 @@
         "see-post": "See post",
         "checkup": "Covid-19",
         "general-health-check": "View infection statistics",
-        "support": "Support",
+        "support": "Help",
         "bn-title1": "Medical platform",
         "bn-title2": "Comprehensive health care",
         "text-child1": "Specialized examination",
@@ -26,7 +26,7 @@
     },
     "menu": {
          "admin":{
-            "user": "Users System",
+            "user": "Manage",
             "manage-doctor": "Manage doctor information",
             "manage-admin": "Manage admin",
             "manage-user":{
@@ -136,5 +136,15 @@
         "max-person": "Maximum person",
         "no-data": "No data",
         "add-new-appointment": "Add a new appointment"
+    },
+    "footer":{
+        "row1": "The easiest way to make an appointment with a doctor",
+        "content1": "Making your healthcare appointment has never been easier! Just use the URL provided by your healthcare provider",
+        "row2": "Criteria",
+        "criteria1": "Prevention is better than cure",
+        "criteria2": "Patients come first",
+        "criteria3": "Application of information technology",
+        "row3": "Quick Path",
+        "row4": "Address"
     }
 }

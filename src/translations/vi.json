@@ -26,7 +26,7 @@
     },
     "menu": {
         "admin":{
-            "user": "Người dùng",
+            "user": "Quản lý",
             "manage-doctor": "Quản lý thông tin bác sĩ",
             "manage-admin": "Quản lý admin",
             "manage-user":{
@@ -82,7 +82,7 @@
         "g4": "Xin lưu ý, trong các trường hợp khẩn cấp, quý khách vui lòng đến ngay cơ sở y tế gần nhất hoặc đến trực tiếp Hệ thống"
     },
     "manage-schedule":{
-        "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
+        "title": "Quản lý lịch trình khám bệnh của bác sĩ",
         "choose-doctor": "Chọn bác sĩ",
         "choose-date": "Chọn ngày",
         "save-info": "Lưu thông tin"
@@ -136,6 +136,16 @@
         "max-person": "Số người tối đa",
         "no-data": "Không có dữ liệu",
         "add-new-appointment": "Thêm mới lịch khám"
+    },
+    "footer":{
+        "row1": "Cách đơn giản nhất để đặt lịch hẹn với bác sĩ",
+        "content1": "Làm cho cuộc hẹn chăm sóc sức khỏe của bạn chưa bao giờ được dễ dàng hơn! Chỉ cần sử dụng URL do nhà cung cấp dịch vụ chăm sóc sức khỏe của bạn cung cấp",
+        "row2": "Các tiêu chí",
+        "criteria1": "Phòng bệnh hơn chữa bệnh",
+        "criteria2": "Bệnh nhân là ưu tiên hàng đâu",
+        "criteria3": "Áp dụng công nghệ thông tin",
+        "row3": "Đường dẫn nhanh",
+        "row4": "Địa chỉ"
     }
     
 }

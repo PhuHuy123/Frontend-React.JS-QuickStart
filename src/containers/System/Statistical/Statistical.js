@@ -8,7 +8,7 @@ import { getReportByCountry, getALLBooking} from '../../../services/userService'
 import './Statistical.scss';
 import * as actions from '../../../store/actions';
 import Select from 'react-select';
-import {LANGUAGES, LanguageUtils} from '../../../utils';
+import {LANGUAGES, LanguageUtils, USER_ROLE} from '../../../utils';
 import { FormControl, FormHelperText, InputLabel, NativeSelect } from '@material-ui/core';
 
 class Statistical extends Component {
@@ -21,13 +21,26 @@ class Statistical extends Component {
             bookings: [],
 
             listDoctors:[],
+            sumMoney: 0,
         }
     }
     async componentDidMount(){
+        let { userInfo } = this.props;
+        let doctorId = 'ALL'
+        if (userInfo && userInfo.roleId === USER_ROLE.DOCTOR) {
+            doctorId= userInfo.id
+          }
         this.props.fetAllDoctorsRedux();
-        let res = await getALLBooking('ALL');
+        let res = await getALLBooking(doctorId);
+        let money = 0
+        res.data.map((item) => {
+            if(item.price){
+                money += Number(item.price)
+            }
+        })
         this.setState({
-            bookings: res
+            bookings: res,
+            sumMoney: money
         })
     }
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -69,38 +82,50 @@ class Statistical extends Component {
     }
     handleChange = async(input)=>{
         let res = await getALLBooking(input.value);
+        let money = 0
+        res.data.map((item) => {
+            if(item.price){
+                money += Number(item.price)
+            }
+        })
         this.setState({
             bookings: res,
-            selectedCountryId: input.label
+            sumMoney: money,
+            selectedCountryId: input.label,
         })
     }
     render() {
-        let {countries, report, bookings, listDoctors, selectedCountryId} = this.state
+        let { userInfo } = this.props;
+        let {countries, report, bookings, listDoctors, selectedCountryId, sumMoney} = this.state
         return (
             <>
                 <div className="high-chart-covid">
-                    <Highlight
-                        data = {this.props.arrUsers}
-                        title='account'
-                    />
-                    <FormControl className='mt-4 mb-2'>
-                        <InputLabel htmlFor='' shrink>
-                            Bác sĩ
-                        </InputLabel>
-                        <Select
-                            className="select-v"
-                            onChange={this.handleChange}
-                            value={selectedCountryId}
-                            options={listDoctors}
-                            placeholder={selectedCountryId}
-                        />
-                        <FormHelperText>Lựa chọn bác sĩ</FormHelperText>
-                    </FormControl>
+                    {userInfo.roleId === USER_ROLE.ADMIN && 
+                        <>
+                            <Highlight
+                                data = {this.props.arrUsers}
+                                title='account'
+                            />
+                            <FormControl className='mt-4 mb-2'>
+                                <InputLabel htmlFor='' shrink>
+                                    Bác sĩ
+                                </InputLabel>
+                                <Select
+                                    className="select-v"
+                                    onChange={this.handleChange}
+                                    value={selectedCountryId}
+                                    options={listDoctors}
+                                    placeholder={selectedCountryId}
+                                    />
+                                <FormHelperText>Lựa chọn bác sĩ</FormHelperText>
+                            </FormControl>
+                        </>
+                    }
                     <Highlight
                         data = {bookings.data}
                         title='booking'
                     />
-                    <Summary report={bookings.data}/>
+                    <Summary report={bookings.data} money={sumMoney}/>
                 </div>
             </>
         );
@@ -113,6 +138,7 @@ const mapStateToProps = state => {
         language: state.app.language,
         arrUsers: state.admin.users,
         arrDoctors: state.admin.allDoctors,
+        userInfo: state.user.userInfo,
     };
 };
 
