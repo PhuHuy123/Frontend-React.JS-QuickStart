@@ -10,6 +10,8 @@ import * as actions from '../../../store/actions';
 import Select from 'react-select';
 import {LANGUAGES, LanguageUtils, USER_ROLE} from '../../../utils';
 import { FormControl, FormHelperText, InputLabel, NativeSelect } from '@material-ui/core';
+import DatePicker from 'react-flatpickr';
+import moment from 'moment';
 
 class Statistical extends Component {
     constructor(props) {
@@ -22,15 +24,19 @@ class Statistical extends Component {
 
             listDoctors:[],
             sumMoney: 0,
+            dataFilter:[],
         }
     }
     async componentDidMount(){
+        this.props.fetAllDoctorsRedux();
+        this.handleAllData()
+    }
+    handleAllData=async()=>{
         let { userInfo } = this.props;
         let doctorId = 'ALL'
         if (userInfo && userInfo.roleId === USER_ROLE.DOCTOR) {
             doctorId= userInfo.id
           }
-        this.props.fetAllDoctorsRedux();
         let res = await getALLBooking(doctorId);
         let money = 0
         res.data.map((item) => {
@@ -40,6 +46,7 @@ class Statistical extends Component {
         })
         this.setState({
             bookings: res,
+            dataFilter: res?.data,
             sumMoney: money
         })
     }
@@ -90,13 +97,36 @@ class Statistical extends Component {
         })
         this.setState({
             bookings: res,
+            dataFilter: res?.data,
             sumMoney: money,
             selectedCountryId: input.label,
         })
     }
+    handleDataFilter = (value)=>{
+        let {bookings} = this.state;
+        let data = []
+        let money = 0
+        if(value){
+            bookings?.data.map((item)=>{
+                if(moment(item.date).format('YYYY-MM')===value){
+                    data.push(item)
+                }
+            })
+        }
+        else data = bookings.data
+        data.map((item) => {
+            if(item.price){
+                money += Number(item.price)
+            }
+        })
+        this.setState({
+            dataFilter: data,
+            sumMoney: money,
+        })
+    }
     render() {
         let { userInfo } = this.props;
-        let {countries, report, bookings, listDoctors, selectedCountryId, sumMoney} = this.state
+        let {countries, report, bookings, dataFilter, listDoctors, selectedCountryId, sumMoney} = this.state
         return (
             <>
                 <div className="high-chart-covid">
@@ -122,10 +152,11 @@ class Statistical extends Component {
                         </>
                     }
                     <Highlight
-                        data = {bookings.data}
+                        data = {dataFilter}
                         title='booking'
                     />
-                    <Summary report={bookings.data} money={sumMoney}/>
+                    <input type='month' onChange={(e)=> this.handleDataFilter(e.target.value)}/>
+                    <Summary report={dataFilter} money={sumMoney}/>
                 </div>
             </>
         );

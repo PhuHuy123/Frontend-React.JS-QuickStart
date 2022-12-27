@@ -12,6 +12,7 @@ import AddClinic from '../containers/System/Clinic/ManageClinic';
 import ManagePosts from '../containers/System/Posts';
 import AddPost from '../containers/System/Posts/ManagePosts';
 import Statistical from '../containers/System/Statistical/Statistical';
+import Info from '../containers/System/Info';
 import {USER_ROLE} from '../utils';
 class System extends Component {
     render() {
@@ -32,7 +33,8 @@ class System extends Component {
                             <Route path="/system/add-clinic" component={AddClinic} />
                             <Route path="/system/manage-posts" component={ManagePosts} />
                             <Route path="/system/add-post" component={AddPost} />
-                            <Route path="/system/dashboard" component={Statistical} />                     
+                            <Route path="/system/dashboard" component={Statistical} />                  
+                            <Route path="/system/info-patient" component={Info} />                  
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                         </Switch>
                     </div>

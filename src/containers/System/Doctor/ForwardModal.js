@@ -34,6 +34,7 @@ class ForwardModal extends Component {
   async componentDidMount() {
     this.props.fetAllDoctorsRedux();
     this.props.fetchRequiredDoctorInfo();
+    console.log('aa', this.props.dataModal);
     let res = await getDetailClinicById({
       id: this.props.dataModal.dataDoctor.DoctorInfo.clinicId,
     });

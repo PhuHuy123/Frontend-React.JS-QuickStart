@@ -40,8 +40,8 @@ class Specialty extends Component {
         }
     }
     render() {
-        console.log(this.props.topDoctors)
         let {doctorsArr, isMobile} = this.state
+        console.log(doctorsArr)
         let {language} = this.props
         return (
             <div className="section section-doctor">

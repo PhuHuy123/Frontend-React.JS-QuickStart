@@ -24,6 +24,7 @@ class ManagePosts extends Component {
       contentMarkdown: "",
       contentHTML: "",
       previewImgURL: "",
+      adminId: this.props.userInfo.id,
     };
   }
 
@@ -188,6 +189,7 @@ class ManagePosts extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 

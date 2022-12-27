@@ -63,7 +63,6 @@ class ManageSchedule extends Component {
       }
   }
   handleChange = async (selectedDoctor) => {
-    console.log('selectedDoctor', selectedDoctor);
     this.setState(
       {
         selectedDoctor,
@@ -146,7 +145,6 @@ class ManageSchedule extends Component {
       this.setState({
         arrData: res.data,
       });
-      console.log('111');
       if (res && res.errCode === 0) {
         if (res.data && res.data.length > 0) {
           let check = res.data.map((item) => item.timeType);

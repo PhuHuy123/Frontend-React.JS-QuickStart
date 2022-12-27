@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManagePatient.scss";
 import { FormattedMessage } from "react-intl";
-import { LANGUAGES, dateFormat } from "../../../utils";
+import { LANGUAGES, dateFormat, USER_ROLE } from "../../../utils";
 import Select from "react-select";
 import * as actions from "../../../store/actions";
 // import DatePicker from '../../../components/Input/DatePicker';
@@ -23,6 +23,8 @@ class ManagePatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedDoctor: {},
+      listDoctors: "",
       startDate: "",
       dataPatient: [],
       isOpenRemedyModal: false,
@@ -34,27 +36,62 @@ class ManagePatient extends Component {
   }
   async componentDidMount() {
     this.getDataPatient();
+    this.props.fetAllDoctorsRedux();
   }
-
+  handleChange = async (selectedDoctor) => {
+    console.log('selectedDoctor', selectedDoctor);
+    this.setState(
+      {
+        selectedDoctor,
+        doctorId: selectedDoctor.value,
+      }
+    );
+  };
   getDataPatient = async () => {
-    let { user } = this.props;
+    let { userInfo } = this.props;
     let { startDate } = this.state;
     let formattedDate = "ALL";
     if (startDate !== "") {
       formattedDate = moment(startDate).format("YYYY-MM-DD");
     }
     let res = await getAllPatientForDoctor({
-      doctorId: user.id,
+      doctorId: userInfo?.roleId === USER_ROLE.ADMIN? 'ALL' : userInfo.id,
       date: formattedDate,
     });
     if (res && res.errCode === 0) {
       this.setState({ dataPatient: res.data });
     }
   };
-
+  buildDataInputSelect = (inputData) => {
+    let result = [];
+    let { language } = this.props;
+    if (inputData && inputData.length > 0) {
+      inputData.map((item, index) => {
+        let object = {};
+        let valueVi = `${item.lastName} ${item.firstName}`;
+        let valueEn = `${item.firstName} ${item.lastName}`;
+        object.label = language === LANGUAGES.VI ? valueVi : valueEn;
+        object.value = item.id;
+        result.push(object);
+      });
+    }
+    return result;
+  };
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.startDate !== this.state.startDate) {
       this.getDataPatient();
+    }
+    if (prevProps.arrDoctors !== this.props.arrDoctors) {
+      let dataSelect = this.buildDataInputSelect(this.props.arrDoctors);
+      this.setState({
+        listDoctors: dataSelect,
+      });
+    }
+    if (prevProps.language !== this.props.language) {
+      let dataSelect = this.buildDataInputSelect(this.props.arrDoctors);
+      this.setState({
+        listDoctors: dataSelect,
+      });
     }
   }
   handleDateChange = (date) => {
@@ -113,9 +150,10 @@ class ManagePatient extends Component {
     }
   };
   render() {
-    let { language } = this.props;
+    let { language, userInfo } = this.props;
     let { dataPatient, isOpenRemedyModal, dataModal, isOpenCancelModal, isOpenForwardModal } =
       this.state;
+      console.log(this.state.dataPatient);
     return (
       <>
         <LoadingOverlay
@@ -127,6 +165,19 @@ class ManagePatient extends Component {
             <div className="m-s-title">Quản lý bệnh nhân khám bệnh</div>
             <div className="container">
               <div className="row">
+              {userInfo && userInfo.roleId === USER_ROLE.ADMIN && (
+              <div className="col-6">
+                <label>
+                  <FormattedMessage id="manage-schedule.choose-doctor" />
+                </label>
+                <Select
+                  value={this.state.selectedDoctor}
+                  onChange={()=>this.handleChange()}
+                  options={this.state.listDoctors}
+                  placeholder={language === LANGUAGES.VI ? '---Chọn bác sĩ---' : '---Choose a doctor---'}
+                />
+              </div>
+            )}
                 <div className="col-4 form-group">
                   <label>Chọn ngày khám</label>
                   <DatePicker
@@ -285,12 +336,15 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
-    user: state.user.userInfo,
+    userInfo: state.user.userInfo,
+    arrDoctors: state.admin.allDoctors,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    fetAllDoctorsRedux: () => dispatch(actions.fetchAllDoctors()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);

@@ -49,7 +49,6 @@ class Header extends Component {
     }
     render() {
         const { processLogout ,userInfo,language} = this.props;
-        console.log(userInfo);
         return (
             <>
             { this.state.menuApp !== '' ?
@@ -80,7 +79,9 @@ class Header extends Component {
                 <div className="btn btn-logout" >
                     {/* <i className="fas fa-sign-out-alt"></i> */}
                     <label htmlFor="click-avatar">
-                        <img alt="avarta" src={userInfo?.image}/>
+                        <img alt="avarta" src={userInfo.image
+                              ? userInfo.image
+                              : "https://i.imgur.com/LntFpBn.png"}/>
                     </label>
                     <input
                         type="checkbox"
@@ -106,7 +107,7 @@ class Header extends Component {
                           : ""}
                       </span>
                     </div>
-                    <Link to="/info-patient">
+                    <Link to={userInfo.roleId=== USER_ROLE.ADMIN ?"/system/info-patient":"/doctor/system/info-patient"}>
                       <div className="btn btn-logout">
                         <p>
                           <FormattedMessage id="navbar.personal-information" />
