@@ -115,7 +115,7 @@ class NewPassword extends Component {
                     <div className="control mt-4">
                       <ReCAPTCHA
                         ref={this.state.captchaRef}
-                        sitekey={process.env.REACT_APP_SITE_KEY}
+                        sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY}
                         onChange={(e) => this.handleOnchangeCaptCha(e)}
                       />
                     </div>

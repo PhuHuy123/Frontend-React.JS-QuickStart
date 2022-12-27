@@ -1,6 +1,6 @@
 // Remy function
 @function remy($value) {
-  @return ($value / 16px) * 1rem;
+  @return calc($value / 16px) * 1rem;
 }
 
 // body {

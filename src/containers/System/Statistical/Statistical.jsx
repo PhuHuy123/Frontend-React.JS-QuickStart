@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import CountrySelector from './CountrySelector.js';
-import Highlight from './Highlight/Highlight.js';
+import CountrySelector from './CountrySelector.jsx';
+import Highlight from './Highlight/Highlight.jsx';
 import Summary from './Summary/Summary';
 import { getReportByCountry, getALLBooking} from '../../../services/userService';
 // import HomeHeader from '../HomePage/HomeHeader';

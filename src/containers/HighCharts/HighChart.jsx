@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CountrySelector from './CountrySelector';
-import Highlight from './Highlight/Highlight.js';
+import Highlight from './Highlight/Highlight.jsx';
 import Summary from './Summary/Summary';
 import {getCountriesCovid19, getReportByCountry} from '../../services/userService';
 import HomeHeader from '../HomePage/HomeHeader';

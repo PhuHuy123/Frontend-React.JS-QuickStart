@@ -144,7 +144,7 @@ class Login extends Component {
               <div className="col-12 reCaptCha">
                 <ReCAPTCHA
                   ref={this.myRef}
-                  sitekey={process.env.REACT_APP_SITE_KEY}
+                  sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY}
                 />
               </div>
               <div className="col-12 forgot-password">

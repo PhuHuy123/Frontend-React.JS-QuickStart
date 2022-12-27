@@ -447,7 +447,7 @@ class BookingModal extends Component {
                     <div className="col-6 form-group">
                       <ReCAPTCHA
                         ref={this.myRef}
-                        sitekey={process.env.REACT_APP_SITE_KEY}
+                        sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY}
                       />
                     </div>
                     </div>

@@ -10,14 +10,14 @@ import { persistStore } from 'redux-persist';
 import createRootReducer from './store/reducers/rootReducer';
 import actionTypes from './store/actions/actionTypes';
 
-const environment = process.env.NODE_ENV || "development";
+const environment = import.meta.env.VITE_NODE_ENV || "development";
 let isDevelopment = environment === "development";
 
 //hide redux logs
 isDevelopment = false;
 
 
-export const history = createBrowserHistory({ basename: process.env.REACT_APP_ROUTER_BASE_NAME });
+export const history = createBrowserHistory({ basename: import.meta.env.VITE_REACT_APP_ROUTER_BASE_NAME || 'home' });
 
 const reduxStateSyncConfig = {
     whitelist: [

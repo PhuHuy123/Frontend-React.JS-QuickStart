@@ -229,7 +229,7 @@ class Signup extends Component {
               <div className="col-12 mb-4 reCaptCha">
                   <ReCAPTCHA
                     ref={this.myRef}
-                    sitekey={process.env.REACT_APP_SITE_KEY}
+                    sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY}
                   />
                 </div>
               <div className="m-t-lg ml-3">
