@@ -72,7 +72,7 @@ const  AllPosts = () => {
             <div className="row">
               {arrShow.map((item) => (
                 <div className={isTablet? isMobi? isIphone?'col-12 clinic':'col-6 clinic':'col-4 clinic': 'col-3 clinic'} key={item.id}>
-                <Link to={`/detail-clinic/${item.id}`}>
+                <Link to={`/detail-posts/${item.id}`}>
                     <div className="ct-clinic">
                       <div
                         className="image"

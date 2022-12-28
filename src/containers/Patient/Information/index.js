@@ -29,13 +29,11 @@ function Info(props) {
   const [isEmail, setIsEmail] = useState(false);
   const [isPhone, setIsPhone] = useState(false);
   const [isAddress, setIsAddress] = useState(false);
-  console.log(props.userInfo);
   useEffect (() => {
     getUserInfo()
   },[])
   const getUserInfo=async() => {
     let res = await getAllUsers(props.userInfo.id)
-    console.log(res)
     if(res && res.users && res.errCode===0){
       setUserInfo(res.users)
       setLastName(res.users.lastName)
@@ -87,17 +85,17 @@ function Info(props) {
             <div className="navBar-info">
               <Link to="/info-patient">
                 <p style={{ color: "blue" }}>
-                  <i className="fa-regular fa-user"></i> <FormattedMessage id="navbar.personal-information" />
+                <i className="fa fa-user" aria-hidden="true"></i> <FormattedMessage id="navbar.personal-information" />
                 </p>
               </Link>
               <Link to="/single">
                 <p>
-                  <i className="fa-solid fa-file-invoice"></i> <FormattedMessage id="navbar.medical-order" />
+                <i className="fa fa-file" aria-hidden="true"></i> <FormattedMessage id="navbar.medical-order" />
                 </p>
               </Link>
               <Link to="/history">
                 <p>
-                  <i className="fa-solid fa-clock-rotate-left"></i> <FormattedMessage id="navbar.medical-history" />
+                  <i className="fa fa-history" aria-hidden="true"></i> <FormattedMessage id="navbar.medical-history" />
                 </p>
               </Link>
             </div>

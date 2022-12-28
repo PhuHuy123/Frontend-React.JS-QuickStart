@@ -11,7 +11,8 @@ export const adminMenu = [
             // {name: 'menu.admin.manage-user.manage-admin',link: '/system/user-admin'},
             // {name: 'menu.admin.manage-user.crud',link: '/system/user-manage'},
             {name: 'menu.admin.manage-user.crud-redux',link: '/system/user-redux'},
-            {name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'}
+            {name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'},
+            {name: 'menu.doctor.manage-patient', link: '/doctor/manage-patient'}
         ]
     },
         { //Quản lý phòng khám

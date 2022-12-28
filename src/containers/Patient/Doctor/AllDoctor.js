@@ -50,7 +50,6 @@ const AllDoctor = () => {
   const handlerNextPage = (item) => {
     let end = numberShowUser * item;
     setSelected(item);
-    console.log('data', data);
     setAllShow(data.slice(end - numberShowUser, end));
   };
   return (

@@ -41,11 +41,12 @@ const Single = (props) => {
   }, []);
   const handleSingleById = async () => {
     let res = await getBookingSingleId(props.userInfo.id);
+    console.log(res?.data);
     if (res && res.errCode === 0 && res.data) {
-      setCurrentStep(res.data);
-      setDataBook(res.data.dataBooking[0]);
-      setDataDoctor(res.data.dataBooking[0].dataDoctor);
-      setGender(res.data.genderData2);
+      setCurrentStep(res.data[0]);
+      setDataBook(res?.data[0]?.dataBooking[0]);
+      setDataDoctor(res?.data[0]?.dataBooking[0]?.dataDoctor);
+      setGender(res.data[0]?.genderData2);
     }
   };
   const handleCancelBook = async () => {
@@ -68,17 +69,17 @@ const Single = (props) => {
               <div className="navBar-info">
                 <Link to="/info-patient">
                   <p>
-                    <i className="fa-regular fa-user"></i> <FormattedMessage id="navbar.personal-information" />
+                    <i className="fa fa-user" aria-hidden="true"></i> <FormattedMessage id="navbar.personal-information" />
                   </p>
                 </Link>
                 <Link to="/single">
                   <p style={{ color: "blue" }}>
-                    <i className="fa-solid fa-file-invoice"></i> <FormattedMessage id="navbar.medical-order" />
+                    <i className="fa fa-file" aria-hidden="true"></i> <FormattedMessage id="navbar.medical-order" />
                   </p>
                 </Link>
                 <Link to="/history">
                   <p>
-                    <i className="fa-solid fa-clock-rotate-left"></i> <FormattedMessage id="navbar.medical-history" />
+                    <i className="fa fa-history" aria-hidden="true"></i> <FormattedMessage id="navbar.medical-history" />
                   </p>
                 </Link>
               </div>

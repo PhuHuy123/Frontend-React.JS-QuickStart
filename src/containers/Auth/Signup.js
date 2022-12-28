@@ -209,6 +209,7 @@ class Signup extends Component {
                     className="form-control"
                     type="password"
                     label="Password"
+                    inputProps={{ minLength: 6 }}
                     value={this.state.password}
                     onChange={(e) => this.handlerOnChangeInput(e, 'password')}
                   />
@@ -219,6 +220,7 @@ class Signup extends Component {
                     className="form-control"
                     type="password"
                     label="PasswordRepeat"
+                    inputProps={{ minLength: 6 }}
                     value={this.state.passwordRepeat}
                     onChange={(e) => this.handlerOnChangeInput(e, 'passwordRepeat')}
                   />

@@ -240,7 +240,7 @@ class HomeHeader extends Component {
               <Search />
             </div>
             <div className="banner-options">
-              {!isMobile && (
+              {/* {!isMobile && (
                 <ul>
                   <li>
                     <div className="children">
@@ -315,7 +315,7 @@ class HomeHeader extends Component {
                     </div>
                   </li>
                 </ul>
-              )}
+              )} */}
             </div>
           </div>
         )}

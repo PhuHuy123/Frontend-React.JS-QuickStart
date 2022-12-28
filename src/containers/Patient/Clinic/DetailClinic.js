@@ -27,7 +27,6 @@ class DetailClinic extends Component {
                 id: id,
             })
             let resProvince = await getAllCodeService('PROVINCE');
-            console.log(resProvince);
             if(res && res.errCode===0 && resProvince && resProvince.errCode===0){
                 let data = res.data;
                 let arrDoctorId = [];

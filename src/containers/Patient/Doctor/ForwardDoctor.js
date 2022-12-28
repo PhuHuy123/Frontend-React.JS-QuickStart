@@ -18,7 +18,6 @@ class ProfileDoctor extends Component {
 
   async componentDidMount() {
     let data = await this.getInfoDoctor(this.props.doctorId);
-    console.log("res", data)
     this.setState({
       dataProfile: data,
     });
@@ -83,7 +82,6 @@ class ProfileDoctor extends Component {
       nameVi = `${dataProfile.positionData.valueVi} || ${dataProfile.lastName} ${dataProfile.firstName}`;
       nameEn = `${dataProfile.positionData.valueEn} || ${dataProfile.firstName} ${dataProfile.lastName}`;
     }
-    console.log("dataProfile",dataProfile)
     return (
       <>
         <div className="info-doctor">

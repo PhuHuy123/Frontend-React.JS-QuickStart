@@ -63,14 +63,14 @@ class RemedyModal extends Component {
       comment: e.target.value,
     });
   };
-  handlerSendRemedy = () => {
+  handlerSendRemedy = (e) => {
+    e?.preventDefault();
     this.props.sendRemedy(this.state);
   };
   render() {
     let { language } = this.props;
     let { isOpenModal, closeRemedyModal, dataModal } = this.props;
     let { isHistory, history, dataDetail, isDetail } = this.state;
-    console.log(isDetail);
     return (
       <>
         {!isHistory ? (
@@ -93,6 +93,7 @@ class RemedyModal extends Component {
               </button>
             </div>
             <ModalBody>
+          <form onSubmit={(e) => this.handlerSendRemedy(e)}>
               <div className="row">
                 <div className="col-9 px-5 form-group">
                   <h4>Chi tiết bệnh nhân</h4>
@@ -156,6 +157,7 @@ class RemedyModal extends Component {
                   <p>
                     <strong>Chuẩn đoán: </strong>
                     <input
+                      required
                       disabled={dataModal.statusId !== "S2" ? true : false}
                       value={dataModal.name}
                       onChange={(e) => this.handlerOnChangeName(e)}
@@ -165,6 +167,7 @@ class RemedyModal extends Component {
                   <p>
                     <strong>Giá khám: </strong>
                     <input
+                      required
                       disabled={dataModal.statusId !== "S2" ? true : false}
                       value={
                         dataModal.statusId !== "S2"
@@ -172,14 +175,16 @@ class RemedyModal extends Component {
                           : dataModal.price
                       }
                       onChange={(e) => this.handlerOnChangePrice(e)}
-                      type="text"
+                      type={dataModal.statusId !== "S2" ?"text":"number"}
+                      min="0"
                       style={{ width: "100px" }}
                     ></input>{" "}
-                    Vnđ
+                    VNĐ
                   </p>
                   <p style={{ display: "flex" }}>
                     <strong>Nhận xét của bác sĩ: </strong>
                     <textarea
+                      required
                       disabled={dataModal.statusId !== "S2" ? true : false}
                       value={dataModal.comment}
                       onChange={(e) => this.handlerOnChangeComment(e)}
@@ -189,15 +194,16 @@ class RemedyModal extends Component {
                   </p>
                 </div>
               </div>
+              <div style={{textAlign: "right"}}>
+                <Button color="primary"  type="submit">
+                  Send
+                </Button>{" "}
+                <Button color="secondary" onClick={closeRemedyModal}>
+                  Cancel
+                </Button>
+              </div>
+              </form>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={() => this.handlerSendRemedy()}>
-                Send
-              </Button>{" "}
-              <Button color="secondary" onClick={closeRemedyModal}>
-                Cancel
-              </Button>
-            </ModalFooter>
           </Modal>
         ) : !isDetail ? (
           <Modal isOpen={isHistory} size="lg">

@@ -55,7 +55,6 @@ class ManageSchedule extends Component {
       doctorId= 'ALL'
     }
     let res = await getScheduleDoctorALL(doctorId);
-    console.log(res)
     if(res && res.errCode ===0){
         this.setState({
             arrData: res.data,
@@ -149,7 +148,6 @@ class ManageSchedule extends Component {
         if (res.data && res.data.length > 0) {
           let check = res.data.map((item) => item.timeType);
           if (data && data.length > 0) {
-            console.log(data);
             data = data.map((item) =>
               check.some((element) => element === item.keyMap)
                 ? {
@@ -184,7 +182,8 @@ class ManageSchedule extends Component {
       this.setState({ rangeTime });
     }
   };
-  handleSaveSchedule = async () => {
+  handleSaveSchedule = async (e) => {
+    e?.preventDefault();
     let { rangeTime, selectedDoctor, startDate, maxNumber, arrayDate, chooseDate } = this.state;
     let { userInfo } = this.props;
     let result = [];
@@ -195,11 +194,11 @@ class ManageSchedule extends Component {
       selectedDoctor.value = userInfo.id;
     }
     if (selectedDoctor && _.isEmpty(selectedDoctor)) {
-      toast.error("Invalid choose doctor !");
+      toast.error(this.props.language === LANGUAGES.VI? "Chọn bác sĩ không hợp lệ!":"Invalid choose doctor !");
       return;
     }
     if (!startDate && !chooseDate) {
-      toast.error("Invalid start date!");
+      toast.error(this.props.language === LANGUAGES.VI? "Ngày bắt đầu không hợp lệ!":"Invalid start date!");
       return;
     }
     if (rangeTime && rangeTime.length > 0) {
@@ -213,7 +212,7 @@ class ManageSchedule extends Component {
           result.push(object);
         });
       } else {
-        toast.error("Invalid time has not been selected!");
+        toast.error(this.props.language === LANGUAGES.VI? "Thời gian không hợp lệ chưa được chọn!":"Invalid time has not been selected!");
         return;
       }
       let data = this.props.allScheduleTimes;
@@ -248,9 +247,9 @@ class ManageSchedule extends Component {
       maxNumber:'',
     })
     if (res && res.errCode === 0) {
-      toast.success("Save info successfully!");
+      toast.success(this.props.language === LANGUAGES.VI?"Lưu thông tin thành công":"Save info successfully!");
     } else {
-      toast.error("Error cannot save information!");
+      toast.error(this.props.language === LANGUAGES.VI?"Lỗi không lưu được thông tin!":"Error cannot save information!");
     }
   };
   handleStartDate = (dateTime) => {
@@ -301,7 +300,6 @@ class ManageSchedule extends Component {
     });
   };
   handleEdit = (data)=>{
-    console.log(data);
     this.setState({
       isOpenModal: true,
       isEdit: true,
@@ -323,7 +321,7 @@ class ManageSchedule extends Component {
           toast.error(res.message);
         }
         else{
-          toast.success("Delete successfully!");
+          toast.success(this.props.language === LANGUAGES.VI?"Xóa dữ liệu thành công":"Delete successfully!");
           if(this.state.chooseDate){
             this.handleDateChange(this.state.chooseDate)
           }
@@ -342,7 +340,6 @@ class ManageSchedule extends Component {
   render() {
     let { language, userInfo } = this.props;
     let { isEdit, rangeTime, endDate, startDate, maxNumber, arrData, isOpenModal, numberAll, isModalDelete } = this.state;
-    console.log(arrData);
     return (
       <div className="manage-schedule-container">
         <div className="m-s-title">
@@ -412,6 +409,7 @@ class ManageSchedule extends Component {
                 </button>
               </div>
               <ModalBody>
+                <form onSubmit={(e) => this.handleSaveSchedule(e)}>
                 <div className=" modal-timeType">
                   <div className="col-10">
 
@@ -457,7 +455,8 @@ class ManageSchedule extends Component {
                       />
                       <input
                         required
-                        type="text"
+                        min="1"
+                        type="number"
                         placeholder={
                           language === LANGUAGES.VI
                               ? "Số người tối đa"
@@ -492,12 +491,13 @@ class ManageSchedule extends Component {
                   <div className="col-12">
                     <button
                       className="btn btn-primary"
-                      onClick={() => this.handleSaveSchedule()}
+                      type='submit'
                     >
                       <FormattedMessage id="manage-schedule.save-info" />
                     </button>
                   </div>
                 </div>
+                </form>
               </ModalBody>
             </Modal>
           </div>

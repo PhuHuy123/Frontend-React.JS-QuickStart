@@ -230,7 +230,7 @@ class BookingModal extends Component {
         });
         if (res && res.errCode === 0) {
           this.setState({ isShowLoading: false });
-          toast.success("Booking a new appointment succeed!");
+          toast.success(this.props.language === LANGUAGES.VI?"Đặt lịch hẹn mới thành công":"Booking a new appointment succeed!");
           this.props.closeBooking();
           this.setState({
             firstName: "",
@@ -246,14 +246,14 @@ class BookingModal extends Component {
           this.startTimer()
         } else {
           this.setState({ isShowLoading: false });
-          toast.error("Booking a new appointment error!");
+          toast.error(this.props.language === LANGUAGES.VI?"Lỗi: Đặt lịch không thành công!":"Booking a new appointment error!");
           this.setState({
             isReCaptCha: false,
           });
         }
       } else {
         this.setState({ isShowLoading: false });
-        toast.error("Error: you are not done ReCaptCha !");
+        toast.error(this.props.language === LANGUAGES.VI?"Lỗi: bạn chưa hoàn thành ReCaptCha":"Error: you are not done ReCaptCha !");
       }
     }
     // window.grecaptcha.reset();
@@ -292,7 +292,6 @@ class BookingModal extends Component {
     } = this.state;
     let { isOpenModal, closeBooking, dataTime } = this.props;
     let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : "";
-    console.log(this.state.time.s);
     return (
       <>
         <LoadingOverlay

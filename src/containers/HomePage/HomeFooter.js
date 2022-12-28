@@ -116,10 +116,10 @@ class Specialty extends Component {
                       target="_blank"
                       href="https://www.facebook.com" rel="noreferrer"
                     >
-                      <i className="fa-brands fa-facebook-f"></i>
+                      <i className="fa fa-facebook-official" aria-hidden="true" style={{fontSize:'18px'}}>f</i>
                     </a>
                   </li>
-                  <li>Facebook</li>
+                  <li>Facebook </li>
                 </ul>
               </div>
             </div>

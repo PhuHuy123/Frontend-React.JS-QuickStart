@@ -29,13 +29,11 @@ function Info(props) {
   const [isEmail, setIsEmail] = useState(false);
   const [isPhone, setIsPhone] = useState(false);
   const [isAddress, setIsAddress] = useState(false);
-  console.log(props.userInfo);
   useEffect (() => {
     getUserInfo()
   },[])
   const getUserInfo=async() => {
     let res = await getAllUsers(props.userInfo.id)
-    console.log(res)
     if(res && res.users && res.errCode===0){
       setUserInfo(res.users)
       setLastName(res.users.lastName)

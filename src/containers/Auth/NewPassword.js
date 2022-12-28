@@ -98,11 +98,13 @@ class NewPassword extends Component {
                       name="password"
                       placeholder="New password"
                       value={password}
+                      minLength='6'
                       onChange={(e) => this.handlerOnChangeInput(e, "password")}
                     />
                     <label className="confirm">Confirm password</label>
                     <input
                       required
+                      minLength='6'
                       type="password"
                       className="form-control"
                       name="confirmPassword"

@@ -248,7 +248,6 @@ class ManageDoctor extends Component {
     render() {
         let {checkSave, selectedPrice, selectedPayment, selectedProvince, 
             selectedSpecialty, selectedClinic} = this.state
-        console.log(this.state)
         return (
             <div className="container doctor-container">
                 <div className="root">

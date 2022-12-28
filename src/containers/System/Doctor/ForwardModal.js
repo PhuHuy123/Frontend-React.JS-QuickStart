@@ -34,7 +34,6 @@ class ForwardModal extends Component {
   async componentDidMount() {
     this.props.fetAllDoctorsRedux();
     this.props.fetchRequiredDoctorInfo();
-    console.log('aa', this.props.dataModal);
     let res = await getDetailClinicById({
       id: this.props.dataModal.dataDoctor.DoctorInfo.clinicId,
     });
@@ -144,9 +143,9 @@ class ForwardModal extends Component {
       let i = {};
       i.value = item.doctorId;
       if (this.props.language === LANGUAGES.VI) {
-        i.label = `${item.User.lastName} ${item.User.firstName}`;
+        i.label = `${item.User?.lastName} ${item.User?.firstName}`;
       } else {
-        i.label = `${item.User.firstName} ${item.User.lastName}`;
+        i.label = `${item.User?.firstName} ${item.User?.lastName}`;
       }
       result.push(i);
     });

@@ -32,7 +32,6 @@ function Support() {
       .catch((error) => {
         toast.error("Gửi yêu cầu thất bại !");
       });
-    console.log(res);
   };
   return (
     <>

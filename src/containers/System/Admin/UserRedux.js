@@ -131,7 +131,8 @@ class UserRedux extends Component {
     }
     return isValid;
   };
-  handlerSaveUser = () => {
+  handlerSaveUser = (e) => {
+    e?.preventDefault();
     if (this.checkValidateInput() === false) return;
     // = true thi goi API
     let { action } = this.state;
@@ -268,218 +269,227 @@ class UserRedux extends Component {
               : "Add New User"}
           </ModalHeader>
           <ModalBody>
-            <div className="container">
-              <div className="row">
-                <h1>{this.props.isLoading ? "Loading..." : ""}</h1>
-                <div className="col-6 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.email" />
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => this.handlerOnChangeInput(e, "email")}
-                    // disabled={
-                    //   this.state.action === CRUD_ACTIONS.EDIT ? true : false
-                    // }
-                  />
-                </div>
-                <div className="col-6 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.password" />
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => this.handlerOnChangeInput(e, "password")}
-                    // disabled={
-                    //   this.state.action === CRUD_ACTIONS.EDIT ? true : false
-                    // }
-                  />
-                </div>
+            <form onSubmit={(e) => {
+              this.handlerSaveUser(e);
+            }}>
+              <div className="container">
+                <div className="row">
+                  <h1>{this.props.isLoading ? "Loading..." : ""}</h1>
+                  <div className="col-6 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.email" />
+                    </label>
+                    <input
+                      required
+                      type="email"
+                      className="form-control"
+                      name="email"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => this.handlerOnChangeInput(e, "email")}
+                      // disabled={
+                      //   this.state.action === CRUD_ACTIONS.EDIT ? true : false
+                      // }
+                    />
+                  </div>
+                  <div className="col-6 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.password" />
+                    </label>
+                    <input
+                      required
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => this.handlerOnChangeInput(e, "password")}
+                      // disabled={
+                      //   this.state.action === CRUD_ACTIONS.EDIT ? true : false
+                      // }
+                    />
+                  </div>
 
-                <div className="col-6 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.first-name" />
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="firstName"
-                    placeholder="First name"
-                    value={firstName}
-                    onChange={(e) => this.handlerOnChangeInput(e, "firstName")}
-                  />
-                </div>
-                <div className="col-6 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.last-name" />
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="lastName"
-                    placeholder="Last name"
-                    value={lastName}
-                    onChange={(e) => this.handlerOnChangeInput(e, "lastName")}
-                  />
-                </div>
+                  <div className="col-6 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.first-name" />
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="firstName"
+                      placeholder="First name"
+                      value={firstName}
+                      onChange={(e) => this.handlerOnChangeInput(e, "firstName")}
+                    />
+                  </div>
+                  <div className="col-6 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.last-name" />
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      className="form-control"
+                      name="lastName"
+                      placeholder="Last name"
+                      value={lastName}
+                      onChange={(e) => this.handlerOnChangeInput(e, "lastName")}
+                    />
+                  </div>
 
-                <div className="col-12 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.address" />
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="address"
-                    placeholder="Address"
-                    value={address}
-                    onChange={(e) => this.handlerOnChangeInput(e, "address")}
-                  />
-                </div>
-                <div className="col-4 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.gender" />
-                  </label>
-                  <select
-                    value={gender}
-                    name="gender"
-                    className="form-control"
-                    onChange={(e) => this.handlerOnChangeInput(e, "gender")}
-                  >
-                    {genders &&
-                      genders.length > 0 &&
-                      genders.map((item, index) => {
-                        return (
-                          <option key={index} value={item.keyMap}>
-                            {language === LANGUAGES.VI
-                              ? item.valueVi
-                              : item.valueEn}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-                <div className="col-4 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.position" />
-                  </label>
-                  <select
-                    value={position}
-                    name="position"
-                    className="form-control"
-                    onChange={(e) => this.handlerOnChangeInput(e, "position")}
-                  >
-                    {positions &&
-                      positions.length > 0 &&
-                      positions.map((item, index) => {
-                        return (
-                          <option key={index} value={item.keyMap}>
-                            {language === LANGUAGES.VI
-                              ? item.valueVi
-                              : item.valueEn}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-                <div className="col-4 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.role" />
-                  </label>
-                  <select
-                    value={role}
-                    name="role"
-                    className="form-control"
-                    onChange={(e) => this.handlerOnChangeInput(e, "role")}
-                  >
-                    {roles &&
-                      roles.length > 0 &&
-                      roles.map((item, index) => {
-                        return (
-                          <option key={index} value={item.keyMap}>
-                            {language === LANGUAGES.VI
-                              ? item.valueVi
-                              : item.valueEn}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-                <div className="col-5 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.phone" />
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="phoneNumber"
-                    value={phoneNumber}
-                    onChange={(e) =>
-                      this.handlerOnChangeInput(e, "phoneNumber")
-                    }
-                  />
-                </div>
-                <div className="col-5 mt-2">
-                  <label>
-                    <FormattedMessage id="manage-user.image" />
-                  </label>
-                  <br />
-                  <input
-                    type="file"
-                    onChange={(e) => this.handlerOnChangeImage(e)}
-                  />
-                  <div
-                    className="preview-image"
-                    style={{
-                      backgroundImage: `url("${this.state.previewImgURL}")`,
-                    }}
-                    onClick={() => this.openPreviewImg()}
-                  ></div>
+                  <div className="col-12 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.address" />
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      className="form-control"
+                      name="address"
+                      placeholder="Address"
+                      value={address}
+                      onChange={(e) => this.handlerOnChangeInput(e, "address")}
+                    />
+                  </div>
+                  <div className="col-4 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.gender" />
+                    </label>
+                    <select
+                      required
+                      value={gender}
+                      name="gender"
+                      className="form-control"
+                      onChange={(e) => this.handlerOnChangeInput(e, "gender")}
+                    >
+                      {genders &&
+                        genders.length > 0 &&
+                        genders.map((item, index) => {
+                          return (
+                            <option key={index} value={item.keyMap}>
+                              {language === LANGUAGES.VI
+                                ? item.valueVi
+                                : item.valueEn}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
+                  <div className="col-4 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.position" />
+                    </label>
+                    <select
+                      value={position}
+                      name="position"
+                      className="form-control"
+                      onChange={(e) => this.handlerOnChangeInput(e, "position")}
+                    >
+                      {positions &&
+                        positions.length > 0 &&
+                        positions.map((item, index) => {
+                          return (
+                            <option key={index} value={item.keyMap}>
+                              {language === LANGUAGES.VI
+                                ? item.valueVi
+                                : item.valueEn}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
+                  <div className="col-4 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.role" />
+                    </label>
+                    <select
+                      value={role}
+                      name="role"
+                      className="form-control"
+                      onChange={(e) => this.handlerOnChangeInput(e, "role")}
+                    >
+                      {roles &&
+                        roles.length > 0 &&
+                        roles.map((item, index) => {
+                          return (
+                            <option key={index} value={item.keyMap}>
+                              {language === LANGUAGES.VI
+                                ? item.valueVi
+                                : item.valueEn}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
+                  <div className="col-5 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.phone" />
+                    </label>
+                    <input
+                      required
+                      pattern="[0]{1}[0-9]{9}"
+                      type="text"
+                      className="form-control"
+                      name="phoneNumber"
+                      value={phoneNumber}
+                      onChange={(e) =>
+                        this.handlerOnChangeInput(e, "phoneNumber")
+                      }
+                    />
+                  </div>
+                  <div className="col-5 mt-2">
+                    <label>
+                      <FormattedMessage id="manage-user.image" />
+                    </label>
+                    <br />
+                    <input
+                      type="file"
+                      onChange={(e) => this.handlerOnChangeImage(e)}
+                    />
+                    <div
+                      className="preview-image"
+                      style={{
+                        backgroundImage: `url("${this.state.previewImgURL}")`,
+                      }}
+                      onClick={() => this.openPreviewImg()}
+                    ></div>
+                  </div>
                 </div>
               </div>
-            </div>
-            {this.state.isOpen === true && (
-              <Lightbox
-                mainSrc={this.state.previewImgURL}
-                onCloseRequest={() => this.setState({ isOpen: false })}
-              />
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              className={
-                this.state.action === CRUD_ACTIONS.EDIT
-                  ? "btn btn-warning"
-                  : "btn btn-primary"
-              }
-              onClick={() => {
-                this.handlerSaveUser();
-              }}
-            >
-              {this.state.action === CRUD_ACTIONS.EDIT ? (
-                <FormattedMessage id="manage-user.edit" />
-              ) : (
-                <FormattedMessage id="manage-user.save" />
+              {this.state.isOpen === true && (
+                <Lightbox
+                  mainSrc={this.state.previewImgURL}
+                  onCloseRequest={() => this.setState({ isOpen: false })}
+                />
               )}
-            </Button>{" "}
-            <Button
-              color="secondary"
-              className="px-3"
-              onClick={() => {
-                this.toggle();
-              }}
-            >
-              Close
-            </Button>
-          </ModalFooter>
+              <div style={{textAlign:'right'}}>
+                <Button
+                  className={
+                    this.state.action === CRUD_ACTIONS.EDIT
+                      ? "btn btn-warning"
+                      : "btn btn-primary"
+                  }
+                  type="submit"
+                >
+                  {this.state.action === CRUD_ACTIONS.EDIT ? (
+                    <FormattedMessage id="manage-user.edit" />
+                  ) : (
+                    <FormattedMessage id="manage-user.save" />
+                  )}
+                </Button>{" "}
+                <Button
+                  color="secondary"
+                  className="px-3"
+                  onClick={() => {
+                    this.toggle();
+                  }}
+                >
+                  Close
+                </Button>
+              </div>
+            </form>
+          </ModalBody>
         </Modal>
         <button
           onClick={() => this.handleAddNewUser()}

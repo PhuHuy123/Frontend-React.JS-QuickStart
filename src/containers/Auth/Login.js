@@ -10,6 +10,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-toastify";
 import { TextField } from '@mui/material';
 import LoadingOverlay from "react-loading-overlay";
+import { LANGUAGES } from "../../utils";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -56,7 +57,7 @@ class Login extends Component {
         }
         if (data && data.errCode === 0) {
           this.setState({ isShowLoading: false });
-          toast.success("Logged in successfully !");
+          toast.success(this.props.language === LANGUAGES.VI?"Đăng nhập thành công !":"Logged in successfully !");
           this.props.userLoginSuccess(data.user);
         }
       } catch (error) {
@@ -77,7 +78,7 @@ class Login extends Component {
         isShowLoading: false,
         password: "",
       });
-      toast.error("Error: you are not done ReCaptCha !");
+      toast.error(this.props.language === LANGUAGES.VI?"Lỗi: bạn chưa hoàn thành ReCaptCha":"Error: you are not done ReCaptCha !");
     }
   };
   handlerShowPassword = () => {
@@ -109,7 +110,7 @@ class Login extends Component {
                 <TextField
                   required
                   className="form-control"
-                  type="text"
+                  type="email"
                   label="Email"
                   value={this.state.username}
                   onChange={(e) => this.handlerOnChangeUserName(e.target.value)}

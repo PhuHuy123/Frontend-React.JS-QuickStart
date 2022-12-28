@@ -80,8 +80,6 @@ getVerifyPaypal = async () =>{
               toast.success("Transaction completed by " + details.payer.name.given_name);
                 this.getVerifyPaypal()
                 this.props.closePayPal()
-                console.log({details, data});
-                console.log('id', data.orderID);
             // OPTIONAL: Call your server to save the transaction
             // return fetch("/paypal-transaction-complete", {
             //     method: "post",

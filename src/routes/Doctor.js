@@ -11,7 +11,6 @@ import Info from '../containers/System/Info';
 class Doctor extends Component {
     render() {
         const { isLoggedIn, userInfo } = this.props;
-        console.log("userInfo", userInfo)
         return (
             <>
                 {isLoggedIn && <Header />}

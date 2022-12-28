@@ -73,20 +73,17 @@ class History extends Component {
                 <div className="navBar-info">
                   <Link to="/info-patient">
                     <p>
-                      <i className="fa-regular fa-user"></i>
-                      <FormattedMessage id="navbar.personal-information" />
+                      <i className="fa fa-user" aria-hidden="true"></i> <FormattedMessage id="navbar.personal-information" />
                     </p>
                   </Link>
                   <Link to="/single">
                     <p>
-                      <i className="fa-solid fa-file-invoice"></i>
-                      <FormattedMessage id="navbar.medical-order" />
+                      <i className="fa fa-file" aria-hidden="true"></i> <FormattedMessage id="navbar.medical-order" />
                     </p>
                   </Link>
                   <Link to="/history">
                     <p style={{ color: "blue" }}>
-                      <i className="fa-solid fa-clock-rotate-left"></i>
-                      <FormattedMessage id="navbar.medical-history" />
+                      <i className="fa fa-history" aria-hidden="true"></i> <FormattedMessage id="navbar.medical-history" />
                     </p>
                   </Link>
                 </div>
@@ -163,7 +160,6 @@ class History extends Component {
                   <tbody>
                     {history.map((item) => (
                       <tr key={item.id}>
-                        {console.log(item)}
                         <td>
                           <b>{item.name}</b>
                           <p className="comment">{item.comment}</p>

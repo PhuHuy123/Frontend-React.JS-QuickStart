@@ -14,6 +14,7 @@ import _ from "lodash";
 import {
   getAllPatientForDoctor,
   postSendRemedy,
+  deleteExaminationById,
 } from "../../../services/userService";
 import RemedyModal from "./RemedyModal";
 import CancelModal from "./CancelModal";
@@ -36,10 +37,23 @@ class ManagePatient extends Component {
   }
   async componentDidMount() {
     this.getDataPatient();
+    if(this.props.userInfo?.roleId === USER_ROLE.ADMIN){
+      this.setState(
+        {
+          doctorId: 'ALL',
+        }
+      );
+    }
+    else{
+      this.setState(
+        {
+          doctorId: this.props.userInfo?.id,
+        }
+      );
+    }
     this.props.fetAllDoctorsRedux();
   }
   handleChange = async (selectedDoctor) => {
-    console.log('selectedDoctor', selectedDoctor);
     this.setState(
       {
         selectedDoctor,
@@ -49,17 +63,18 @@ class ManagePatient extends Component {
   };
   getDataPatient = async () => {
     let { userInfo } = this.props;
-    let { startDate } = this.state;
+    let { startDate, doctorId } = this.state;
     let formattedDate = "ALL";
     if (startDate !== "") {
       formattedDate = moment(startDate).format("YYYY-MM-DD");
     }
     let res = await getAllPatientForDoctor({
-      doctorId: userInfo?.roleId === USER_ROLE.ADMIN? 'ALL' : userInfo.id,
+      doctorId: doctorId,
       date: formattedDate,
     });
     if (res && res.errCode === 0) {
-      this.setState({ dataPatient: res.data });
+      let data = doctorId === 'ALL'? res.data : res.data.filter((item) => item.doctorId === doctorId)
+      this.setState({ dataPatient: data });
     }
   };
   buildDataInputSelect = (inputData) => {
@@ -79,6 +94,9 @@ class ManagePatient extends Component {
   };
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.startDate !== this.state.startDate) {
+      this.getDataPatient();
+    }
+    if (prevState.doctorId !== this.state.doctorId) {
       this.getDataPatient();
     }
     if (prevProps.arrDoctors !== this.props.arrDoctors) {
@@ -149,11 +167,19 @@ class ManagePatient extends Component {
       }
     }
   };
+  handleDelete=async(id)=>{
+    let res = await deleteExaminationById(id)
+    if (res && res.errCode === 0) {
+      toast.success("Delete thành công");
+      this.getDataPatient();
+    }else{
+      toast.error("Delete thất bại");
+    }
+  }
   render() {
     let { language, userInfo } = this.props;
     let { dataPatient, isOpenRemedyModal, dataModal, isOpenCancelModal, isOpenForwardModal } =
       this.state;
-      console.log(this.state.dataPatient);
     return (
       <>
         <LoadingOverlay
@@ -172,7 +198,7 @@ class ManagePatient extends Component {
                 </label>
                 <Select
                   value={this.state.selectedDoctor}
-                  onChange={()=>this.handleChange()}
+                  onChange={(e)=>this.handleChange(e)}
                   options={this.state.listDoctors}
                   placeholder={language === LANGUAGES.VI ? '---Chọn bác sĩ---' : '---Choose a doctor---'}
                 />
@@ -200,7 +226,7 @@ class ManagePatient extends Component {
                   <button
                     className="btn btn-primary btn-all"
                     onClick={() => {
-                      this.setState({ startDate: "" });
+                      this.setState({ startDate: "" , doctorId: userInfo.roleId === USER_ROLE.ADMIN ? 'ALL':userInfo.id});
                     }}
                   >
                     Tất cả
@@ -230,13 +256,13 @@ class ManagePatient extends Component {
                               <td>{index + 1}</td>
                               <td>
                                 {language === LANGUAGES.VI
-                                  ? `${item.dataBooking.lastName} ${item.dataBooking.firstName}`
-                                  : `${item.dataBooking.firstName} ${item.dataBooking.lastName}`}
+                                  ? `${item.dataBooking?.lastName} ${item.dataBooking?.firstName}`
+                                  : `${item.dataBooking?.firstName} ${item.dataBooking?.lastName}`}
                               </td>
                               <td>
                                 {language === LANGUAGES.VI
-                                  ? item.dataBooking.genderData2.valueVi
-                                  : item.dataBooking.genderData2.valueEn}
+                                  ? item.dataBooking?.genderData2?.valueVi
+                                  : item.dataBooking?.genderData2?.valueEn}
                               </td>
                               <td>
                                 {language === LANGUAGES.VI
@@ -248,7 +274,7 @@ class ManagePatient extends Component {
                                   ? moment(item.date).format("DD-MM-YYYY")
                                   : moment(item.date).format("MM-DD-YYYY")}
                               </td>
-                              <td>{item.dataBooking.phoneNumber}</td>
+                              <td>{item.dataBooking?.phoneNumber}</td>
                               {item.statusId === "S0" ? (
                                 <td className="s0">
                                   <span>Đã hủy</span>
@@ -269,14 +295,14 @@ class ManagePatient extends Component {
                                   className="mp-btn-confirm"
                                   onClick={() => this.handleBtnRemedy(item, "isOpenRemedyModal")}
                                 >
-                                  <i className="fa-solid fa-eye"></i>
+                                  <i className="fa fa-eye" aria-hidden="true"></i>
                                 </button>
                                 {item.statusId === "S2" && (
                                   <button
                                     className="btn btn-danger"
                                     onClick={() => this.handleBtnRemedy(item, "isOpenCancelModal")}
                                   >
-                                    <i className="fa-solid fa-trash"></i>
+                                    <i className="fa fa-ban" aria-hidden="true"></i>
                                   </button>
                                 )}
                                 {item.statusId === "S3" && (
@@ -284,9 +310,18 @@ class ManagePatient extends Component {
                                     className="btn btn-warning"
                                     onClick={() => this.handleBtnRemedy(item, "isOpenForwardModal")}
                                   >
-                                    <i className="fa-solid fa-forward pt-1"></i>
+                                    <i className="fa fa-fast-forward" aria-hidden="true"></i>
                                   </button>
                                 )}
+                                {userInfo.roleId === USER_ROLE.ADMIN &&
+                                  <button
+                                  style={{marginLeft:"5px"}}
+                                  className="btn btn-danger"
+                                  onClick={() => this.handleDelete(item.id)}
+                                >
+                                  <i className="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                                }
                               </td>
                             </tr>
                           );

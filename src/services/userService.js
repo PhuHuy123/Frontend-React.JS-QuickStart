@@ -134,7 +134,6 @@ const getReportByCountry = (country) => {
 
 // posts
 const createNewPosts = (data) => {
-  console.log(data);
   return axios.post(`/api/create-new-posts`, data);
 };
 const getAllPosts = () => {
@@ -182,6 +181,12 @@ const createExamination = (data) => {
 
 const getAllExaminationById = (id) => {
   return axios.get(`/api/get-all-examination-byId?id=${id}`);
+};
+
+const deleteExaminationById = (id) => {
+  return axios.delete(`/api/delete-examination-byId`, {
+    data: { id },
+  });
 };
 
 const postDoctorForward = (data) => {
@@ -242,5 +247,6 @@ export {
   createExamination,
   postDoctorForward,
   getAllExaminationById,
+  deleteExaminationById,
   postSupport,
 };

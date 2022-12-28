@@ -14,6 +14,7 @@ import AddPost from '../containers/System/Posts/ManagePosts';
 import Statistical from '../containers/System/Statistical/Statistical';
 import Info from '../containers/System/Info';
 import {USER_ROLE} from '../utils';
+import ManagePatient from '../containers/System/Doctor/ManagePatient';
 class System extends Component {
     render() {
         const { systemMenuPath, isLoggedIn, userInfo } = this.props;
@@ -35,6 +36,7 @@ class System extends Component {
                             <Route path="/system/add-post" component={AddPost} />
                             <Route path="/system/dashboard" component={Statistical} />                  
                             <Route path="/system/info-patient" component={Info} />                  
+                            <Route path="/system/manage-patient" component={ManagePatient} />                
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                         </Switch>
                     </div>

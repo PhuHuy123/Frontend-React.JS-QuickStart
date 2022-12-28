@@ -13,7 +13,6 @@ class CountrySelector extends Component {
     }
     render() {
         let {countries, value} = this.props;
-        console.log(value);
         return (
             <FormControl>
                 <InputLabel htmlFor='' shrink>
